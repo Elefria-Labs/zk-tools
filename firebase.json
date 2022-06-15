@@ -1,0 +1,16 @@
+{
+  "hosting": [
+    {
+      "site": "zkboilerplate",
+      "public": "out",
+      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+      "cleanUrls": true
+    },
+    {
+      "site": "zk-block",
+      "public": "out",
+      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+      "cleanUrls": true
+    }
+  ]
+}
