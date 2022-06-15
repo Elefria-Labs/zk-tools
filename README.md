@@ -1,4 +1,4 @@
-## ZK-Block Boilerplate for ZK Dapps
+## ZK-Block - Boilerplate & Tools for ZK Dapps
 
 Website- [zkblock](https://zkblock.app)
 
