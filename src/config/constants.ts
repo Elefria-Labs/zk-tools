@@ -9,4 +9,4 @@ export const Links = {
   about: 'about',
 };
 
-export const repoLink = 'https://github.com/heypran/zk-block';
+export const repoLink = 'https://github.com/heypran/zk-tools';

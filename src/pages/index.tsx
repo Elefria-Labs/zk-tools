@@ -6,16 +6,20 @@ import {
   Divider,
   Flex,
   Heading,
+  Icon,
   SimpleGrid,
   Tag,
   TagLabel,
 } from '@chakra-ui/react';
 
+import Link from 'next/link';
 import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
 import { ToolCard } from '@components/tool-card';
 import { allTools } from '../data/tools';
 import { ToolsType } from '@types';
+import { GithubIcon } from '@components/icon/github';
+import { repoLink } from '@config/constants';
 
 const preDefinedToolTags = ['snarks', 'circom', 'starks', 'semaphore', 'all'];
 const Index = () => {
@@ -82,6 +86,22 @@ const Index = () => {
                   knowledge proofs, to help the developers advance the zero
                   knowledge ecosystem and develop zkdapps.
                 </Text> */}
+                <Flex flexDirection="row" alignContent="center">
+                  <Link aria-label="Go to GitHub page" href={repoLink} passHref>
+                    <a target="_blank" rel="noopener noreferrer">
+                      <Icon
+                        as={GithubIcon}
+                        display="block"
+                        transition="color 0.2s"
+                        cursor="pointer"
+                        color="black"
+                        w="10"
+                        h="10"
+                        _hover={{ color: 'gray.600' }}
+                      />
+                    </a>
+                  </Link>
+                </Flex>
               </Box>
               <Box>
                 <Container
