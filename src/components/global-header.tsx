@@ -16,10 +16,11 @@ import { Links } from '@config/constants';
 type MenuLinkProps = {
   text: string;
   link: string;
+  newTab?: boolean;
 };
 
 function MenuLink(props: MenuLinkProps) {
-  const { text, link } = props;
+  const { text, link, newTab = false } = props;
 
   return (
     <Link
@@ -29,6 +30,7 @@ function MenuLink(props: MenuLinkProps) {
       fontWeight={500}
       color="black"
       href={link}
+      target={newTab ? '_blank' : '_self'}
     >
       {text}
     </Link>
@@ -48,7 +50,7 @@ function DesktopMenuLinks() {
     >
       <MenuLink text={'Tools'} link={Links.tools} />
       <MenuLink text={'Boilerplate'} link={Links.boilerplate} />
-      <MenuLink text={'Learn'} link={Links.blog} />
+      <MenuLink text={'Learn'} link={Links.blog} newTab />
       <MenuLink text={'About'} link={Links.about} />
       <MenuLink text={'Contribute'} link={Links.contribute} />
       <Link
