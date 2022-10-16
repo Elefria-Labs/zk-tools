@@ -5,6 +5,7 @@ export const Links = {
   home: '/',
   tools: '/',
   boilerplate: 'https://boilerplate.zkblock.app/',
+  blog: 'https://blog.zkblock.app/',
   contribute: 'contribute',
   about: 'about',
   subscribe: 'subscribe',
