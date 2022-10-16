@@ -48,6 +48,7 @@ function DesktopMenuLinks() {
     >
       <MenuLink text={'Tools'} link={Links.tools} />
       <MenuLink text={'Boilerplate'} link={Links.boilerplate} />
+      <MenuLink text={'Learn'} link={Links.blog} />
       <MenuLink text={'About'} link={Links.about} />
       <MenuLink text={'Contribute'} link={Links.contribute} />
       <Link
@@ -106,6 +107,9 @@ function MobileMenuLinks() {
         >
           <Link href={Links.tools}>Tools</Link>
           <Link href={Links.boilerplate}>Boilerplate</Link>
+          <Link href={Links.blog} target="_blank">
+            Learn
+          </Link>
           <Link href={Links.subscribe}>Subscribe</Link>
           <Link href={Links.about}>About</Link>
           <Link href={Links.contribute}>Contribute</Link>
