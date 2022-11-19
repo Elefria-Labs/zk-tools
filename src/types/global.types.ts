@@ -1,4 +1,6 @@
 declare global {
-  interface Window {}
+  interface Window {
+    ethereum: any;
+  }
 }
 export {};

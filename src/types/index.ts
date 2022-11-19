@@ -32,3 +32,35 @@ export type GuideType = {
   authorUsername: string;
   author?: AuthorType;
 };
+
+export interface BlockchainNetwork {
+  name: string;
+  title?: string;
+  chainName: string;
+  icon?: string;
+  rpcUrls: string[];
+  faucets?: string[];
+  nativeCurrency: NativeCurrency;
+  infoURL: string;
+  shortName: string;
+  chainId: number;
+  networkId: number;
+  ens?: Ens;
+  blockExplorerUrls?: BlockExplorerUrlsEntity[];
+  parent?: any;
+  layer?: number;
+  isZk?: boolean;
+}
+export interface NativeCurrency {
+  name: string;
+  symbol: string;
+  decimals: number;
+}
+export interface Ens {
+  registry: string;
+}
+export interface BlockExplorerUrlsEntity {
+  name: string;
+  url: string;
+  standard?: string;
+}
