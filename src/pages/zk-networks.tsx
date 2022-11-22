@@ -24,8 +24,7 @@ import { useWalletConnect } from '@hooks/useWalletConnect';
 import { toHex, truncateAddress } from '@utils/wallet';
 
 const ZkNetwork = () => {
-  const [zkNetworks, setZkNetworks] =
-    useState<Record<string, any>>(networkConfig);
+  const [zkNetworks] = useState<Record<string, any>>(networkConfig);
 
   const { switchNetwork, connectWallet, disconnect, account, chainId } =
     useWalletConnect();

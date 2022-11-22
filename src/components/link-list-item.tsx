@@ -20,8 +20,6 @@ export function LinksListItem(props: LinksListItemProps) {
     badgeText,
     icon,
     hideSubtitleOnMobile = false,
-    href,
-    target,
     twitterId,
     onSelect,
   } = props;

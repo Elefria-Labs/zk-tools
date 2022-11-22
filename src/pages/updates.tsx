@@ -15,7 +15,6 @@ import {
 
 import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
-import { ToolsType } from '@types';
 import { LinksList } from '@components/link-list';
 import { LinksListItem } from '@components/link-list-item';
 import useAxios from 'axios-hooks';
@@ -23,20 +22,17 @@ import { endpoints } from '@utils/AppConfig';
 import { SearchIcon } from '@chakra-ui/icons';
 import { TwitterTweetEmbed } from 'react-twitter-embed';
 
-const preDefinedToolTags = ['snarks', 'circom', 'starks', 'semaphore', 'all'];
+// const preDefinedToolTags = ['snarks', 'circom', 'starks', 'semaphore', 'all'];
 
 const Updates = () => {
   const [selectedProject, setSelectedProject] = useState<string[]>([]);
 
   const [searchTerm, setSearchTerm] = useState<string>('');
 
-  const [matchingTools, setMatchingTools] = useState<ToolsType[] | undefined>();
-
-  const [{ data, loading, error }, refetch] = useAxios(
-    'https://reqres.in/api/users?delay=1',
-  );
+  // const [matchingTools, setMatchingTools] = useState<ToolsType[] | undefined>();
 
   const [
+    // @ts-ignore
     { data: tweetData, loading: tweetsLoading, error: tweetsError },
     executePut,
   ] = useAxios(
@@ -50,7 +46,9 @@ const Updates = () => {
   const [
     {
       data: proejctListData,
+      // @ts-ignore
       loading: projectListLoading,
+      // @ts-ignore
       error: projectListError,
     },
     executeGetProjectList,
@@ -190,7 +188,7 @@ const Updates = () => {
                     <Flex flexDirection={'column'} width="50%">
                       {tweetsLoading && <Spinner />}
                       {tweetsLoading == false &&
-                        tweetData?.tweets?.map((tweet) => (
+                        tweetData?.tweets?.map((tweet: any) => (
                           <TwitterTweetEmbed
                             tweetId={tweet.tweet_id}
                             key={tweet._id}
