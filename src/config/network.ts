@@ -381,8 +381,8 @@ export const networkConfig: Record<string, BlockchainNetwork> = {
     isZk: true,
     layer: 2,
   },
-  '0x57a': {
-    name: 'Polygon zkEVM Testnet',
+  '0x58e': {
+    name: 'Polygon zkEVM Testnet 2',
     chainName: 'Polygon zkEVM',
     rpcUrls: ['https://rpc.public.zkevm-test.net'],
     faucets: [''],
@@ -394,8 +394,8 @@ export const networkConfig: Record<string, BlockchainNetwork> = {
     infoURL:
       'https://blog.polygon.technology/your-three-step-guide-to-using-polygon-zkevm-yes-its-that-easy/',
     shortName: 'polygon-zkEVM',
-    chainId: 1402,
-    networkId: 1402,
+    chainId: 1422,
+    networkId: 1422,
     blockExplorerUrls: [
       {
         name: 'Arbitrum Nova Mainnet Explorer',

@@ -8,8 +8,12 @@ export const Links = {
   blog: 'https://blog.zkblock.app/',
   zkChains: 'zk-networks',
   contribute: 'contribute',
+  playgrounds: 'playgrounds',
+  eip712: 'eip712',
+  erc191: 'erc191',
   about: 'about',
   subscribe: 'subscribe',
 };
 
 export const repoLink = 'https://github.com/heypran/zk-block';
+export const zkToosLink = 'https://github.com/heypran/zk-tools';

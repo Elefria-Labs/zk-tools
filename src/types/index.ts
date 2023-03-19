@@ -2,7 +2,7 @@ export type ToolsType = {
   id: number;
   category: string;
   name: string;
-  description: string;
+  description?: string;
   tags?: string;
   languages?: string;
   github?: string;
