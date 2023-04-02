@@ -11,6 +11,7 @@ export const Links = {
   playgrounds: 'playgrounds',
   eip712: 'eip712',
   erc191: 'erc191',
+  txDecoder: 'txdecoder',
   about: 'about',
   subscribe: 'subscribe',
 };
