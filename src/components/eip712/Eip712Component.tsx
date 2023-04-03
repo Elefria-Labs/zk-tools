@@ -173,12 +173,6 @@ export function Eip712Component(props: Eip712ComponentType) {
           )}
         </Box>
       </Flex>
-
-      <Flex mt="16px">
-        <Button variant="solid" size="md" ml="16px" onClick={signUsingEthers}>
-          Sign
-        </Button>
-      </Flex>
     </Box>
   );
 }
