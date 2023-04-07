@@ -77,8 +77,8 @@ export default function GasConvertor() {
     <Main
       meta={
         <Meta
-          title="Evm Transaction Decoder | Zk block"
-          description="Decode raw evm transaction"
+          title="Eth Gas Convertor | Zk block"
+          description="Convert between wei, gwei and eth"
         />
       }
     >
