@@ -77,7 +77,7 @@ export default function GasConvertor() {
     <Main
       meta={
         <Meta
-          title="Eth Gas Convertor | Zk block"
+          title="Eth Gas Converter | Zk block"
           description="Convert between wei, gwei and eth"
         />
       }
