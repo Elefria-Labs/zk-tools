@@ -12,6 +12,7 @@ export const Links = {
   eip712: 'eip712',
   erc191: 'erc191',
   txDecoder: 'txdecoder',
+  gasConverter: 'gasconverter',
   about: 'about',
   subscribe: 'subscribe',
 };

@@ -24,6 +24,7 @@ export default function GasConvertor() {
   const isValid = (value: string) => {
     return !(value == '' || Number(value) < 0);
   };
+
   const handleWeiChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const weiValue = event.target.value;
     if (!isValid(weiValue)) {
@@ -100,6 +101,7 @@ export default function GasConvertor() {
                 <Input
                   type="number"
                   placeholder="Wei"
+                  minWidth={[100, 400]}
                   value={weiValue}
                   onChange={handleWeiChange}
                 />
@@ -119,6 +121,7 @@ export default function GasConvertor() {
                 <Input
                   type="number"
                   placeholder="Gwei"
+                  minWidth={[100, 400]}
                   value={gweiValue}
                   onChange={handleGweiChange}
                 />
@@ -137,6 +140,7 @@ export default function GasConvertor() {
                 <Input
                   type="number"
                   placeholder="ETH"
+                  minWidth={[100, 400]}
                   value={ethValue}
                   onChange={handleEthChange}
                 />
