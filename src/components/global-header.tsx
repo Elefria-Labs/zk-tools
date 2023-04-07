@@ -79,6 +79,9 @@ function DesktopMenuLinks() {
               <MenuItem>
                 <MenuLink text={'Tx Decoder'} link={Links.txDecoder} />
               </MenuItem>
+              <MenuItem>
+                <MenuLink text={'Gas Converter'} link={Links.gasConverter} />
+              </MenuItem>
             </MenuList>
           </>
         )}
