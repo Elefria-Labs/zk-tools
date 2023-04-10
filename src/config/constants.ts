@@ -13,6 +13,7 @@ export const Links = {
   erc191: 'erc191',
   txDecoder: 'txdecoder',
   gasConverter: 'gasconverter',
+  byteconversion: 'byteconversion',
   about: 'about',
   subscribe: 'subscribe',
 };
