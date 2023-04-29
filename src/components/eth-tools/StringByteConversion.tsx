@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Box, FormControl, FormLabel, Input, Stack } from '@chakra-ui/react';
 import { ethers } from 'ethers';
 
-function ByteConversion() {
+function StringByteConversion() {
   const [stringInput, setStringInput] = useState('');
   const [bytesInput, setBytesInput] = useState('');
 
@@ -54,4 +54,4 @@ function ByteConversion() {
   );
 }
 
-export default ByteConversion;
+export default StringByteConversion;
