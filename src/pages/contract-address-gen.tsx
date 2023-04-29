@@ -2,15 +2,15 @@ import React from 'react';
 import { Container, Heading } from '@chakra-ui/react';
 import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
-import StringByteConversion from '@components/eth-tools/StringByteConversion';
+import DeterministicAddress from '@components/eth-tools/DeterministicAddress';
 
-export default function ByteConversion() {
+export default function ContractAddressGen() {
   return (
     <Main
       meta={
         <Meta
-          title="Bytes32 & String Conversion | Zk block"
-          description="Convert between Bytes32 & String "
+          title="Deterministic Contract Address | Zk block"
+          description="Generate the next deployment contract address from an account"
         />
       }
     >
@@ -23,9 +23,9 @@ export default function ByteConversion() {
           mb="20px"
           mt="20px"
         >
-          Bytes32 & String Conversion
+          Deterministic Contract Address
         </Heading>
-        <StringByteConversion />
+        <DeterministicAddress />
       </Container>
     </Main>
   );
