@@ -285,7 +285,7 @@ export const networkConfig: Record<string, BlockchainNetwork> = {
     layer: 2,
   },
   '0x66eed': {
-    name: 'Arbitrum Nitro Goerli Rollup Testnet',
+    name: 'Arbitrum Nitro Rollup Testnet',
     chainName: 'Arbitrum Görli',
     rpcUrls: ['https://goerli-rollup.arbitrum.io/rpc'],
     faucets: [''],
@@ -362,7 +362,7 @@ export const networkConfig: Record<string, BlockchainNetwork> = {
     name: 'Arbitrum Nova',
     chainName: 'Arbitrum Nova',
     rpcUrls: ['https://nova.arbitrum.io/rpc'],
-    faucets: ['https://portal.zksync.io/bridge/faucet'],
+    faucets: [''],
     nativeCurrency: {
       name: 'Ethereum',
       symbol: 'ETH',
@@ -382,7 +382,7 @@ export const networkConfig: Record<string, BlockchainNetwork> = {
     layer: 2,
   },
   '0x58e': {
-    name: 'Polygon zkEVM Testnet 2',
+    name: 'Polygon zkEVM Testnet',
     chainName: 'Polygon zkEVM',
     rpcUrls: ['https://rpc.public.zkevm-test.net'],
     faucets: [''],
