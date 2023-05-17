@@ -9,6 +9,7 @@ import {
   Flex,
   Input,
   Textarea,
+  useToast,
 } from '@chakra-ui/react';
 import { Data712Type, Eip712MessageType, getData712 } from './eip712type';
 import { ethers } from 'ethers';
@@ -32,6 +33,7 @@ const defaultMsg: Eip712MessageType = {
 };
 export function Eip712Component(props: Eip712ComponentType) {
   const { provider, address } = props;
+  const toast = useToast();
   // const [data712, setData712] = useState<Data712Type | undefined>();
   // @ts-ignore
   const [signTypedData, setSignTypedData] = useState<string | undefined>();
@@ -64,6 +66,14 @@ export function Eip712Component(props: Eip712ComponentType) {
   };
   const signUsingEthers = async () => {
     if (provider == null) {
+      toast({
+        title: 'Please connect wallet.',
+        status: 'error',
+        position: 'top',
+        duration: 9000,
+        isClosable: true,
+      });
+
       return;
     }
     setLoading(true);
