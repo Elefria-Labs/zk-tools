@@ -70,10 +70,9 @@ export function Eip712Component(props: Eip712ComponentType) {
         title: 'Please connect wallet.',
         status: 'error',
         position: 'top',
-        duration: 9000,
+        duration: 4000,
         isClosable: true,
       });
-
       return;
     }
     setLoading(true);
