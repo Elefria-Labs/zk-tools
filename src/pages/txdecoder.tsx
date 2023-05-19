@@ -9,6 +9,7 @@ import {
   Textarea,
   Text,
   VStack,
+  useToast,
 } from '@chakra-ui/react';
 import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
@@ -19,16 +20,21 @@ const locale = require('react-json-editor-ajrm/locale/en');
 export default function TxDecoder() {
   const [rawTx, setRawTx] = useState<string>('');
   const [decodedTx, setDecodedTx] = useState<ethers.Transaction | undefined>();
-  const [error, setError] = useState<string>('');
+  const toast = useToast();
 
   const handleDecodeTx = () => {
     try {
       const tx = ethers.utils.parseTransaction(rawTx);
       setDecodedTx(tx);
-      setError('');
     } catch (error) {
       setDecodedTx(undefined);
-      setError('Error decoding transaction data.');
+      toast({
+        title: 'Error decoding transaction data. Please check input.',
+        status: 'error',
+        position: 'top',
+        duration: 4000,
+        isClosable: true,
+      });
     }
   };
 
@@ -64,7 +70,6 @@ export default function TxDecoder() {
                 onChange={(e) => setRawTx(e.target.value)}
               />
             </FormControl>
-            {error && <Text mb="8px">Error Decoding Tx data</Text>}
             <Button color="black" onClick={handleDecodeTx}>
               Decode Transaction
             </Button>
