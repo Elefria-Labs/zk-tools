@@ -1,13 +1,50 @@
-import { useState } from 'react';
-import { Heading, Text, VStack, Button, Input } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
+import {
+  Heading,
+  Text,
+  VStack,
+  Button,
+  Input,
+  useToast,
+} from '@chakra-ui/react';
 import { ethers } from 'ethers';
 
-const DeterministicAddress = () => {
-  const [account, setAccount] = useState('');
+type DeterministicAddressPropsType = {
+  provider?: ethers.providers.JsonRpcProvider;
+  address?: string;
+};
+const DeterministicAddress = ({
+  provider,
+  address,
+}: DeterministicAddressPropsType) => {
+  const [account, setAccount] = useState(address);
   const [contractAddress, setContractAddress] = useState('');
+  const toast = useToast();
+  useEffect(() => {
+    setAccount(address);
+  }, [address]);
 
   const generateContractAddress = async () => {
-    const provider = new ethers.providers.JsonRpcProvider();
+    if (provider == null) {
+      toast({
+        title: 'Please connect wallet.',
+        status: 'error',
+        position: 'top',
+        duration: 4000,
+        isClosable: true,
+      });
+      return;
+    }
+    if (!account) {
+      toast({
+        title: 'Please check input.',
+        status: 'error',
+        position: 'top',
+        duration: 4000,
+        isClosable: true,
+      });
+      return;
+    }
     const nonce = await provider.getTransactionCount(account);
     const contractAddress = ethers.utils.getContractAddress({
       from: account,
@@ -24,6 +61,7 @@ const DeterministicAddress = () => {
       <Input
         type="text"
         placeholder="0xAccountAddress.."
+        value={account}
         onChange={(e) => setAccount(e.target.value)}
       />
       <Button onClick={generateContractAddress}>Generate</Button>
