@@ -59,13 +59,13 @@ export default function Playground() {
     {
       title: 'Transaction Decoder',
       description:
-        'A tool that allows users to analyze and decode Ethereum transactions, providing detailed information about the sender, recipient, value, and other parameters, aiding in transaction analysis and debugging.',
+        'Analyze and decode EVM transactions aiding in transaction analysis and debugging.',
       link: Links.txDecoder,
     },
     {
       title: 'Gas Convertor',
       description:
-        'The Ethereum Gas Converter is a tool that helps users convert gas units (wei, gwei, eth) to easily understand and estimate the cost of executing transactions and smart contracts on the Ethereum network.',
+        'Convert between various gas units (wei, gwei, eth) for smart contracts on the EVM networks.',
       link: Links.gasConverter,
     },
     {
@@ -76,7 +76,7 @@ export default function Playground() {
     {
       title: 'Deterministic Contracts',
       description:
-        'Generate contract addresses for next contract deployment from an address.',
+        'Generate contract address for next contract deployment from an address.',
       link: Links.contractAddressGen,
     },
     {
@@ -111,12 +111,10 @@ export default function Playground() {
           color="gray.700"
           mb="15px"
         ></Text>
-      </Container>
-      <Flex justify="center">
-        <Box width="800px">
+        <Flex justify="center">
           <ListComponent items={items} />
-        </Box>
-      </Flex>
+        </Flex>
+      </Container>
     </Main>
   );
 }
