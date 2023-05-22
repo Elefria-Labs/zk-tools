@@ -1,5 +1,5 @@
 export const githubLink = 'https://github.com/heypran/zk-block';
-export const twitterLink = 'https://twitter.com/heypran';
+export const twitterLink = 'https://twitter.com/zk_block';
 
 export const Links = {
   home: '/',
