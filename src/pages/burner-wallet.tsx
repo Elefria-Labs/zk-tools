@@ -73,7 +73,7 @@ export default function BurnerWallet() {
               Generate Random Private Key Pair
             </Text>
 
-            <Button onClick={() => generateKeys()} mb={4}>
+            <Button variant="solid" onClick={() => generateKeys()} mb={4}>
               Generate Keys
             </Button>
             <Checkbox
@@ -84,7 +84,7 @@ export default function BurnerWallet() {
               Use entropy from cursor movement
             </Checkbox>
           </Stack>
-          <FormControl>
+          <FormControl mt={4}>
             <FormLabel>Private Key</FormLabel>
             <Input value={privateKey} isReadOnly />
           </FormControl>
