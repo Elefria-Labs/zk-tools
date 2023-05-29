@@ -74,6 +74,12 @@ export default function Playgrounds() {
       link: Links.byteconversion,
     },
     {
+      title: 'Burner Wallet',
+      description:
+        'Generate randomn private and public key pairs for EVM chains.',
+      link: Links.burnerWallet,
+    },
+    {
       title: 'Deterministic Contracts',
       description:
         'Generate contract address for next contract deployment from an address.',

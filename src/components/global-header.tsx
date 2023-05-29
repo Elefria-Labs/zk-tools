@@ -86,6 +86,10 @@ function DesktopMenuLinks() {
                 <MenuLink text={'Gas Converter'} link={Links.gasConverter} />
               </MenuItem>
               <MenuItem>
+                <MenuLink text={'Burner Wallet'} link={Links.burnerWallet} />
+              </MenuItem>
+              <MenuItem></MenuItem>
+              <MenuItem>
                 <MenuLink
                   text={'Bytes32 Conversion'}
                   link={Links.byteconversion}

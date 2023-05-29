@@ -2,18 +2,19 @@ import React from 'react';
 import { Button, Container, Flex, Heading } from '@chakra-ui/react';
 import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
-import { Eip712Component } from '@components/eip712/Eip712Component';
 import { useWalletConnect } from '@hooks/useWalletConnect';
 import { truncateAddress } from '@utils/wallet';
+import LiquidityPoolList from '@components/testing/UniswapPrices';
+import { MultiSend } from '@components/MultiSend';
 
-export default function Eip712() {
+export default function SendEth() {
   const { connectWallet, disconnect, account, provider } = useWalletConnect();
   return (
     <Main
       meta={
         <Meta
-          title="EIP 712 Signing | Zk block"
-          description="Sign typed data using EIP-712"
+          title="MultiSend | Zk block"
+          description="Send multiple tokens in one transaction"
         />
       }
     >
@@ -26,7 +27,7 @@ export default function Eip712() {
           mb="20px"
           mt="20px"
         >
-          EIP-712 Signature
+          Multi Token Send
         </Heading>
         <Flex justifyContent="end">
           {!account ? (
@@ -39,7 +40,8 @@ export default function Eip712() {
             </Button>
           )}
         </Flex>
-        <Eip712Component provider={provider} address={account} />
+        <LiquidityPoolList pools={[]} />
+        {provider && <MultiSend provider={provider} />}
       </Container>
     </Main>
   );
