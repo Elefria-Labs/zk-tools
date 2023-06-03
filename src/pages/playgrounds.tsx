@@ -63,6 +63,12 @@ export default function Playgrounds() {
       link: Links.txDecoder,
     },
     {
+      title: 'Merkle Tree Generator',
+      description:
+        'Construct merkle trees and verify proofs using openzeppelin library.',
+      link: Links.merkleTreeGenerator,
+    },
+    {
       title: 'Gas Convertor',
       description:
         'Convert between various gas units (wei, gwei, eth) for smart contracts on the EVM networks.',
