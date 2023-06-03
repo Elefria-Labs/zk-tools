@@ -90,6 +90,12 @@ function DesktopMenuLinks() {
               </MenuItem>
               <MenuItem>
                 <MenuLink
+                  text={'Merkle Tree Generator'}
+                  link={Links.merkleTreeGenerator}
+                />
+              </MenuItem>
+              <MenuItem>
+                <MenuLink
                   text={'Bytes32 Conversion'}
                   link={Links.byteconversion}
                 />
