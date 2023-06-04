@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Box, Input, Text, Textarea } from '@chakra-ui/react';
+import { Button, Box, Input, Text, Textarea, useToast } from '@chakra-ui/react';
 import { ethers } from 'ethers';
 import { MerkleTree } from 'merkletreejs';
 
@@ -8,6 +8,7 @@ const MerkleTreeVerifier: React.FC = () => {
   const [merkleRoot, setMerkleRoot] = useState('');
   const [verifyAddress, setVerifyAddress] = useState('');
   const [addressBelongs, setAddressBelongs] = useState(false);
+  const toast = useToast();
 
   const handleAddressesInputChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>,
@@ -22,9 +23,18 @@ const MerkleTreeVerifier: React.FC = () => {
   };
 
   const getTree = (addressesInput: string) => {
-    const addresses = addressesInput
-      .split('\n')
-      .map((address) => address.trim());
+    let addresses: string[] = [];
+    try {
+      addresses = addressesInput.split('\n').map((address) => address.trim());
+    } catch (e) {
+      toast({
+        title: 'Unable to parse merkle leaves. Please check your input.',
+        status: 'error',
+        position: 'top',
+        duration: 4000,
+        isClosable: true,
+      });
+    }
     const leaves = addresses.map((address) => ethers.utils.keccak256(address));
     return new MerkleTree(leaves);
   };
@@ -36,7 +46,14 @@ const MerkleTreeVerifier: React.FC = () => {
   };
 
   const handleVerifyAddress = () => {
-    if (!verifyAddress) {
+    if (!verifyAddress || !merkleRoot) {
+      toast({
+        title: 'Please check your input.',
+        status: 'error',
+        position: 'top',
+        duration: 4000,
+        isClosable: true,
+      });
       return;
     }
     const tree = getTree(addressesInput);
@@ -45,8 +62,16 @@ const MerkleTreeVerifier: React.FC = () => {
 
     // Verify if the address belongs to the Merkle root
     const isValid = MerkleTree.verify(proof, addressToVerify, merkleRoot);
-
     setAddressBelongs(isValid);
+    if (isValid) {
+      toast({
+        title: 'Address is present in the merkle tree.',
+        status: 'success',
+        position: 'top',
+        duration: 4000,
+        isClosable: true,
+      });
+    }
   };
 
   return (
