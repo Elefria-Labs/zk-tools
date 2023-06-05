@@ -23,9 +23,14 @@ const MerkleTreeVerifier: React.FC = () => {
   };
 
   const getTree = (addressesInput: string) => {
-    let addresses: string[] = [];
     try {
-      addresses = addressesInput.split('\n').map((address) => address.trim());
+      const addresses = addressesInput
+        .split('\n')
+        .map((address) => address.trim());
+      const leaves = addresses.map((address) =>
+        ethers.utils.keccak256(address),
+      );
+      return new MerkleTree(leaves);
     } catch (e) {
       toast({
         title: 'Unable to parse merkle leaves. Please check your input.',
@@ -35,12 +40,13 @@ const MerkleTreeVerifier: React.FC = () => {
         isClosable: true,
       });
     }
-    const leaves = addresses.map((address) => ethers.utils.keccak256(address));
-    return new MerkleTree(leaves);
   };
 
   const handleCreateMerkleRoot = () => {
     const tree = getTree(addressesInput);
+    if (tree == null) {
+      return;
+    }
     const root = tree.getRoot().toString('hex');
     setMerkleRoot(root);
   };
@@ -57,6 +63,9 @@ const MerkleTreeVerifier: React.FC = () => {
       return;
     }
     const tree = getTree(addressesInput);
+    if (tree == null) {
+      return;
+    }
     const addressToVerify = ethers.utils.keccak256(verifyAddress);
     const proof = tree.getProof(addressToVerify);
 
