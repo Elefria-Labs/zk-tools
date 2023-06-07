@@ -27,6 +27,20 @@ const MerkleTreeVerifier: React.FC = () => {
       const addresses = addressesInput
         .split('\n')
         .map((address) => address.trim());
+      const areAllEvmAddr = addresses.every((addr) =>
+        ethers.utils.isAddress(addr),
+      );
+      const noDuplicates = new Set(addresses).size !== addresses.length;
+      if (!areAllEvmAddr || noDuplicates) {
+        toast({
+          title: 'Invalid or duplicate addresses.',
+          status: 'error',
+          position: 'top',
+          duration: 4000,
+          isClosable: true,
+        });
+        return;
+      }
       const leaves = addresses.map((address) =>
         ethers.utils.keccak256(address),
       );
@@ -52,7 +66,11 @@ const MerkleTreeVerifier: React.FC = () => {
   };
 
   const handleVerifyAddress = () => {
-    if (!verifyAddress || !merkleRoot) {
+    if (
+      !verifyAddress ||
+      !merkleRoot ||
+      !ethers.utils.isAddress(verifyAddress)
+    ) {
       toast({
         title: 'Please check your input.',
         status: 'error',
