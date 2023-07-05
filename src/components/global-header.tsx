@@ -71,6 +71,9 @@ function DesktopMenuLinks() {
             </MenuButton>
             <MenuList color="black">
               <MenuItem>
+                <MenuLink text={'View all'} link={Links.playgrounds} />
+              </MenuItem>
+              <MenuItem>
                 <MenuLink text={'EIP-712'} link={Links.eip712} />
               </MenuItem>
               <MenuItem>
@@ -83,9 +86,24 @@ function DesktopMenuLinks() {
                 <MenuLink text={'Gas Converter'} link={Links.gasConverter} />
               </MenuItem>
               <MenuItem>
+                <MenuLink text={'Burner Wallet'} link={Links.burnerWallet} />
+              </MenuItem>
+              <MenuItem>
+                <MenuLink
+                  text={'Merkle Tree Generator'}
+                  link={Links.merkleTreeGenerator}
+                />
+              </MenuItem>
+              <MenuItem>
                 <MenuLink
                   text={'Bytes32 Conversion'}
                   link={Links.byteconversion}
+                />
+              </MenuItem>
+              <MenuItem>
+                <MenuLink
+                  text={'Deterministic Address'}
+                  link={Links.contractAddressGen}
                 />
               </MenuItem>
             </MenuList>
@@ -102,6 +120,7 @@ function DesktopMenuLinks() {
           textDecoration: 'none',
           bgGradient: 'linear(to-l, gray.800, gray.800)',
         }}
+        target="_blank"
         fontWeight={500}
         href={Links.subscribe}
       >

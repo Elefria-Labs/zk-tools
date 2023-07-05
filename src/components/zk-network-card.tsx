@@ -40,7 +40,7 @@ export function ZkNetworkCard(props: ZkNetworkCardType) {
               fontSize={'2xl'}
               fontFamily={'body'}
             >
-              {blockchainNetwork.chainName}
+              {blockchainNetwork.name}
             </Heading>
             <Divider mt={4} mb={8} />
             {/* <Box flexWrap="wrap">

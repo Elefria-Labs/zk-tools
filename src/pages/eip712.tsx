@@ -12,7 +12,7 @@ export default function Eip712() {
     <Main
       meta={
         <Meta
-          title=" EIP 712 Signing | Zk block"
+          title="EIP 712 Signing | Zk block"
           description="Sign typed data using EIP-712"
         />
       }

@@ -9,12 +9,12 @@ import {
   Flex,
   Input,
   Textarea,
+  useToast,
 } from '@chakra-ui/react';
 import { ethers } from 'ethers';
 import { splitSignature, verifyMessage } from 'ethers/lib/utils';
 import { CheckCircleIcon, LockIcon, CloseIcon } from '@chakra-ui/icons';
 import { SignatureLike } from '@ethersproject/bytes';
-import BaseAlert from '@components/common/BaseAlert';
 
 type PersonalSignComponentPropsType = {
   provider?: ethers.providers.Web3Provider;
@@ -23,8 +23,8 @@ type PersonalSignComponentPropsType = {
 const defaultMsg: string = 'Hello Ethereum!';
 export function PersonalSignComponent(props: PersonalSignComponentPropsType) {
   const { provider, address } = props;
+  const toast = useToast();
 
-  const [showAlert, setShowAlert] = useState<boolean>(false);
   const [sig, setSig] = useState<string | undefined>();
   const [verifySigInput, setVerifySigInput] = useState<
     SignatureLike | undefined
@@ -36,8 +36,17 @@ export function PersonalSignComponent(props: PersonalSignComponentPropsType) {
   const [loading, setLoading] = useState<boolean>(false);
 
   const signPersonalMessageUsingEthers = async () => {
-    if (provider == null || signMessage == null) {
-      setShowAlert(true);
+    if (provider == null) {
+      toast({
+        title: 'Please connect wallet.',
+        status: 'error',
+        position: 'top',
+        duration: 4000,
+        isClosable: true,
+      });
+      return;
+    }
+    if (signMessage == null) {
       return;
     }
     setLoading(true);
@@ -67,14 +76,6 @@ export function PersonalSignComponent(props: PersonalSignComponentPropsType) {
       borderRadius="10px 10px 0 0"
     >
       <Text>{loading}</Text>
-      <BaseAlert
-        open={showAlert}
-        title="Please connect wallet"
-        type="error"
-        onClose={(close) => {
-          setShowAlert(close);
-        }}
-      />
       <Flex justifyContent={'space-between'}>
         <Flex flexDirection="column">
           <Text>Signing Message:</Text>
