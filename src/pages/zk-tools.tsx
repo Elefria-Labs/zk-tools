@@ -7,7 +7,8 @@ import {
   Heading,
   Icon,
   SimpleGrid,
-  Text,
+  Tag,
+  TagLabel,
 } from '@chakra-ui/react';
 
 import Link from 'next/link';
@@ -17,10 +18,9 @@ import { ToolCard } from '@components/tool-card';
 import { allTools } from '../data/tools';
 import { ToolsType } from '@types';
 import { GithubIcon } from '@components/icon/github';
-import { Links, repoLink } from '@config/constants';
-import { playgroundToolsList } from '@data/playground';
-import { HomeCard } from '@components/home/HomeCard';
+import { repoLink } from '@config/constants';
 
+const preDefinedToolTags = ['snarks', 'circom', 'starks', 'semaphore', 'all'];
 const Index = () => {
   const [selectedTools, setSelectedTools] = useState<string[]>([
     'snarks',
@@ -41,6 +41,13 @@ const Index = () => {
     }
   }, [selectedTools]);
 
+  const handleSelection = (tool: string) => {
+    if (selectedTools.length > 1 && selectedTools.includes(tool)) {
+      setSelectedTools(selectedTools.filter((t) => t != tool));
+      return;
+    }
+    setSelectedTools([...selectedTools, tool]);
+  };
   return (
     <Main
       meta={
@@ -58,49 +65,6 @@ const Index = () => {
             justifyItems="space-between"
           >
             <Box>
-              <Box py={['23px', '23px', '35px']}>
-                <Heading
-                  color="black"
-                  fontSize={['22px', '22px', '28px']}
-                  mb={['8px', '8px', '15px']}
-                >
-                  Playgrounds
-                </Heading>
-                <Text
-                  fontSize={['14px', '14px', '16px']}
-                  mb="10px"
-                  color="black"
-                >
-                  <Text fontWeight={500} as="span" color="gray">
-                    Playgrounds
-                  </Text>{' '}
-                  provides list of tools to help you develop on ethereum and evm
-                  chains.
-                </Text>
-                <Flex
-                  flexDirection="row"
-                  alignContent="center"
-                  justifyContent="flex-end"
-                >
-                  <Link
-                    aria-label="Go to Playgrounds"
-                    href={Links.playgrounds}
-                    passHref
-                  >
-                    View All
-                  </Link>
-                </Flex>
-                <Divider my="24px" />
-                <SimpleGrid
-                  columns={[1, 2, 3]}
-                  spacing={['10px', '10px', '15px']}
-                  mb="48px"
-                >
-                  {playgroundToolsList?.slice(3).map((tool) => (
-                    <HomeCard {...tool} key={tool.title} />
-                  ))}
-                </SimpleGrid>
-              </Box>
               <Box py={['23px', '23px', '35px']} color="gray.200">
                 <Heading
                   color="black"
@@ -137,17 +101,70 @@ const Index = () => {
                     </a>
                   </Link>
                 </Flex>
-                <Divider my="24px" />
-                <SimpleGrid
-                  columns={[1, 2, 3]}
-                  spacing={['10px', '10px', '15px']}
-                  mb="48px"
-                >
-                  {matchingTools?.slice(4).map((tools: ToolsType) => (
-                    <ToolCard {...tools} key={tools.name} />
-                  ))}
-                </SimpleGrid>
               </Box>
+              <Box>
+                <Container
+                  maxW="container.lg"
+                  justifyContent="center"
+                  display="flex"
+                >
+                  <Flex flexDirection={'column'}>
+                    {/* <InputGroup size="md" width={[100, 500]}>
+                      <Input
+                        placeholder="search..."
+                        color="black"
+                        borderColor="black"
+                      />
+                      <InputRightElement>
+                        <IconButton
+                          size="sm"
+                          h="1.75rem"
+                          aria-label="Search zk tools"
+                          icon={<SearchIcon />}
+                          color="black"
+                        />
+                      </InputRightElement>
+                    </InputGroup> */}
+                    <Box mt="8px" width={[100, 500]}>
+                      {preDefinedToolTags.map((tool) => {
+                        const isSelected = selectedTools.includes(tool);
+                        return (
+                          <Tag
+                            key={tool}
+                            size={'lg'}
+                            borderRadius="full"
+                            border="1px solid black"
+                            variant="solid"
+                            onClick={() => handleSelection(tool)}
+                            bg={isSelected ? 'black' : 'white'}
+                            color={isSelected ? 'white' : 'black'}
+                            _hover={{
+                              bg: isSelected ? 'gray.600' : 'black',
+                              cursor: 'pointer',
+                              color: 'white',
+                            }}
+                            mb={['4px', 0]}
+                            ml="8px"
+                          >
+                            <TagLabel>{tool}</TagLabel>
+                            {/* <TagCloseButton /> */}
+                          </Tag>
+                        );
+                      })}
+                    </Box>
+                  </Flex>
+                </Container>
+              </Box>
+              <Divider my="24px" />
+              <SimpleGrid
+                columns={[1, 2, 3]}
+                spacing={['10px', '10px', '15px']}
+                mb="48px"
+              >
+                {matchingTools?.map((tools: ToolsType) => (
+                  <ToolCard {...tools} key={tools.name} />
+                ))}
+              </SimpleGrid>
             </Box>
           </Box>
         </Container>
