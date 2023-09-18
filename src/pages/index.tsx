@@ -101,7 +101,7 @@ const Index = () => {
                   ))}
                 </SimpleGrid>
               </Box>
-              <Box py={['23px', '23px', '35px']} color="gray.200">
+              <Box py={['23px', '23px', '35px']}>
                 <Heading
                   color="black"
                   fontSize={['22px', '22px', '28px']}
@@ -121,6 +121,19 @@ const Index = () => {
                   knowledge proofs, to help the developers advance the zero
                   knowledge ecosystem and develop zkdapps.
                 </Text> */}
+                <Flex
+                  flexDirection="row"
+                  alignContent="center"
+                  justifyContent="flex-end"
+                >
+                  <Link
+                    aria-label="Go to Zk Tools"
+                    href={Links.zkTools}
+                    passHref
+                  >
+                    View All
+                  </Link>
+                </Flex>
                 <Flex flexDirection="row" alignContent="center">
                   <Link aria-label="Go to GitHub page" href={repoLink} passHref>
                     <a target="_blank" rel="noopener noreferrer">
