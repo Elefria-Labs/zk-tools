@@ -96,6 +96,11 @@ const Index = () => {
                   spacing={['10px', '10px', '15px']}
                   mb="48px"
                 >
+                  {playgroundToolsList
+                    .filter((tool) => tool.isBeta)
+                    .map((tool) => (
+                      <HomeCard {...tool} key={tool.title} />
+                    ))}
                   {playgroundToolsList?.slice(3).map((tool) => (
                     <HomeCard {...tool} key={tool.title} />
                   ))}
@@ -109,18 +114,6 @@ const Index = () => {
                 >
                   Tools
                 </Heading>
-                {/* <Text
-                  fontSize={['14px', '14px', '16px']}
-                  mb="10px"
-                  color="black"
-                >
-                  <Text fontWeight={500} as="span" color="gray">
-                    zkblock
-                  </Text>{' '}
-                  is a community effort to collate and develop tools for zero
-                  knowledge proofs, to help the developers advance the zero
-                  knowledge ecosystem and develop zkdapps.
-                </Text> */}
                 <Flex
                   flexDirection="row"
                   alignContent="center"

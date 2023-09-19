@@ -9,6 +9,7 @@ export const Links = {
   zkChains: 'zk-networks',
   contribute: 'contribute',
   playgrounds: 'playgrounds',
+  zkTools: 'zk-tools',
   eip712: 'eip712',
   erc191: 'erc191',
   txDecoder: 'txdecoder',
@@ -19,6 +20,8 @@ export const Links = {
   merkleTreeGenerator: 'merkletree-generator',
   about: 'about',
   subscribe: 'subscribe',
+  eipGpt: 'https://gpt.zkblock.app/',
+  evm: 'https://evm.zkblock.app/',
 };
 
 export const repoLink = 'https://github.com/heypran/zk-block';
