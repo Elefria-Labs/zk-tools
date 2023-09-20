@@ -3,7 +3,6 @@ export const twitterLink = 'https://twitter.com/zk_block';
 
 export const Links = {
   home: '/',
-  tools: '/',
   boilerplate: 'https://boilerplate.zkblock.app/',
   blog: 'https://blog.zkblock.app/',
   zkChains: 'zk-networks',
