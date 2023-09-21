@@ -43,20 +43,6 @@ export function ZkNetworkCard(props: ZkNetworkCardType) {
               {blockchainNetwork.name}
             </Heading>
             <Divider mt={4} mb={8} />
-            {/* <Box flexWrap="wrap">
-              {props.tags?.split(',').map((tag, i) => (
-                <Tag
-                  size="sm"
-                  key={i}
-                  variant="solid"
-                  colorScheme="blackAlpha"
-                  mb="4px"
-                  ml="4px"
-                >
-                  {tag}
-                </Tag>
-              ))}
-            </Box> */}
             <Text
               color={'black'}
               textAlign="justify"
@@ -105,41 +91,6 @@ export function ZkNetworkCard(props: ZkNetworkCardType) {
             >
               Add Network
             </Button>
-            <Stack direction={'row'} spacing={2} fontSize={'sm'}>
-              {/* {!!props.blockExplorerUrls?.[0] && (
-                <Link
-                  isExternal
-                  aria-label="Go to GitHub page"
-                  href={props.blockExplorerUrls?.[0]}
-                >
-                  Block Explorer
-                  <Icon
-                    as={LinkIcon}
-                    display="block"
-                    transition="color 0.2s"
-                    w="4"
-                    h="4"
-                    _hover={{ color: 'gray.600' }}
-                  />
-                </Link>
-              )} */}
-              {/* {!!props.website && (
-                <Link
-                  isExternal
-                  aria-label="Go to Website page"
-                  href={props.website}
-                >
-                  <Icon
-                    as={ExternalLinkIcon}
-                    display="block"
-                    transition="color 0.2s"
-                    w="5"
-                    h="5"
-                    _hover={{ color: 'gray.600' }}
-                  />
-                </Link>
-              )} */}
-            </Stack>
           </Box>
         </Flex>
       </Box>

@@ -21,7 +21,7 @@ function NavigationLinks() {
         fontWeight={600}
         spacing="30px"
       >
-        <Link _hover={{ color: 'black' }} href={Links.tools}>
+        <Link _hover={{ color: 'black' }} href={Links.zkTools}>
           Tools
         </Link>
         <Link _hover={{ color: 'black' }} href={Links.boilerplate}>
@@ -56,7 +56,7 @@ function NavigationLinks() {
           borderBottomWidth={1}
           borderBottomColor="gray.800"
           _hover={{ color: 'gray' }}
-          href={Links.tools}
+          href={Links.zkTools}
         >
           Tools
         </Link>
@@ -192,33 +192,6 @@ export function Footer() {
             <Text as="span" mr="10px">
               &copy; zkblock.app
             </Text>
-            {/* &middot;
-            <Link
-              href="/about"
-              _hover={{ textDecoration: 'none', color: 'grey' }}
-              color="gray.400"
-              mx="10px"
-            >
-              FAQs
-            </Link>
-            &middot;
-            <Link
-              href="/terms"
-              _hover={{ textDecoration: 'none', color: 'grey' }}
-              color="gray.400"
-              mx="10px"
-            >
-              Terms
-            </Link>
-            &middot;
-            <Link
-              href="/privacy"
-              _hover={{ textDecoration: 'none', color: 'grey' }}
-              color="gray.400"
-              mx="10px"
-            >
-              Privacy
-            </Link> */}
           </Text>
         </Box>
       </Container>

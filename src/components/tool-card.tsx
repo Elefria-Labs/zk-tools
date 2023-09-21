@@ -41,20 +41,6 @@ export function ToolCard(props: ToolsType) {
               {props.name}
             </Heading>
             <Divider mt={4} mb={8} />
-            {/* <Box flexWrap="wrap">
-              {props.tags?.split(',').map((tag, i) => (
-                <Tag
-                  size="sm"
-                  key={i}
-                  variant="solid"
-                  colorScheme="blackAlpha"
-                  mb="4px"
-                  ml="4px"
-                >
-                  {tag}
-                </Tag>
-              ))}
-            </Box> */}
             <Text
               color={'black'}
               textAlign="justify"
