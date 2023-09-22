@@ -8,15 +8,14 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { ethers } from 'ethers';
+import { toastOptions } from '@components/common/toast';
 
 type DeterministicAddressPropsType = {
   provider?: ethers.providers.JsonRpcProvider;
   address?: string;
 };
-const DeterministicAddress = ({
-  provider,
-  address,
-}: DeterministicAddressPropsType) => {
+const DeterministicAddress = (props: DeterministicAddressPropsType) => {
+  const { provider, address } = props;
   const [account, setAccount] = useState(address);
   const [contractAddress, setContractAddress] = useState('');
   const toast = useToast();
@@ -26,23 +25,11 @@ const DeterministicAddress = ({
 
   const generateContractAddress = async () => {
     if (provider == null) {
-      toast({
-        title: 'Please connect wallet.',
-        status: 'error',
-        position: 'top',
-        duration: 4000,
-        isClosable: true,
-      });
+      toast({ ...toastOptions, title: 'Please connect wallet.' });
       return;
     }
     if (!account) {
-      toast({
-        title: 'Please check input.',
-        status: 'error',
-        position: 'top',
-        duration: 4000,
-        isClosable: true,
-      });
+      toast({ ...toastOptions, title: 'Please check input.' });
       return;
     }
     const nonce = await provider.getTransactionCount(account);
