@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Button, Box, Input, Text, Textarea, useToast } from '@chakra-ui/react';
 import { ethers } from 'ethers';
 import { MerkleTree } from 'merkletreejs';
+import { toastOptions } from '@components/common/toast';
 
 const MerkleTreeVerifier: React.FC = () => {
   const [addressesInput, setAddressesInput] = useState('');
@@ -33,11 +34,8 @@ const MerkleTreeVerifier: React.FC = () => {
       const noDuplicates = new Set(addresses).size !== addresses.length;
       if (!areAllEvmAddr || noDuplicates) {
         toast({
+          ...toastOptions,
           title: 'Invalid or duplicate addresses.',
-          status: 'error',
-          position: 'top',
-          duration: 4000,
-          isClosable: true,
         });
         return;
       }
@@ -47,11 +45,8 @@ const MerkleTreeVerifier: React.FC = () => {
       return new MerkleTree(leaves);
     } catch (e) {
       toast({
+        ...toastOptions,
         title: 'Unable to parse merkle leaves. Please check your input.',
-        status: 'error',
-        position: 'top',
-        duration: 4000,
-        isClosable: true,
       });
     }
   };
@@ -72,11 +67,8 @@ const MerkleTreeVerifier: React.FC = () => {
       !ethers.utils.isAddress(verifyAddress)
     ) {
       toast({
+        ...toastOptions,
         title: 'Please check your input.',
-        status: 'error',
-        position: 'top',
-        duration: 4000,
-        isClosable: true,
       });
       return;
     }
@@ -92,11 +84,8 @@ const MerkleTreeVerifier: React.FC = () => {
     setAddressBelongs(isValid);
     if (isValid) {
       toast({
+        ...toastOptions,
         title: 'Address is present in the merkle tree.',
-        status: 'success',
-        position: 'top',
-        duration: 4000,
-        isClosable: true,
       });
     }
   };
