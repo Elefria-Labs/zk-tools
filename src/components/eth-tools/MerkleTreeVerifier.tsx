@@ -86,6 +86,7 @@ const MerkleTreeVerifier: React.FC = () => {
       toast({
         ...toastOptions,
         title: 'Address is present in the merkle tree.',
+        status: 'success',
       });
     }
   };

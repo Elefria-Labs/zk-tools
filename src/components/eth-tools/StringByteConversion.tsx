@@ -1,17 +1,28 @@
 import { useState } from 'react';
-import { Box, FormControl, FormLabel, Input, Stack } from '@chakra-ui/react';
+import {
+  Box,
+  FormControl,
+  FormLabel,
+  Input,
+  Stack,
+  useToast,
+} from '@chakra-ui/react';
 import { ethers } from 'ethers';
+import { toastOptions } from '@components/common/toast';
 
 function StringByteConversion() {
   const [stringInput, setStringInput] = useState('');
   const [bytesInput, setBytesInput] = useState('');
-
+  const toast = useToast();
   const convertToBytes = (stringValue: string) => {
     try {
       const bytesValue = ethers.utils.formatBytes32String(stringValue);
       setBytesInput(bytesValue);
     } catch (error) {
-      console.log(error);
+      toast({
+        ...toastOptions,
+        title: 'Please check the input.',
+      });
     }
   };
 
@@ -20,7 +31,10 @@ function StringByteConversion() {
       const stringValue = ethers.utils.parseBytes32String(bytesValue);
       setStringInput(stringValue);
     } catch (error) {
-      console.log(error);
+      toast({
+        ...toastOptions,
+        title: 'Please check the input.',
+      });
     }
   };
 
