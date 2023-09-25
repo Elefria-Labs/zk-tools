@@ -4,7 +4,7 @@ import { ethers } from 'ethers';
 import { MerkleTree } from 'merkletreejs';
 import { toastOptions } from '@components/common/toast';
 
-const MerkleTreeVerifier: React.FC = () => {
+const MerkleTreeVerifier = () => {
   const [addressesInput, setAddressesInput] = useState('');
   const [merkleRoot, setMerkleRoot] = useState('');
   const [verifyAddress, setVerifyAddress] = useState('');

@@ -5,7 +5,8 @@ import '../styles/global.css';
 import '@firebase/firebase-config';
 import { ChakraProvider } from '@chakra-ui/react';
 
-const MyApp = ({ Component, pageProps }: AppProps) => {
+const MyApp = (props: AppProps) => {
+  const { Component, pageProps } = props;
   return (
     <ChakraProvider resetCSS>
       {/* @ts-ignore */}

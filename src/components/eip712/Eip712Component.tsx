@@ -28,7 +28,7 @@ const defaultMsg: Eip712MessageType = {
   to: '0xEC8bfA4a9F650a4439cce1Bdc23EAc0AD95E7a0D',
   value: 100000,
   data: '0x',
-  nonce: 1, // await provider.getSigner().getTransactionCount(),
+  nonce: 1,
   gas: 100000,
 };
 export function Eip712Component(props: Eip712ComponentType) {
@@ -46,24 +46,6 @@ export function Eip712Component(props: Eip712ComponentType) {
   const [recoveredAddr, setRecoveredAddr] = useState<string | undefined>();
   const [loading, setLoading] = useState<boolean>(false);
 
-  // @ts-ignore
-  const signRaw = async () => {
-    if (provider == null) {
-      return;
-    }
-    setLoading(true);
-    const signer = await provider.getSigner();
-    const flatSig = await provider.send('eth_signTypedData_v4', [
-      await signer.getAddress(),
-      JSON.stringify(data712),
-    ]);
-    setSig(flatSig);
-    const sig = splitSignature(flatSig);
-    setRsvSig(sig);
-    setVerifySigInput(flatSig);
-    setSignTypedData(flatSig);
-    setLoading(false);
-  };
   const signUsingEthers = async () => {
     if (provider == null) {
       toast({
