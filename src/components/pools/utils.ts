@@ -1,3 +1,4 @@
+import axios from 'axios';
 import bn from 'bignumber.js';
 
 bn.config({ EXPONENTIAL_AT: 999999, DECIMAL_PLACES: 40 });
@@ -95,4 +96,62 @@ export const getPriceFromTick = (
     .pow(2);
 
   return price.toNumber();
+};
+
+const queryUniswap = async (query: string): Promise<any> => {
+  const { data } = await axios({
+    url: 'https://api.thegraph.com/subgraphs/name/ianlapham/uniswap-v3-polygon',
+    method: 'post',
+    data: {
+      query,
+    },
+  });
+
+  const errors = data.errors;
+  if (errors && errors.length > 0) {
+    console.error('Uniswap Subgraph Errors', { errors, query });
+    throw new Error(`Uniswap Subgraph Errors: ${JSON.stringify(errors)}`);
+  }
+
+  return data.data;
+};
+
+const getPoolPositionsByPage = async (
+  poolAddress: string,
+  page: number,
+): Promise<Position[]> => {
+  try {
+    const res = await queryUniswap(`{
+    positions(where: {
+      pool: "${poolAddress}",
+      liquidity_gt: 0,
+    }, first: 1000, skip: ${page * 1000}) {
+      id
+      tickLower {
+        tickIdx
+        feeGrowthOutside0X128
+        feeGrowthOutside1X128
+      }
+      tickUpper {
+        tickIdx
+        feeGrowthOutside0X128
+        feeGrowthOutside1X128
+      }
+      depositedToken0
+      depositedToken1
+      liquidity
+      collectedFeesToken0
+      collectedFeesToken1
+      feeGrowthInside0LastX128
+      feeGrowthInside1LastX128
+      transaction {
+        timestamp
+      }
+    }
+  }`);
+
+    return res.positions;
+  } catch (e) {
+    return [];
+  }
 };
