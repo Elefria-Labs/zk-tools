@@ -155,3 +155,25 @@ const getPoolPositionsByPage = async (
     return [];
   }
 };
+
+export const getPoolPositions = async (
+  poolAddress: string,
+): Promise<Position[]> => {
+  const PAGE_SIZE = 3;
+  let result: Position[] = [];
+  let page = 0;
+  while (true) {
+    const [p1, p2, p3] = await Promise.all([
+      getPoolPositionsByPage(poolAddress, page),
+      getPoolPositionsByPage(poolAddress, page + 1),
+      getPoolPositionsByPage(poolAddress, page + 2),
+    ]);
+
+    result = [...result, ...p1, ...p2, ...p3];
+    if (p1.length === 0 || p2.length === 0 || p3.length === 0) {
+      break;
+    }
+    page += PAGE_SIZE;
+  }
+  return result;
+};
