@@ -1,5 +1,11 @@
+import {
+  NONFUNGIBLE_POSITION_MANAGER_ADDRESSES,
+  SUPPORTED_CHAINS,
+} from '@uniswap/sdk-core';
+import INONFUNGIBLE_POSITION_MANAGER from '@uniswap/v3-periphery/artifacts/contracts/NonfungiblePositionManager.sol/NonfungiblePositionManager.json';
 import axios from 'axios';
 import bn from 'bignumber.js';
+import { ethers } from 'ethers';
 
 bn.config({ EXPONENTIAL_AT: 999999, DECIMAL_PLACES: 40 });
 
@@ -176,4 +182,86 @@ export const getPoolPositions = async (
     page += PAGE_SIZE;
   }
   return result;
+};
+
+export const getPoolDetailsByIds = async (
+  poolIds: string[],
+): Promise<Pool[]> => {
+  try {
+    // pool: "${poolAddress}",
+    const res = await queryUniswap(`{
+      pool(where:{
+        id_in: [${poolIds}]
+      }) {
+        id
+        token0 {
+          id
+          symbol
+        }
+        token1 {
+          id
+          symbol
+        }
+        feeTier
+        tick
+        liquidity
+        sqrtPrice
+        feeGrowthGlobal0X128
+        feeGrowthGlobal1X128
+      }
+  }`);
+
+    return res.positions;
+  } catch (e) {
+    return [];
+  }
+};
+
+export const fetchPoolInfo = async (
+  address: string,
+  provider: ethers.providers.Web3Provider,
+): Promise<Position[]> => {
+  const nfpmContract = new ethers.Contract(
+    NONFUNGIBLE_POSITION_MANAGER_ADDRESSES[SUPPORTED_CHAINS[5]]!,
+    INONFUNGIBLE_POSITION_MANAGER.abi,
+    provider,
+  );
+  let positions;
+  try {
+    const numPositions = await nfpmContract.balanceOf(address);
+
+    const calls = [];
+
+    for (let i = 0; i < numPositions; i++) {
+      calls.push(nfpmContract.tokenOfOwnerByIndex(address, i));
+    }
+
+    const positionIds = await Promise.all(calls);
+    positions = await getPoolPositionsByIds(positionIds);
+    // for (let id of positionIds) {
+    //   positions.push(await getPoolPositionsById(id));
+    //   // positionCalls.push(nfpmContract.positions(id));
+    // }
+
+    // const callResponses = await Promise.all(positionCalls);
+    // const positionInfos = callResponses.map((position) => {
+    //   return {
+    //     tickLower: position.tickLower,
+    //     tickUpper: position.tickUpper,
+    //     liquidity: JSBI.BigInt(position.liquidity),
+    //     feeGrowthInside0LastX128: JSBI.BigInt(
+    //       position.feeGrowthInside0LastX128,
+    //     ),
+    //     feeGrowthInside1LastX128: JSBI.BigInt(
+    //       position.feeGrowthInside1LastX128,
+    //     ),
+    //     tokensOwed0: JSBI.BigInt(position.tokensOwed0),
+    //     tokensOwed1: JSBI.BigInt(position.tokensOwed1),
+    //   };
+    // });
+    // setPoolInfo(positionInfos);
+  } catch (error) {
+    console.error('Error fetching positions:', error);
+  }
+  return positions ?? [];
 };
