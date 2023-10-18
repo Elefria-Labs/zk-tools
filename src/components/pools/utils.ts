@@ -265,3 +265,74 @@ export const fetchPoolInfo = async (
   }
   return positions ?? [];
 };
+
+export const getPoolPositionsByIds = async (
+  poolIds: string[],
+  poolAddress?: string,
+  page?: number,
+): Promise<Position[]> => {
+  try {
+    // pool: "${poolAddress}",
+    const res = await queryUniswap(`{
+    positions(where: {
+      liquidity_gt: 0,
+      id_in: [${poolIds}],
+    }, first: 1000, skip: ${page ?? 0 * 1000}) {
+      id
+      pool {
+        id
+        token0 {
+          id
+          symbol
+        }
+        token1 {
+          id
+          symbol
+        }
+        feeTier
+        tick
+        liquidity
+        sqrtPrice
+        feeGrowthGlobal0X128
+        feeGrowthGlobal1X128
+        token0Price
+        token1Price
+      }
+      tickLower {
+        tickIdx
+        feeGrowthOutside0X128
+        feeGrowthOutside1X128
+      }
+      token0 {
+        id
+        symbol
+        decimals
+      }
+      token1 {
+        id
+        symbol
+        decimals
+      }
+      tickUpper {
+        tickIdx
+        feeGrowthOutside0X128
+        feeGrowthOutside1X128
+      }
+      depositedToken0
+      depositedToken1
+      liquidity
+      collectedFeesToken0
+      collectedFeesToken1
+      feeGrowthInside0LastX128
+      feeGrowthInside1LastX128
+      transaction {
+        timestamp
+      }
+    }
+  }`);
+
+    return res.positions;
+  } catch (e) {
+    return [];
+  }
+};
