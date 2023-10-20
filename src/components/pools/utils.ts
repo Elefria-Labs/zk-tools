@@ -1,11 +1,8 @@
-import {
-  NONFUNGIBLE_POSITION_MANAGER_ADDRESSES,
-  SUPPORTED_CHAINS,
-} from '@uniswap/sdk-core';
-import INONFUNGIBLE_POSITION_MANAGER from '@uniswap/v3-periphery/artifacts/contracts/NonfungiblePositionManager.sol/NonfungiblePositionManager.json';
+import { SUPPORTED_CHAINS } from '@uniswap/sdk-core';
+import { Position as V3Position, Pool as V3Pool } from '@uniswap/v3-sdk';
+import { Token as V3Token } from '@uniswap/sdk-core';
 import axios from 'axios';
 import bn from 'bignumber.js';
-import { ethers } from 'ethers';
 
 bn.config({ EXPONENTIAL_AT: 999999, DECIMAL_PLACES: 40 });
 
@@ -217,58 +214,8 @@ export const getPoolDetailsByIds = async (
   }
 };
 
-export const fetchPoolInfo = async (
-  address: string,
-  provider: ethers.providers.Web3Provider,
-): Promise<Position[]> => {
-  const nfpmContract = new ethers.Contract(
-    NONFUNGIBLE_POSITION_MANAGER_ADDRESSES[SUPPORTED_CHAINS[5]]!,
-    INONFUNGIBLE_POSITION_MANAGER.abi,
-    provider,
-  );
-  let positions;
-  try {
-    const numPositions = await nfpmContract.balanceOf(address);
-
-    const calls = [];
-
-    for (let i = 0; i < numPositions; i++) {
-      calls.push(nfpmContract.tokenOfOwnerByIndex(address, i));
-    }
-
-    const positionIds = await Promise.all(calls);
-    positions = await getPoolPositionsByIds(positionIds);
-    // for (let id of positionIds) {
-    //   positions.push(await getPoolPositionsById(id));
-    //   // positionCalls.push(nfpmContract.positions(id));
-    // }
-
-    // const callResponses = await Promise.all(positionCalls);
-    // const positionInfos = callResponses.map((position) => {
-    //   return {
-    //     tickLower: position.tickLower,
-    //     tickUpper: position.tickUpper,
-    //     liquidity: JSBI.BigInt(position.liquidity),
-    //     feeGrowthInside0LastX128: JSBI.BigInt(
-    //       position.feeGrowthInside0LastX128,
-    //     ),
-    //     feeGrowthInside1LastX128: JSBI.BigInt(
-    //       position.feeGrowthInside1LastX128,
-    //     ),
-    //     tokensOwed0: JSBI.BigInt(position.tokensOwed0),
-    //     tokensOwed1: JSBI.BigInt(position.tokensOwed1),
-    //   };
-    // });
-    // setPoolInfo(positionInfos);
-  } catch (error) {
-    console.error('Error fetching positions:', error);
-  }
-  return positions ?? [];
-};
-
 export const getPoolPositionsByIds = async (
   poolIds: string[],
-  poolAddress?: string,
   page?: number,
 ): Promise<Position[]> => {
   try {
@@ -335,4 +282,85 @@ export const getPoolPositionsByIds = async (
   } catch (e) {
     return [];
   }
+};
+
+export const calculatePositionBasedData = async (p: Position) => {
+  const lowerTick = Number(p.tickLower.tickIdx);
+  const upperTick = Number(p.tickUpper.tickIdx);
+
+  let lowerPrice = getPriceFromTick(
+    upperTick,
+    p.token0?.decimals || '18',
+    p.token1?.decimals || '18',
+  );
+  let upperPrice = getPriceFromTick(
+    lowerTick,
+    p.token0?.decimals || '18',
+    p.token1?.decimals || '18',
+  );
+  // Calculate isActive
+  // const isActive = currentTick >= lowerTick && currentTick <= upperTick;
+  const isPairToggled = false;
+  // Calculate createdAt
+  const createdAt = Number(p.transaction.timestamp) * 1000;
+  // Calculate liquidity
+  // const network = getCurrentNetwork();
+  const chainId = SUPPORTED_CHAINS[5];
+  const tokenA = new V3Token(
+    chainId,
+    p.token0?.id || '',
+    Number(p.token0?.decimals),
+  );
+  const tokenB = new V3Token(
+    chainId,
+    p.token1?.id || '',
+    Number(p.token1?.decimals),
+  );
+  // const poolDetails = (await getPoolDetailsByIds([p.pool.id]))[0]!;
+  const v3Pool = new V3Pool(
+    tokenA,
+    tokenB,
+    Number(p.pool.feeTier),
+    p.pool.sqrtPrice,
+    p.pool.liquidity,
+    Number(p.pool.tick),
+  );
+  const position = new V3Position({
+    pool: v3Pool,
+    liquidity: p.liquidity,
+    tickLower: lowerTick,
+    tickUpper: upperTick,
+  });
+  const amount0 = Number(position.amount0.toSignificant(4));
+  const amount1 = Number(position.amount1.toSignificant(4));
+  const token0Amount = isPairToggled ? amount1 : amount0;
+  const token1Amount = isPairToggled ? amount0 : amount1;
+  const liquidity =
+    token0Amount * Number(p.pool.token0Price) +
+    token1Amount * Number(p.pool.token1Price);
+  // Calculate earning fee
+  const claimedFee0 = isPairToggled
+    ? Number(p.collectedFeesToken1)
+    : Number(p.collectedFeesToken0);
+  const claimedFee1 = isPairToggled
+    ? Number(p.collectedFeesToken0)
+    : Number(p.collectedFeesToken1);
+
+  return {
+    key: p.id,
+    positionId: p.id,
+    token0: p.token0,
+    token1: p.token1,
+    liquidity,
+    priceRange: {
+      lower: lowerPrice,
+      upper: upperPrice,
+    },
+    createdAt,
+
+    token0Amount,
+    token1Amount,
+    claimedFee0: Number(claimedFee0).toFixed(6),
+    claimedFee1: Number(claimedFee1).toFixed(2),
+  };
 };
