@@ -8,12 +8,6 @@ bn.config({ EXPONENTIAL_AT: 999999, DECIMAL_PLACES: 40 });
 
 const Q96 = new bn(2).pow(96);
 
-// const poolAddress = Pool.getAddress(
-//   poolConfig.pool.token0,
-//   poolConfig.pool.token1,
-//   poolConfig.pool.fee,
-// );
-
 export interface Position {
   id: string;
   tickLower: {
@@ -216,6 +210,7 @@ export const getPoolDetailsByIds = async (
 
 export const getPoolPositionsByIds = async (
   poolIds: string[],
+
   page?: number,
 ): Promise<Position[]> => {
   try {
