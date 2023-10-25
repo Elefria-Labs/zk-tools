@@ -3,12 +3,12 @@ export const twitterLink = 'https://twitter.com/zk_block';
 
 export const Links = {
   home: '/',
-  tools: '/',
   boilerplate: 'https://boilerplate.zkblock.app/',
   blog: 'https://blog.zkblock.app/',
   zkChains: 'zk-networks',
   contribute: 'contribute',
   playgrounds: 'playgrounds',
+  zkTools: 'zk-tools',
   eip712: 'eip712',
   erc191: 'erc191',
   txDecoder: 'txdecoder',
@@ -19,6 +19,8 @@ export const Links = {
   merkleTreeGenerator: 'merkletree-generator',
   about: 'about',
   subscribe: 'subscribe',
+  eipGpt: 'https://gpt.zkblock.app/',
+  evm: 'https://evm.zkblock.app/',
 };
 
 export const repoLink = 'https://github.com/heypran/zk-block';

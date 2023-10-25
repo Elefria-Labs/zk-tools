@@ -15,6 +15,7 @@ import { ethers } from 'ethers';
 import { splitSignature, verifyMessage } from 'ethers/lib/utils';
 import { CheckCircleIcon, LockIcon, CloseIcon } from '@chakra-ui/icons';
 import { SignatureLike } from '@ethersproject/bytes';
+import { toastOptions } from '@components/common/toast';
 
 type PersonalSignComponentPropsType = {
   provider?: ethers.providers.Web3Provider;
@@ -38,11 +39,8 @@ export function PersonalSignComponent(props: PersonalSignComponentPropsType) {
   const signPersonalMessageUsingEthers = async () => {
     if (provider == null) {
       toast({
+        ...toastOptions,
         title: 'Please connect wallet.',
-        status: 'error',
-        position: 'top',
-        duration: 4000,
-        isClosable: true,
       });
       return;
     }

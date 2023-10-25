@@ -52,7 +52,8 @@ function DesktopMenuLinks() {
       color="gray.50"
       fontSize="15px"
     >
-      <MenuLink text={'Tools'} link={Links.tools} />
+      <MenuLink text={'Home'} link={Links.home} />
+      <MenuLink text={'Tools'} link={Links.zkTools} />
       <MenuLink text={'Boilerplate'} link={Links.boilerplate} newTab />
       <MenuLink text={'Learn'} link={Links.blog} />
       <MenuLink text={'Zk Chains'} link={Links.zkChains} />
@@ -72,6 +73,9 @@ function DesktopMenuLinks() {
             <MenuList color="black">
               <MenuItem>
                 <MenuLink text={'View all'} link={Links.playgrounds} />
+              </MenuItem>
+              <MenuItem>
+                <MenuLink text={'EVM Visualizer'} link={Links.evm} />
               </MenuItem>
               <MenuItem>
                 <MenuLink text={'EIP-712'} link={Links.eip712} />
@@ -166,7 +170,8 @@ function MobileMenuLinks() {
           spacing="12px"
           zIndex={999}
         >
-          <Link href={Links.tools}>Tools</Link>
+          <Link href={Links.home}>Home</Link>
+          <Link href={Links.zkTools}>Tools</Link>
           <Link href={Links.boilerplate}>Boilerplate</Link>
           <Link href={Links.blog} target="_blank">
             Learn

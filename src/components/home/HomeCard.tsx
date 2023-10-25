@@ -11,18 +11,24 @@ import {
   Flex,
 } from '@chakra-ui/react';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
-import { GithubIcon } from './icon/github';
-import { ToolsType } from '@types';
 
-export function ToolCard(props: ToolsType) {
+export type HomeCardPropsType = {
+  title: string;
+  description?: string;
+  link?: string;
+  category?: string;
+  tags?: string;
+};
+
+export function HomeCard(props: HomeCardPropsType) {
   return (
     <Center>
       <Box
-        maxW={'445px'}
-        minW={'320px'}
-        height={'300px'}
+        maxW={'280px'}
+        minW={'280px'}
+        height={'280px'}
         bg={useColorModeValue('white', 'gray.900')}
-        boxShadow={'2xl'}
+        boxShadow={'xl'}
         rounded={'md'}
         p={6}
         overflow={'hidden'}
@@ -35,10 +41,10 @@ export function ToolCard(props: ToolsType) {
           <Stack>
             <Heading
               color={useColorModeValue('gray.700', 'white')}
-              fontSize={'2xl'}
+              fontSize={'xl'}
               fontFamily={'body'}
             >
-              {props.name}
+              {props.title}
             </Heading>
             <Divider mt={4} mb={8} />
             <Text
@@ -55,27 +61,11 @@ export function ToolCard(props: ToolsType) {
           <Box mt={2}>
             <Divider my={4} />
             <Stack direction={'row'} spacing={2} fontSize={'sm'}>
-              {!!props.github && (
-                <Link
-                  isExternal
-                  aria-label="Go to GitHub page"
-                  href={props.github}
-                >
-                  <Icon
-                    as={GithubIcon}
-                    display="block"
-                    transition="color 0.2s"
-                    w="5"
-                    h="5"
-                    _hover={{ color: 'gray.600' }}
-                  />
-                </Link>
-              )}
-              {!!props.website && (
+              {!!props.link && (
                 <Link
                   isExternal
                   aria-label="Go to Website page"
-                  href={props.website}
+                  href={props.link}
                 >
                   <Icon
                     as={ExternalLinkIcon}
