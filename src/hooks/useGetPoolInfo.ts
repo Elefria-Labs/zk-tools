@@ -12,10 +12,6 @@ interface PositionInfo {
   tokensOwed1: JSBI;
 }
 
-const address = '0x834e46b5d28774C0AfeE6b2D96c15F55902B0117';
-const test =
-  'https://polygon-mainnet.infura.io/v3/6a22e5ded7f24c9e8998ae1205d4e663';
-
 export const useGetPoolInfo = (): {
   poolInfo: PositionInfo[];
   positionData: Position[][];
