@@ -311,15 +311,6 @@ export const fetchPoolInfo = async (
 
     const positionIds = await Promise.all(calls);
     positions = await getPoolPositionsByIds(positionIds);
-    // for (let id of positionIds) {
-    //   positions.push(await getPoolPositionsById(id));
-    //   // positionCalls.push(nfpmContract.positions(id));
-    // }
-
-    // const callResponses = await Promise.all(positionCalls);
-    // const positionInfos = callResponses.map((position) => {
-
-    // setPoolInfo(positionInfos);
   } catch (error) {
     console.error('Error fetching positions:', error);
   }
