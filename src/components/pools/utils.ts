@@ -1,12 +1,23 @@
-import { SUPPORTED_CHAINS } from '@uniswap/sdk-core';
+import {
+  NONFUNGIBLE_POSITION_MANAGER_ADDRESSES,
+  SUPPORTED_CHAINS,
+} from '@uniswap/sdk-core';
 import { Position as V3Position, Pool as V3Pool } from '@uniswap/v3-sdk';
 import { Token as V3Token } from '@uniswap/sdk-core';
+import INONFUNGIBLE_POSITION_MANAGER from '@uniswap/v3-periphery/artifacts/contracts/NonfungiblePositionManager.sol/NonfungiblePositionManager.json';
 import axios from 'axios';
 import bn from 'bignumber.js';
+import { ethers } from 'ethers';
 
 bn.config({ EXPONENTIAL_AT: 999999, DECIMAL_PLACES: 40 });
 
 const Q96 = new bn(2).pow(96);
+
+// const poolAddress = Pool.getAddress(
+//   poolConfig.pool.token0,
+//   poolConfig.pool.token1,
+//   poolConfig.pool.fee,
+// );
 
 export interface Position {
   id: string;
@@ -210,7 +221,7 @@ export const getPoolDetailsByIds = async (
 
 export const getPoolPositionsByIds = async (
   poolIds: string[],
-
+  poolAddress?: string,
   page?: number,
 ): Promise<Position[]> => {
   try {
@@ -277,6 +288,42 @@ export const getPoolPositionsByIds = async (
   } catch (e) {
     return [];
   }
+};
+
+export const fetchPoolInfo = async (
+  address: string,
+  provider: ethers.providers.Web3Provider,
+): Promise<Position[]> => {
+  const nfpmContract = new ethers.Contract(
+    NONFUNGIBLE_POSITION_MANAGER_ADDRESSES[SUPPORTED_CHAINS[5]]!,
+    INONFUNGIBLE_POSITION_MANAGER.abi,
+    provider,
+  );
+  let positions;
+  try {
+    const numPositions = await nfpmContract.balanceOf(address);
+
+    const calls = [];
+
+    for (let i = 0; i < numPositions; i++) {
+      calls.push(nfpmContract.tokenOfOwnerByIndex(address, i));
+    }
+
+    const positionIds = await Promise.all(calls);
+    positions = await getPoolPositionsByIds(positionIds);
+    // for (let id of positionIds) {
+    //   positions.push(await getPoolPositionsById(id));
+    //   // positionCalls.push(nfpmContract.positions(id));
+    // }
+
+    // const callResponses = await Promise.all(positionCalls);
+    // const positionInfos = callResponses.map((position) => {
+
+    // setPoolInfo(positionInfos);
+  } catch (error) {
+    console.error('Error fetching positions:', error);
+  }
+  return positions ?? [];
 };
 
 export const calculatePositionBasedData = async (p: Position) => {
