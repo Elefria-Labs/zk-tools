@@ -221,7 +221,6 @@ export const getPoolDetailsByIds = async (
 
 export const getPoolPositionsByIds = async (
   poolIds: string[],
-  poolAddress?: string,
   page?: number,
 ): Promise<Position[]> => {
   try {

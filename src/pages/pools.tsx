@@ -24,7 +24,7 @@ import {
 
 export default function Eip712() {
   const { connectWallet, disconnect, account, provider } = useWalletConnect();
-  const [addressesInput, setAddressesInput] = useState('');
+  // const [addressesInput, setAddressesInput] = useState('');
   const [poolsInfo, setPoolsInfo] = useState<any[]>([]);
 
   const handleSubmit = async () => {
@@ -79,9 +79,9 @@ export default function Eip712() {
             w={520}
             color="black"
             borderColor="black"
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-              setAddressesInput(event.target.value);
-            }}
+            // onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+            //   setAddressesInput(event.target.value);
+            // }}
           />
           <Button
             colorScheme="teal"
