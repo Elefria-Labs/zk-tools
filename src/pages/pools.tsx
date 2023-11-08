@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Button,
   Container,
@@ -12,6 +12,7 @@ import {
   Th,
   Thead,
   Tr,
+  useToast,
 } from '@chakra-ui/react';
 import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
@@ -21,22 +22,42 @@ import {
   calculatePositionBasedData,
   fetchPoolInfo,
 } from '@components/pools/utils';
+import { ethers } from 'ethers';
+import { toastOptions } from '@components/common/toast';
 
 export default function Eip712() {
-  const { connectWallet, disconnect, account, provider } = useWalletConnect();
-  // const [addressesInput, setAddressesInput] = useState('');
+  const { connectWallet, disconnect, account, provider, chainId } =
+    useWalletConnect();
+  const [addressesInput, setAddressesInput] = useState('');
   const [poolsInfo, setPoolsInfo] = useState<any[]>([]);
+  const toast = useToast();
 
-  const handleSubmit = async () => {
-    if (account == null || provider == null) {
+  useEffect(() => {
+    if (account == null) {
       return;
     }
-    const pools = await fetchPoolInfo(account, provider);
+    setAddressesInput(account);
+  }, [account]);
+
+  const handleSubmit = async () => {
+    if (addressesInput == null || provider == null || chainId == null) {
+      return;
+    }
+    if (!ethers.utils.isAddress(addressesInput)) {
+      return;
+    }
+    const pools = await fetchPoolInfo(addressesInput, provider);
+    if (pools.length == 0) {
+      toast({
+        ...toastOptions,
+        title: 'No pools found for the connected address.',
+      });
+      return;
+    }
     const poolsInfo = await Promise.all(
-      pools.map((p) => calculatePositionBasedData(p)),
+      pools.map((p) => calculatePositionBasedData(p, chainId)),
     );
     setPoolsInfo(poolsInfo);
-    console.log('pools', pools);
   };
   return (
     <Main
@@ -73,22 +94,21 @@ export default function Eip712() {
         <Flex mt={4}>
           <Input
             placeholder="connect your wallet"
-            value={account}
-            disabled
+            value={addressesInput}
             size="md"
             w={520}
             color="black"
             borderColor="black"
-            // onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            //   setAddressesInput(event.target.value);
-            // }}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+              setAddressesInput(event.target.value);
+            }}
           />
           <Button
             colorScheme="teal"
             ml={3}
             onClick={handleSubmit}
             isLoading={false}
-            disabled={!account}
+            disabled={!ethers.utils.isAddress(addressesInput)}
             loadingText="Submitting"
           >
             Get Pools

@@ -1,7 +1,4 @@
-import {
-  NONFUNGIBLE_POSITION_MANAGER_ADDRESSES,
-  SUPPORTED_CHAINS,
-} from '@uniswap/sdk-core';
+import { NONFUNGIBLE_POSITION_MANAGER_ADDRESSES } from '@uniswap/sdk-core';
 import { Position as V3Position, Pool as V3Pool } from '@uniswap/v3-sdk';
 import { Token as V3Token } from '@uniswap/sdk-core';
 import INONFUNGIBLE_POSITION_MANAGER from '@uniswap/v3-periphery/artifacts/contracts/NonfungiblePositionManager.sol/NonfungiblePositionManager.json';
@@ -293,15 +290,15 @@ export const fetchPoolInfo = async (
   address: string,
   provider: ethers.providers.Web3Provider,
 ): Promise<Position[]> => {
+  const chainId = (await provider.getNetwork()).chainId;
   const nfpmContract = new ethers.Contract(
-    NONFUNGIBLE_POSITION_MANAGER_ADDRESSES[SUPPORTED_CHAINS[5]]!,
+    NONFUNGIBLE_POSITION_MANAGER_ADDRESSES[chainId]!,
     INONFUNGIBLE_POSITION_MANAGER.abi,
     provider,
   );
   let positions;
   try {
     const numPositions = await nfpmContract.balanceOf(address);
-
     const calls = [];
 
     for (let i = 0; i < numPositions; i++) {
@@ -316,7 +313,10 @@ export const fetchPoolInfo = async (
   return positions ?? [];
 };
 
-export const calculatePositionBasedData = async (p: Position) => {
+export const calculatePositionBasedData = async (
+  p: Position,
+  chainId: number,
+) => {
   const lowerTick = Number(p.tickLower.tickIdx);
   const upperTick = Number(p.tickUpper.tickIdx);
 
@@ -336,8 +336,6 @@ export const calculatePositionBasedData = async (p: Position) => {
   // Calculate createdAt
   const createdAt = Number(p.transaction.timestamp) * 1000;
   // Calculate liquidity
-  // const network = getCurrentNetwork();
-  const chainId = SUPPORTED_CHAINS[5];
   const tokenA = new V3Token(
     chainId,
     p.token0?.id || '',
