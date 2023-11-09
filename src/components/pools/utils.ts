@@ -7,7 +7,13 @@ import bn from 'bignumber.js';
 import { ethers } from 'ethers';
 
 bn.config({ EXPONENTIAL_AT: 999999, DECIMAL_PLACES: 40 });
-
+const uriChainIdMap: Record<number, string> = {
+  1: 'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v3',
+  137: 'https://api.thegraph.com/subgraphs/name/ianlapham/uniswap-v3-polygon',
+  42161: 'https://api.thegraph.com/subgraphs/name/messari/uniswap-v3-arbitrum',
+  8453: 'https://api.thegraph.com/subgraphs/name/messari/uniswap-v3-base',
+  10: 'https://api.thegraph.com/subgraphs/name/messari/uniswap-v3-optimism',
+};
 const Q96 = new bn(2).pow(96);
 
 // const poolAddress = Pool.getAddress(
@@ -103,9 +109,10 @@ export const getPriceFromTick = (
   return price.toNumber();
 };
 
-const queryUniswap = async (query: string): Promise<any> => {
+const queryUniswap = async (query: string, chainId: number): Promise<any> => {
+  const url = uriChainIdMap[chainId];
   const { data } = await axios({
-    url: 'https://api.thegraph.com/subgraphs/name/ianlapham/uniswap-v3-polygon',
+    url,
     method: 'post',
     data: {
       query,
@@ -123,10 +130,12 @@ const queryUniswap = async (query: string): Promise<any> => {
 
 const getPoolPositionsByPage = async (
   poolAddress: string,
+  chainId: number,
   page: number,
 ): Promise<Position[]> => {
   try {
-    const res = await queryUniswap(`{
+    const res = await queryUniswap(
+      `{
     positions(where: {
       pool: "${poolAddress}",
       liquidity_gt: 0,
@@ -153,7 +162,9 @@ const getPoolPositionsByPage = async (
         timestamp
       }
     }
-  }`);
+  }`,
+      chainId,
+    );
 
     return res.positions;
   } catch (e) {
@@ -161,34 +172,36 @@ const getPoolPositionsByPage = async (
   }
 };
 
-export const getPoolPositions = async (
-  poolAddress: string,
-): Promise<Position[]> => {
-  const PAGE_SIZE = 3;
-  let result: Position[] = [];
-  let page = 0;
-  while (true) {
-    const [p1, p2, p3] = await Promise.all([
-      getPoolPositionsByPage(poolAddress, page),
-      getPoolPositionsByPage(poolAddress, page + 1),
-      getPoolPositionsByPage(poolAddress, page + 2),
-    ]);
+// export const getPoolPositions = async (
+//   poolAddress: string,
+// ): Promise<Position[]> => {
+//   const PAGE_SIZE = 3;
+//   let result: Position[] = [];
+//   let page = 0;
+//   while (true) {
+//     const [p1, p2, p3] = await Promise.all([
+//       getPoolPositionsByPage(poolAddress, page),
+//       getPoolPositionsByPage(poolAddress, page + 1),
+//       getPoolPositionsByPage(poolAddress, page + 2),
+//     ]);
 
-    result = [...result, ...p1, ...p2, ...p3];
-    if (p1.length === 0 || p2.length === 0 || p3.length === 0) {
-      break;
-    }
-    page += PAGE_SIZE;
-  }
-  return result;
-};
+//     result = [...result, ...p1, ...p2, ...p3];
+//     if (p1.length === 0 || p2.length === 0 || p3.length === 0) {
+//       break;
+//     }
+//     page += PAGE_SIZE;
+//   }
+//   return result;
+// };
 
 export const getPoolDetailsByIds = async (
   poolIds: string[],
+  chainId: number,
 ): Promise<Pool[]> => {
   try {
     // pool: "${poolAddress}",
-    const res = await queryUniswap(`{
+    const res = await queryUniswap(
+      `{
       pool(where:{
         id_in: [${poolIds}]
       }) {
@@ -208,7 +221,9 @@ export const getPoolDetailsByIds = async (
         feeGrowthGlobal0X128
         feeGrowthGlobal1X128
       }
-  }`);
+  }`,
+      chainId,
+    );
 
     return res.positions;
   } catch (e) {
@@ -218,11 +233,13 @@ export const getPoolDetailsByIds = async (
 
 export const getPoolPositionsByIds = async (
   poolIds: string[],
+  chainId: number,
   page?: number,
 ): Promise<Position[]> => {
   try {
     // pool: "${poolAddress}",
-    const res = await queryUniswap(`{
+    const res = await queryUniswap(
+      `{
     positions(where: {
       liquidity_gt: 0,
       id_in: [${poolIds}],
@@ -278,7 +295,9 @@ export const getPoolPositionsByIds = async (
         timestamp
       }
     }
-  }`);
+  }`,
+      chainId,
+    );
 
     return res.positions;
   } catch (e) {
@@ -306,7 +325,7 @@ export const fetchPoolInfo = async (
     }
 
     const positionIds = await Promise.all(calls);
-    positions = await getPoolPositionsByIds(positionIds);
+    positions = await getPoolPositionsByIds(positionIds, chainId);
   } catch (error) {
     console.error('Error fetching positions:', error);
   }
