@@ -128,49 +128,49 @@ const queryUniswap = async (query: string, chainId: number): Promise<any> => {
   return data.data;
 };
 
-const getPoolPositionsByPage = async (
-  poolAddress: string,
-  chainId: number,
-  page: number,
-): Promise<Position[]> => {
-  try {
-    const res = await queryUniswap(
-      `{
-    positions(where: {
-      pool: "${poolAddress}",
-      liquidity_gt: 0,
-    }, first: 1000, skip: ${page * 1000}) {
-      id
-      tickLower {
-        tickIdx
-        feeGrowthOutside0X128
-        feeGrowthOutside1X128
-      }
-      tickUpper {
-        tickIdx
-        feeGrowthOutside0X128
-        feeGrowthOutside1X128
-      }
-      depositedToken0
-      depositedToken1
-      liquidity
-      collectedFeesToken0
-      collectedFeesToken1
-      feeGrowthInside0LastX128
-      feeGrowthInside1LastX128
-      transaction {
-        timestamp
-      }
-    }
-  }`,
-      chainId,
-    );
+// const getPoolPositionsByPage = async (
+//   poolAddress: string,
+//   chainId: number,
+//   page: number,
+// ): Promise<Position[]> => {
+//   try {
+//     const res = await queryUniswap(
+//       `{
+//     positions(where: {
+//       pool: "${poolAddress}",
+//       liquidity_gt: 0,
+//     }, first: 1000, skip: ${page * 1000}) {
+//       id
+//       tickLower {
+//         tickIdx
+//         feeGrowthOutside0X128
+//         feeGrowthOutside1X128
+//       }
+//       tickUpper {
+//         tickIdx
+//         feeGrowthOutside0X128
+//         feeGrowthOutside1X128
+//       }
+//       depositedToken0
+//       depositedToken1
+//       liquidity
+//       collectedFeesToken0
+//       collectedFeesToken1
+//       feeGrowthInside0LastX128
+//       feeGrowthInside1LastX128
+//       transaction {
+//         timestamp
+//       }
+//     }
+//   }`,
+//       chainId,
+//     );
 
-    return res.positions;
-  } catch (e) {
-    return [];
-  }
-};
+//     return res.positions;
+//   } catch (e) {
+//     return [];
+//   }
+// };
 
 // export const getPoolPositions = async (
 //   poolAddress: string,
