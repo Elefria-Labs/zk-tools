@@ -31,7 +31,7 @@ import ArbitrumIcon from '@components/icon/arbitrum';
 import BaseIcon from '@components/icon/base';
 import OptimismIcon from '@components/icon/optimism';
 
-export default function Eip712() {
+export default function Pools() {
   const { connectWallet, disconnect, account, provider, chainId } =
     useWalletConnect();
   const [addressesInput, setAddressesInput] = useState('');
