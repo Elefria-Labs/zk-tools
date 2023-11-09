@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { SVGProps } from 'react';
+
 const OptimismIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -7,9 +8,6 @@ const OptimismIcon = (props: SVGProps<SVGSVGElement>) => (
     id="Layer_1"
     x={0}
     y={0}
-    style={{
-      enableBackground: 'new 0 0 500 500',
-    }}
     viewBox="0 0 500 500"
     {...props}
   >
