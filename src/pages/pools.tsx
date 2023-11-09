@@ -4,6 +4,7 @@ import {
   Container,
   Flex,
   Heading,
+  Icon,
   Input,
   Table,
   Tbody,
@@ -24,6 +25,11 @@ import {
 } from '@components/pools/utils';
 import { ethers } from 'ethers';
 import { toastOptions } from '@components/common/toast';
+import PolygonIcon from '@components/icon/polygon';
+import EthereumIcon from '@components/icon/ethereum';
+import ArbitrumIcon from '@components/icon/arbitrum';
+import BaseIcon from '@components/icon/base';
+import OptimismIcon from '@components/icon/optimism';
 
 export default function Eip712() {
   const { connectWallet, disconnect, account, provider, chainId } =
@@ -63,8 +69,8 @@ export default function Eip712() {
     <Main
       meta={
         <Meta
-          title="EIP 712 Signing | Zk block"
-          description="Sign typed data using EIP-712"
+          title="Uniswap V3 Pools | Zk block"
+          description="View all the uniswap v3 pools by address"
         />
       }
     >
@@ -80,7 +86,50 @@ export default function Eip712() {
           Pool Info
         </Heading>
         <Text>* currently only support Uniswap V3, connect your wallet!</Text>
-        <Flex justifyContent="end">
+        <Flex justifyContent="space-between" alignItems="center">
+          <Flex>
+            <Icon
+              as={EthereumIcon}
+              display="block"
+              cursor="pointer"
+              color="black"
+              w="6"
+              h="6"
+              mr={4}
+            />
+            <Icon
+              as={PolygonIcon}
+              display="block"
+              cursor="pointer"
+              w="6"
+              h="6"
+              mr={4}
+            />
+            <Icon
+              as={ArbitrumIcon}
+              display="block"
+              cursor="pointer"
+              w="6"
+              h="6"
+              mr={4}
+            />
+            <Icon
+              as={OptimismIcon}
+              display="block"
+              cursor="pointer"
+              w="6"
+              h="6"
+              mr={4}
+            />
+            <Icon
+              as={BaseIcon}
+              display="block"
+              cursor="pointer"
+              w="6"
+              h="6"
+              mr={4}
+            />
+          </Flex>
           {!account ? (
             <Button variant="solid" size="md" onClick={connectWallet}>
               Connect Wallet
