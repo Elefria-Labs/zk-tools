@@ -27,8 +27,6 @@ import { ethers } from 'ethers';
 import { toastOptions } from '@components/common/toast';
 import PolygonIcon from '@components/icon/polygon';
 import EthereumIcon from '@components/icon/ethereum';
-import ArbitrumIcon from '@components/icon/arbitrum';
-import BaseIcon from '@components/icon/base';
 import OptimismIcon from '@components/icon/optimism';
 
 export default function Pools() {
@@ -88,24 +86,19 @@ export default function Pools() {
         <Text>* currently only support Uniswap V3, connect your wallet!</Text>
         <Flex justifyContent="space-between" alignItems="center">
           <Flex>
-            <Icon
-              as={EthereumIcon}
-              display="block"
-              cursor="pointer"
-              color="black"
-              w="6"
-              h="6"
-              mr={4}
-            />
-            <Icon
-              as={PolygonIcon}
-              display="block"
-              cursor="pointer"
-              w="6"
-              h="6"
-              mr={4}
-            />
-            <Icon
+            {[EthereumIcon, PolygonIcon, OptimismIcon].map((icon, i) => (
+              <Icon
+                key={i}
+                as={icon}
+                display="block"
+                cursor="pointer"
+                color="black"
+                w="6"
+                h="6"
+                mr={4}
+              />
+            ))}
+            {/* <Icon
               as={ArbitrumIcon}
               display="block"
               cursor="pointer"
@@ -113,22 +106,15 @@ export default function Pools() {
               h="6"
               mr={4}
             />
-            <Icon
-              as={OptimismIcon}
-              display="block"
-              cursor="pointer"
-              w="6"
-              h="6"
-              mr={4}
-            />
+           
             <Icon
               as={BaseIcon}
               display="block"
               cursor="pointer"
               w="6"
-              h="6"
+              h="6"f
               mr={4}
-            />
+            /> */}
           </Flex>
           {!account ? (
             <Button variant="solid" size="md" onClick={connectWallet}>
