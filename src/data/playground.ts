@@ -27,6 +27,13 @@ export const playgroundToolsList: Item[] = [
     link: Links.erc191,
   },
   {
+    title: 'Uniswap V3 (beta)',
+    description:
+      'Get all V3 positions by address. Supported on Ethereum, Polygon, Optimism & BSC',
+    link: Links.evm,
+    isBeta: true,
+  },
+  {
     title: 'Transaction Decoder',
     description:
       'Analyze and decode EVM transactions aiding in transaction analysis and debugging.',

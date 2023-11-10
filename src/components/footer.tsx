@@ -21,6 +21,13 @@ function NavigationLinks() {
         fontWeight={600}
         spacing="30px"
       >
+        <Link
+          _hover={{ color: 'black' }}
+          href={Links.playgrounds}
+          target="_blank"
+        >
+          Playgrounds
+        </Link>
         <Link _hover={{ color: 'black' }} href={Links.zkTools}>
           Tools
         </Link>
