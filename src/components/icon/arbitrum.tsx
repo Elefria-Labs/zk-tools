@@ -7,9 +7,6 @@ const ArbitrumIcon = (props: SVGProps<SVGSVGElement>) => (
     id="Layer_1"
     x={0}
     y={0}
-    style={{
-      enableBackground: 'new 0 0 2500 2500',
-    }}
     viewBox="0 0 2500 2500"
     {...props}
   >

@@ -22,10 +22,7 @@ import { playgroundToolsList } from '@data/playground';
 import { HomeCard } from '@components/home/HomeCard';
 
 const Index = () => {
-  const [selectedTools, setSelectedTools] = useState<string[]>([
-    'snarks',
-    'circom',
-  ]);
+  const [selectedTools] = useState<string[]>(['snarks', 'circom']);
   const [matchingTools, setMatchingTools] = useState<ToolsType[] | undefined>();
   useEffect(() => {
     setMatchingTools(

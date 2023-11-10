@@ -10,9 +10,9 @@ bn.config({ EXPONENTIAL_AT: 999999, DECIMAL_PLACES: 40 });
 const uriChainIdMap: Record<number, string> = {
   1: 'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v3',
   137: 'https://api.thegraph.com/subgraphs/name/ianlapham/uniswap-v3-polygon',
-  42161: 'https://api.thegraph.com/subgraphs/name/messari/uniswap-v3-arbitrum',
-  8453: 'https://api.thegraph.com/subgraphs/name/messari/uniswap-v3-base',
-  10: 'https://api.thegraph.com/subgraphs/name/messari/uniswap-v3-optimism',
+  42161: 'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v3-arbitrum',
+  8453: 'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v3-base',
+  10: 'https://api.thegraph.com/subgraphs/name/ianlapham/optimism-post-regenesis',
 };
 const Q96 = new bn(2).pow(96);
 
