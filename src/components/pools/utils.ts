@@ -13,6 +13,7 @@ const uriChainIdMap: Record<number, string> = {
   42161: 'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v3-arbitrum',
   8453: 'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v3-base',
   10: 'https://api.thegraph.com/subgraphs/name/ianlapham/optimism-post-regenesis',
+  57: 'https://api.thegraph.com/subgraphs/name/ianlapham/uniswap-v3-bsc',
 };
 const Q96 = new bn(2).pow(96);
 
