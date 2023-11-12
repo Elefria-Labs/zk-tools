@@ -28,6 +28,7 @@ import { toastOptions } from '@components/common/toast';
 import PolygonIcon from '@components/icon/polygon';
 import EthereumIcon from '@components/icon/ethereum';
 import OptimismIcon from '@components/icon/optimism';
+import BscIcon from '@components/icon/bsc';
 
 export default function Pools() {
   const { connectWallet, disconnect, account, provider, chainId } =
@@ -86,18 +87,20 @@ export default function Pools() {
         <Text>* currently only support Uniswap V3, connect your wallet!</Text>
         <Flex justifyContent="space-between" alignItems="center">
           <Flex>
-            {[EthereumIcon, PolygonIcon, OptimismIcon].map((icon, i) => (
-              <Icon
-                key={i}
-                as={icon}
-                display="block"
-                cursor="pointer"
-                color="black"
-                w="6"
-                h="6"
-                mr={4}
-              />
-            ))}
+            {[EthereumIcon, PolygonIcon, OptimismIcon, BscIcon].map(
+              (icon, i) => (
+                <Icon
+                  key={i}
+                  as={icon}
+                  display="block"
+                  cursor="pointer"
+                  color="black"
+                  w="6"
+                  h="6"
+                  mr={4}
+                />
+              ),
+            )}
             {/* <Icon
               as={ArbitrumIcon}
               display="block"
