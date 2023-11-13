@@ -11,6 +11,7 @@ export const Links = {
   zkTools: 'zk-tools',
   eip712: 'eip712',
   erc191: 'erc191',
+  pools: 'pools',
   txDecoder: 'txdecoder',
   gasConverter: 'gasconverter',
   byteconversion: 'byteconversion',
