@@ -1,4 +1,7 @@
-import { NONFUNGIBLE_POSITION_MANAGER_ADDRESSES } from '@uniswap/sdk-core';
+import {
+  NONFUNGIBLE_POSITION_MANAGER_ADDRESSES,
+  Token,
+} from '@uniswap/sdk-core';
 import { Position as V3Position, Pool as V3Pool } from '@uniswap/v3-sdk';
 import { Token as V3Token } from '@uniswap/sdk-core';
 import INONFUNGIBLE_POSITION_MANAGER from '@uniswap/v3-periphery/artifacts/contracts/NonfungiblePositionManager.sol/NonfungiblePositionManager.json';
@@ -6,6 +9,7 @@ import axios from 'axios';
 import bn from 'bignumber.js';
 import { ethers } from 'ethers';
 
+// Attribution: Uniswap fish
 bn.config({ EXPONENTIAL_AT: 999999, DECIMAL_PLACES: 40 });
 const uriChainIdMap: Record<number, string> = {
   1: 'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v3',
@@ -16,7 +20,8 @@ const uriChainIdMap: Record<number, string> = {
   57: 'https://api.thegraph.com/subgraphs/name/ianlapham/uniswap-v3-bsc',
 };
 const Q96 = new bn(2).pow(96);
-
+const Q128 = new bn(2).pow(128);
+const ZERO = new bn(0);
 // const poolAddress = Pool.getAddress(
 //   poolConfig.pool.token0,
 //   poolConfig.pool.token1,
@@ -87,6 +92,120 @@ const mulDiv = (a: bn, b: bn, multiplier: bn) => {
   return a.multipliedBy(b).div(multiplier);
 };
 
+// Ref: https://ethereum.stackexchange.com/a/144704
+export const calculatePositionFees = (
+  pool: Pool,
+  position: Position,
+  token0: Token | null,
+  token1: Token | null,
+) => {
+  const tickCurrent = Number(pool.tick);
+  const tickLower = Number(position.tickLower.tickIdx);
+  const tickUpper = Number(position.tickUpper.tickIdx);
+  const liquidity = new bn(position.liquidity);
+
+  // Check out the relevant formulas below which are from Uniswap Whitepaper Section 6.3 and 6.4
+  // 𝑓𝑟 =𝑓𝑔−𝑓𝑏(𝑖𝑙)−𝑓𝑎(𝑖𝑢)
+  // 𝑓𝑢 =𝑙·(𝑓𝑟(𝑡1)−𝑓𝑟(𝑡0))
+  // Global fee growth per liquidity '𝑓𝑔' for both token 0 and token 1
+  let feeGrowthGlobal_0 = new bn(pool.feeGrowthGlobal0X128);
+  let feeGrowthGlobal_1 = new bn(pool.feeGrowthGlobal1X128);
+
+  // Fee growth outside '𝑓𝑜' of our lower tick for both token 0 and token 1
+  let tickLowerFeeGrowthOutside_0 = new bn(
+    position.tickLower.feeGrowthOutside0X128,
+  );
+  let tickLowerFeeGrowthOutside_1 = new bn(
+    position.tickLower.feeGrowthOutside1X128,
+  );
+
+  // Fee growth outside '𝑓𝑜' of our upper tick for both token 0 and token 1
+  let tickUpperFeeGrowthOutside_0 = new bn(
+    position.tickUpper.feeGrowthOutside0X128,
+  );
+  let tickUpperFeeGrowthOutside_1 = new bn(
+    position.tickUpper.feeGrowthOutside1X128,
+  );
+
+  // These are '𝑓𝑏(𝑖𝑙)' and '𝑓𝑎(𝑖𝑢)' from the formula
+  // for both token 0 and token 1
+  let tickLowerFeeGrowthBelow_0 = ZERO;
+  let tickLowerFeeGrowthBelow_1 = ZERO;
+  let tickUpperFeeGrowthAbove_0 = ZERO;
+  let tickUpperFeeGrowthAbove_1 = ZERO;
+
+  // These are the calculations for '𝑓b(𝑖)' from the formula
+  // for both token 0 and token 1
+  if (tickCurrent >= tickLower) {
+    tickLowerFeeGrowthBelow_0 = tickLowerFeeGrowthOutside_0;
+    tickLowerFeeGrowthBelow_1 = tickLowerFeeGrowthOutside_1;
+  } else {
+    tickLowerFeeGrowthBelow_0 = feeGrowthGlobal_0.minus(
+      tickLowerFeeGrowthOutside_0,
+    );
+    tickLowerFeeGrowthBelow_1 = feeGrowthGlobal_1.minus(
+      tickLowerFeeGrowthOutside_1,
+    );
+  }
+
+  // These are the calculations for '𝑓𝑎(𝑖)' from the formula
+  // for both token 0 and token 1
+  if (tickCurrent < tickUpper) {
+    tickUpperFeeGrowthAbove_0 = tickUpperFeeGrowthOutside_0;
+    tickUpperFeeGrowthAbove_1 = tickUpperFeeGrowthOutside_1;
+  } else {
+    tickUpperFeeGrowthAbove_0 = feeGrowthGlobal_0.minus(
+      tickUpperFeeGrowthOutside_0,
+    );
+    tickUpperFeeGrowthAbove_1 = feeGrowthGlobal_1.minus(
+      tickUpperFeeGrowthOutside_1,
+    );
+  }
+
+  // Calculations for '𝑓𝑟(𝑡1)' part of the '𝑓𝑢 =𝑙·(𝑓𝑟(𝑡1)−𝑓𝑟(𝑡0))' formula
+  // for both token 0 and token 1
+  let fr_t1_0 = feeGrowthGlobal_0
+    .minus(tickLowerFeeGrowthBelow_0)
+    .minus(tickUpperFeeGrowthAbove_0);
+  let fr_t1_1 = feeGrowthGlobal_1
+    .minus(tickLowerFeeGrowthBelow_1)
+    .minus(tickUpperFeeGrowthAbove_1);
+
+  // '𝑓𝑟(𝑡0)' part of the '𝑓𝑢 =𝑙·(𝑓𝑟(𝑡1)−𝑓𝑟(𝑡0))' formula
+  // for both token 0 and token 1
+  let feeGrowthInsideLast_0 = new bn(position.feeGrowthInside0LastX128);
+  let feeGrowthInsideLast_1 = new bn(position.feeGrowthInside1LastX128);
+
+  // The final calculations for the '𝑓𝑢 =𝑙·(𝑓𝑟(𝑡1)−𝑓𝑟(𝑡0))' uncollected fees formula
+  // for both token 0 and token 1 since we now know everything that is needed to compute it
+  let uncollectedFees_0 = mulDiv(
+    liquidity,
+    fr_t1_0.minus(feeGrowthInsideLast_0),
+    Q128,
+  );
+  let uncollectedFees_1 = mulDiv(
+    liquidity,
+    fr_t1_1.minus(feeGrowthInsideLast_1),
+    Q128,
+  );
+
+  // Decimal adjustment to get final results
+  let uncollectedFeesAdjusted_0 = uncollectedFees_0.div(
+    expandDecimals(1, Number(token0?.decimals || 18)).toFixed(
+      Number(token0?.decimals || 18),
+    ),
+  );
+  let uncollectedFeesAdjusted_1 = uncollectedFees_1.div(
+    expandDecimals(1, Number(token1?.decimals || 18)).toFixed(
+      Number(token1?.decimals || 18),
+    ),
+  );
+
+  return [
+    uncollectedFeesAdjusted_0.toNumber(),
+    uncollectedFeesAdjusted_1.toNumber(),
+  ];
+};
 export const getPriceFromTick = (
   tick: number,
   token0Decimal: string,
@@ -332,11 +451,26 @@ export const fetchPoolInfo = async (
   }
   return positions ?? [];
 };
+type CalculatePositionBasedDataType = {
+  key: string;
+  positionId: string;
+  token0: Position['token0'];
+  token1: Position['token0'];
+  liquidity: number;
+  priceRange: any;
+  createdAt: number;
+  token0Amount: number;
+  token1Amount: number;
+  claimedFee0: number;
+  claimedFee1: number;
+  unclaimedFees0?: number;
+  unclaimedFees1?: number;
+};
 
 export const calculatePositionBasedData = async (
   p: Position,
   chainId: number,
-) => {
+): Promise<CalculatePositionBasedDataType> => {
   const lowerTick = Number(p.tickLower.tickIdx);
   const upperTick = Number(p.tickUpper.tickIdx);
 
@@ -395,6 +529,11 @@ export const calculatePositionBasedData = async (
   const claimedFee1 = isPairToggled
     ? Number(p.collectedFeesToken0)
     : Number(p.collectedFeesToken1);
+  const unclaimedFees = await calculatePositionFees(p.pool, p, tokenA, tokenB);
+  console.log('unclaimed', unclaimedFees);
+  const unclaimedFees0 = isPairToggled ? unclaimedFees[1] : unclaimedFees[0];
+
+  const unclaimedFees1 = isPairToggled ? unclaimedFees[0] : unclaimedFees[1];
 
   return {
     key: p.id,
@@ -407,10 +546,57 @@ export const calculatePositionBasedData = async (
       upper: upperPrice,
     },
     createdAt,
-
     token0Amount,
     token1Amount,
-    claimedFee0: Number(claimedFee0).toFixed(6),
-    claimedFee1: Number(claimedFee1).toFixed(2),
+    claimedFee0: claimedFee0,
+    claimedFee1: claimedFee1,
+    unclaimedFees0,
+    unclaimedFees1,
   };
 };
+type ConsolidateGainsType = {
+  claimed: Record<string, number>;
+  unclaimed: Record<string, number>;
+};
+export function consolidateGains(
+  positionData: CalculatePositionBasedDataType[],
+): ConsolidateGainsType {
+  const gains: ConsolidateGainsType = positionData.reduce<ConsolidateGainsType>(
+    (prev, curr) => {
+      const {
+        token0,
+        token1,
+        claimedFee0,
+        claimedFee1,
+        unclaimedFees0,
+        unclaimedFees1,
+      } = curr;
+
+      if (prev.claimed[token0.symbol] != null) {
+        prev.claimed[token0.symbol] += claimedFee0;
+      } else {
+        prev.claimed[token0.symbol] = claimedFee0;
+      }
+      if (prev.claimed[token1.symbol] != null) {
+        prev.claimed[token1.symbol] += claimedFee1;
+      } else {
+        prev.claimed[token1.symbol] = claimedFee1;
+      }
+
+      if (prev.unclaimed[token0.symbol] != null) {
+        prev.unclaimed[token0.symbol] += unclaimedFees0 ?? 0;
+      } else {
+        prev.unclaimed[token0.symbol] = unclaimedFees0;
+      }
+      if (prev.unclaimed[token1.symbol] != null) {
+        prev.unclaimed[token1.symbol] += unclaimedFees1 ?? 0;
+      } else {
+        prev.unclaimed[token1.symbol] = unclaimedFees1;
+      }
+      return prev;
+    },
+    { claimed: {}, unclaimed: {} },
+  );
+
+  return gains;
+}

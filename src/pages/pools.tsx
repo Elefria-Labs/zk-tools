@@ -21,6 +21,7 @@ import { useWalletConnect } from '@hooks/useWalletConnect';
 import { truncateAddress } from '@utils/wallet';
 import {
   calculatePositionBasedData,
+  consolidateGains,
   fetchPoolInfo,
 } from '@components/pools/utils';
 import { ethers } from 'ethers';
@@ -62,6 +63,8 @@ export default function Pools() {
     const poolsInfo = await Promise.all(
       pools.map((p) => calculatePositionBasedData(p, chainId)),
     );
+    const consolidatedGains = consolidateGains(poolsInfo);
+    console.log('consolidatedGains', consolidatedGains);
     setPoolsInfo(poolsInfo);
   };
   return (
@@ -161,6 +164,7 @@ export default function Pools() {
                 <Th>Pair</Th>
                 <Th>Position</Th>
                 <Th>Claimed Fee</Th>
+                <Th>Unclaimed Fees</Th>
               </Tr>
             </Thead>
             <Tbody>
@@ -173,6 +177,7 @@ export default function Pools() {
                   </Td>
                   <Td>{`${pI.token0Amount} ${pI.token0.symbol}/ ${pI.token1Amount} ${pI.token1.symbol}`}</Td>
                   <Td>{`${pI.claimedFee0} ${pI.token0.symbol} + ${pI.claimedFee1} ${pI.token1.symbol}`}</Td>
+                  <Td>{`${pI.unclaimedFees0} ${pI.token0.symbol} + ${pI.unclaimedFees1} ${pI.token1.symbol}`}</Td>
                 </Tr>
               ))}
             </Tbody>
