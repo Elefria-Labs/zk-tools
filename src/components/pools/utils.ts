@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import {
   NONFUNGIBLE_POSITION_MANAGER_ADDRESSES,
   Token,
@@ -424,7 +425,9 @@ export const getPoolPositionsByIds = async (
     return [];
   }
 };
-
+export function fixDecimals(value: number, n: number = 6): number {
+  return Number(Number(value).toFixed(n));
+}
 export const fetchPoolInfo = async (
   address: string,
   provider: ethers.providers.Web3Provider,
@@ -463,8 +466,8 @@ type CalculatePositionBasedDataType = {
   token1Amount: number;
   claimedFee0: number;
   claimedFee1: number;
-  unclaimedFees0?: number;
-  unclaimedFees1?: number;
+  unclaimedFees0: number;
+  unclaimedFees1: number;
 };
 
 export const calculatePositionBasedData = async (
@@ -531,9 +534,9 @@ export const calculatePositionBasedData = async (
     : Number(p.collectedFeesToken1);
   const unclaimedFees = await calculatePositionFees(p.pool, p, tokenA, tokenB);
   console.log('unclaimed', unclaimedFees);
-  const unclaimedFees0 = isPairToggled ? unclaimedFees[1] : unclaimedFees[0];
+  const unclaimedFees0 = isPairToggled ? unclaimedFees[1]! : unclaimedFees[0]!;
 
-  const unclaimedFees1 = isPairToggled ? unclaimedFees[0] : unclaimedFees[1];
+  const unclaimedFees1 = isPairToggled ? unclaimedFees[0]! : unclaimedFees[1]!;
 
   return {
     key: p.id,
@@ -546,15 +549,18 @@ export const calculatePositionBasedData = async (
       upper: upperPrice,
     },
     createdAt,
-    token0Amount,
-    token1Amount,
-    claimedFee0: claimedFee0,
-    claimedFee1: claimedFee1,
-    unclaimedFees0,
-    unclaimedFees1,
+    token0Amount: fixDecimals(token0Amount),
+    token1Amount: fixDecimals(token1Amount),
+    claimedFee0: fixDecimals(claimedFee0),
+    claimedFee1: fixDecimals(claimedFee1),
+    // TODO fix for smaller values
+    unclaimedFees0:
+      fixDecimals(unclaimedFees0) < 0 ? 0 : fixDecimals(unclaimedFees0),
+    unclaimedFees1:
+      fixDecimals(unclaimedFees1) < 0 ? 0 : fixDecimals(unclaimedFees1),
   };
 };
-type ConsolidateGainsType = {
+export type ConsolidateGainsType = {
   claimed: Record<string, number>;
   unclaimed: Record<string, number>;
 };

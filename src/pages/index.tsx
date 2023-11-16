@@ -98,9 +98,12 @@ const Index = () => {
                     .map((tool) => (
                       <HomeCard {...tool} key={tool.title} />
                     ))}
-                  {playgroundToolsList?.slice(3).map((tool) => (
-                    <HomeCard {...tool} key={tool.title} />
-                  ))}
+                  {playgroundToolsList
+                    ?.filter((tool) => !tool.isBeta)
+                    .slice(4)
+                    .map((tool) => (
+                      <HomeCard {...tool} key={tool.title} />
+                    ))}
                 </SimpleGrid>
               </Box>
               <Box py={['23px', '23px', '35px']}>

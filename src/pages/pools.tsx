@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import {
+  Box,
   Button,
   Container,
   Flex,
   Heading,
   Icon,
   Input,
+  Progress,
   Table,
   Tbody,
   Td,
@@ -20,6 +22,7 @@ import { Main } from '@templates/Main';
 import { useWalletConnect } from '@hooks/useWalletConnect';
 import { truncateAddress } from '@utils/wallet';
 import {
+  ConsolidateGainsType,
   calculatePositionBasedData,
   consolidateGains,
   fetchPoolInfo,
@@ -30,12 +33,15 @@ import PolygonIcon from '@components/icon/polygon';
 import EthereumIcon from '@components/icon/ethereum';
 import OptimismIcon from '@components/icon/optimism';
 import BscIcon from '@components/icon/bsc';
+import ConsolidatedGainsRow from '@components/pools/ConsolidatedGainsRow';
 
 export default function Pools() {
   const { connectWallet, disconnect, account, provider, chainId } =
     useWalletConnect();
   const [addressesInput, setAddressesInput] = useState('');
+  const [loading, setLoading] = useState<boolean>(false);
   const [poolsInfo, setPoolsInfo] = useState<any[]>([]);
+  const [gains, setGains] = useState<ConsolidateGainsType>();
   const toast = useToast();
 
   useEffect(() => {
@@ -52,6 +58,7 @@ export default function Pools() {
     if (!ethers.utils.isAddress(addressesInput)) {
       return;
     }
+    setLoading(true);
     const pools = await fetchPoolInfo(addressesInput, provider);
     if (pools.length == 0) {
       toast({
@@ -64,9 +71,12 @@ export default function Pools() {
       pools.map((p) => calculatePositionBasedData(p, chainId)),
     );
     const consolidatedGains = consolidateGains(poolsInfo);
-    console.log('consolidatedGains', consolidatedGains);
+    setGains(consolidatedGains);
+
     setPoolsInfo(poolsInfo);
+    setLoading(false);
   };
+
   return (
     <Main
       meta={
@@ -155,7 +165,17 @@ export default function Pools() {
             Get Pools
           </Button>
         </Flex>
-
+        <Box>
+          {loading && (
+            <Progress
+              my="8"
+              size="md"
+              isIndeterminate
+              colorScheme="green"
+              color="green"
+            />
+          )}
+        </Box>
         {poolsInfo.length > 0 && (
           <Table variant="simple" mt={8}>
             <Thead>
@@ -180,6 +200,7 @@ export default function Pools() {
                   <Td>{`${pI.unclaimedFees0} ${pI.token0.symbol} + ${pI.unclaimedFees1} ${pI.token1.symbol}`}</Td>
                 </Tr>
               ))}
+              {gains && <ConsolidatedGainsRow gains={gains} />}
             </Tbody>
           </Table>
         )}
