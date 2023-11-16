@@ -425,7 +425,7 @@ export const getPoolPositionsByIds = async (
     return [];
   }
 };
-function fixDecimals(value: number, n: number = 6): number {
+export function fixDecimals(value: number, n: number = 6): number {
   return Number(Number(value).toFixed(n));
 }
 export const fetchPoolInfo = async (
@@ -553,11 +553,14 @@ export const calculatePositionBasedData = async (
     token1Amount: fixDecimals(token1Amount),
     claimedFee0: fixDecimals(claimedFee0),
     claimedFee1: fixDecimals(claimedFee1),
-    unclaimedFees0: fixDecimals(unclaimedFees0),
-    unclaimedFees1: fixDecimals(unclaimedFees1),
+    // TODO fix for smaller values
+    unclaimedFees0:
+      fixDecimals(unclaimedFees0) < 0 ? 0 : fixDecimals(unclaimedFees0),
+    unclaimedFees1:
+      fixDecimals(unclaimedFees1) < 0 ? 0 : fixDecimals(unclaimedFees1),
   };
 };
-type ConsolidateGainsType = {
+export type ConsolidateGainsType = {
   claimed: Record<string, number>;
   unclaimed: Record<string, number>;
 };
