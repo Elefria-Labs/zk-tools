@@ -430,7 +430,7 @@ export function fixDecimals(value: number, n: number = 6): number {
 }
 export const fetchPoolInfo = async (
   address: string,
-  provider: ethers.providers.Web3Provider,
+  provider: ethers.providers.JsonRpcProvider,
 ): Promise<Position[]> => {
   const chainId = (await provider.getNetwork()).chainId;
   const nfpmContract = new ethers.Contract(

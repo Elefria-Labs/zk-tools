@@ -19,8 +19,7 @@ import {
 } from '@chakra-ui/react';
 import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
-import { useWalletConnect } from '@hooks/useWalletConnect';
-import { truncateAddress } from '@utils/wallet';
+import { chainId } from '@utils/wallet';
 import {
   ConsolidateGainsType,
   calculatePositionBasedData,
@@ -34,10 +33,12 @@ import EthereumIcon from '@components/icon/ethereum';
 import OptimismIcon from '@components/icon/optimism';
 import BscIcon from '@components/icon/bsc';
 import ConsolidatedGainsRow from '@components/pools/ConsolidatedGainsRow';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { useAccount, useNetwork } from 'wagmi';
 
 export default function Pools() {
-  const { connectWallet, disconnect, account, provider, chainId } =
-    useWalletConnect();
+  const { chain } = useNetwork();
+  const { address } = useAccount();
   const [addressesInput, setAddressesInput] = useState('');
   const [loading, setLoading] = useState<boolean>(false);
   const [poolsInfo, setPoolsInfo] = useState<any[]>([]);
@@ -45,20 +46,24 @@ export default function Pools() {
   const toast = useToast();
 
   useEffect(() => {
-    if (account == null) {
+    if (address == null) {
       return;
     }
-    setAddressesInput(account);
-  }, [account]);
+    setAddressesInput(address);
+  }, [address]);
 
   const handleSubmit = async () => {
-    if (addressesInput == null || provider == null || chainId == null) {
+    if (addressesInput == null || chain?.id == null) {
       return;
     }
     if (!ethers.utils.isAddress(addressesInput)) {
       return;
     }
     setLoading(true);
+    const provider = new ethers.providers.JsonRpcProvider(
+      chain.rpcUrls.public.http[0],
+    );
+
     const pools = await fetchPoolInfo(addressesInput, provider);
     if (pools.length == 0) {
       toast({
@@ -132,15 +137,7 @@ export default function Pools() {
               mr={4}
             /> */}
           </Flex>
-          {!account ? (
-            <Button variant="solid" size="md" onClick={connectWallet}>
-              Connect Wallet
-            </Button>
-          ) : (
-            <Button variant="solid" size="md" onClick={disconnect}>
-              Disconnect {truncateAddress(account)}
-            </Button>
-          )}
+          <ConnectButton />
         </Flex>
         <Flex mt={4}>
           <Input
