@@ -10,6 +10,7 @@ import {
   Icon,
   SimpleGrid,
   Text,
+  useToast,
 } from '@chakra-ui/react';
 
 import Link from 'next/link';
@@ -22,13 +23,23 @@ import { networkConfig } from '@config/network';
 import { ZkNetworkCard } from '@components/zk-network-card';
 import { useWalletConnect } from '@hooks/useWalletConnect';
 import { toHex, truncateAddress } from '@utils/wallet';
+import { toastOptions } from '@components/common/toast';
 
 const ZkNetwork = () => {
   const [zkNetworks] = useState<Record<string, any>>(networkConfig);
-
+  const toast = useToast();
   const { switchNetwork, connectWallet, disconnect, account, chainId } =
     useWalletConnect();
 
+  const addNetwork = (network?: number) => {
+    if (account == null || network == null) {
+      toast({
+        ...toastOptions,
+      });
+      return;
+    }
+    switchNetwork(network);
+  };
   return (
     <Main
       meta={
@@ -60,7 +71,12 @@ const ZkNetwork = () => {
                   alignContent="center"
                   justifyContent={'space-between'}
                 >
-                  <Link aria-label="Go to GitHub page" href={repoLink} passHref>
+                  <Link
+                    aria-label="Go to GitHub page"
+                    href={repoLink}
+                    passHref
+                    legacyBehavior
+                  >
                     <a target="_blank" rel="noopener noreferrer">
                       <Icon
                         as={GithubIcon}
@@ -135,7 +151,7 @@ const ZkNetwork = () => {
                     <ZkNetworkCard
                       key={network.name}
                       blockchainNetwork={network}
-                      onClickAdd={switchNetwork}
+                      onClickAdd={addNetwork}
                     />
                   ))}
               </SimpleGrid>

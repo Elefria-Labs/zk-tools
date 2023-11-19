@@ -22,7 +22,7 @@ const MyApp = (props: AppProps) => {
 
   const { connectors } = getDefaultWallets({
     appName: 'zk-block',
-    projectId: process.env.WALLET_CONNECT_ID!,
+    projectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_ID!,
     chains,
   });
 

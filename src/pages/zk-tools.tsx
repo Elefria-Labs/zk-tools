@@ -86,7 +86,12 @@ const Index = () => {
                   knowledge ecosystem and develop zkdapps.
                 </Text> */}
                 <Flex flexDirection="row" alignContent="center">
-                  <Link aria-label="Go to GitHub page" href={repoLink} passHref>
+                  <Link
+                    aria-label="Go to GitHub page"
+                    href={repoLink}
+                    passHref
+                    legacyBehavior
+                  >
                     <a target="_blank" rel="noopener noreferrer">
                       <Icon
                         as={GithubIcon}

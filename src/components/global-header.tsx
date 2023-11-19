@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ChevronDownIcon, HamburgerIcon } from '@chakra-ui/icons';
+import { HamburgerIcon } from '@chakra-ui/icons';
 import {
   Box,
   CloseButton,
@@ -44,7 +44,7 @@ function MenuLink(props: MenuLinkProps) {
 function DesktopMenuLinks() {
   return (
     <Stack
-      d={['none', 'flex', 'flex']}
+      display={['none', 'flex', 'flex']}
       shouldWrapChildren
       isInline
       spacing="15px"
@@ -58,64 +58,56 @@ function DesktopMenuLinks() {
       <MenuLink text={'Learn'} link={Links.blog} />
       <MenuLink text={'Zk Chains'} link={Links.zkChains} />
       {/* <MenuLink text={'About'} link={Links.about} /> */}
-      <Menu>
-        {({ isOpen }) => (
-          <>
-            <MenuButton
-              isActive={isOpen}
-              as={Text}
-              color="black"
-              rightIcon={<ChevronDownIcon />}
-              cursor="pointer"
-            >
-              {'Playgrounds'}
-            </MenuButton>
-            <MenuList color="black">
-              <MenuItem>
-                <MenuLink text={'View all'} link={Links.playgrounds} />
-              </MenuItem>
-              <MenuItem>
-                <MenuLink text={'EVM Visualizer'} link={Links.evm} />
-              </MenuItem>
-              <MenuItem>
-                <MenuLink text={'V3 Pools'} link={Links.pools} />
-              </MenuItem>
-              <MenuItem>
-                <MenuLink text={'EIP-712'} link={Links.eip712} />
-              </MenuItem>
-              <MenuItem>
-                <MenuLink text={'ERC-191'} link={Links.erc191} />
-              </MenuItem>
-              <MenuItem>
-                <MenuLink text={'Tx Decoder'} link={Links.txDecoder} />
-              </MenuItem>
-              <MenuItem>
-                <MenuLink text={'Gas Converter'} link={Links.gasConverter} />
-              </MenuItem>
-              <MenuItem>
-                <MenuLink text={'Burner Wallet'} link={Links.burnerWallet} />
-              </MenuItem>
-              <MenuItem>
-                <MenuLink
-                  text={'Merkle Tree Generator'}
-                  link={Links.merkleTreeGenerator}
-                />
-              </MenuItem>
-              <MenuItem>
-                <MenuLink
-                  text={'Bytes32 Conversion'}
-                  link={Links.byteconversion}
-                />
-              </MenuItem>
-              <MenuItem>
-                <MenuLink
-                  text={'Deterministic Address'}
-                  link={Links.contractAddressGen}
-                />
-              </MenuItem>
-            </MenuList>
-          </>
-        )}
+      <Menu isLazy>
+        <MenuButton
+          as={Text}
+          color="black"
+          // rightIcon={<ChevronDownIcon />}
+          cursor="pointer"
+        >
+          {'Playgrounds'}
+        </MenuButton>
+        <MenuList color="black">
+          <MenuItem>
+            <MenuLink text={'View all'} link={Links.playgrounds} />
+          </MenuItem>
+          <MenuItem>
+            <MenuLink text={'EVM Visualizer'} link={Links.evm} />
+          </MenuItem>
+          <MenuItem>
+            <MenuLink text={'V3 Pools'} link={Links.pools} />
+          </MenuItem>
+          <MenuItem>
+            <MenuLink text={'EIP-712'} link={Links.eip712} />
+          </MenuItem>
+          <MenuItem>
+            <MenuLink text={'ERC-191'} link={Links.erc191} />
+          </MenuItem>
+          <MenuItem>
+            <MenuLink text={'Tx Decoder'} link={Links.txDecoder} />
+          </MenuItem>
+          <MenuItem>
+            <MenuLink text={'Gas Converter'} link={Links.gasConverter} />
+          </MenuItem>
+          <MenuItem>
+            <MenuLink text={'Burner Wallet'} link={Links.burnerWallet} />
+          </MenuItem>
+          <MenuItem>
+            <MenuLink
+              text={'Merkle Tree Generator'}
+              link={Links.merkleTreeGenerator}
+            />
+          </MenuItem>
+          <MenuItem>
+            <MenuLink text={'Bytes32 Conversion'} link={Links.byteconversion} />
+          </MenuItem>
+          <MenuItem>
+            <MenuLink
+              text={'Deterministic Address'}
+              link={Links.contractAddressGen}
+            />
+          </MenuItem>
+        </MenuList>
       </Menu>
       <MenuLink text={'Contribute'} link={Links.contribute} />
       <Link
@@ -146,7 +138,7 @@ function MobileMenuLinks() {
         rounded="5px"
         padding={0}
         aria-label={'Menu'}
-        d={['block', 'none', 'none']}
+        display={['block', 'none', 'none']}
         icon={<HamburgerIcon color="black" w="25px" height="25px" />}
         color="black"
         cursor="pointer"
@@ -210,7 +202,7 @@ export function GlobalHeader(props: GlobalHeaderProps) {
           <Box>
             <Link
               w="100%"
-              d="flex"
+              display="flex"
               href={Links.home}
               alignItems="center"
               color="black"
