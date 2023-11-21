@@ -316,11 +316,10 @@ export const allTools: ToolsType[] = [
     name: 'Shield',
     description:
       'SHIELD is a development framework for circom developers. SHIELD is a tool to provide libraries, plugins, and testing tools to ensure code quality and security.',
-      tags: 'snarks, javascript, typescript ,circom, snarkjs, rust',
-      languages: 'javascript, typescript',
+    tags: 'snarks, javascript, typescript ,circom, snarkjs, rust',
+    languages: 'javascript, typescript',
     github: 'https://github.com/xorddotcom/SHIELD',
-    website:
-      'https://xord.notion.site/SHIELD-5306223ca4f745d19f54b9a5f4004cd6',
+    website: 'https://xord.notion.site/SHIELD-5306223ca4f745d19f54b9a5f4004cd6',
     twitter: 'https://twitter.com/ShieldFramework',
   },
 ];

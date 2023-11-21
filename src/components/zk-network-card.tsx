@@ -22,7 +22,6 @@ export function ZkNetworkCard(props: ZkNetworkCardType) {
       <Box
         maxW={'445px'}
         minW={'320px'}
-        height={'300px'}
         bg={useColorModeValue('white', 'gray.900')}
         boxShadow={'2xl'}
         rounded={'md'}
@@ -42,41 +41,17 @@ export function ZkNetworkCard(props: ZkNetworkCardType) {
             >
               {blockchainNetwork.name}
             </Heading>
-            <Divider mt={4} mb={8} />
-            <Text
-              color={'black'}
-              textAlign="justify"
-              mt={8}
-              noOfLines={9}
-              fontSize="sm"
-            >
+            <Divider my={4} />
+            <Text color={'black'} textAlign="justify" fontSize="sm">
               {`Name: ${blockchainNetwork.name}`}
             </Text>
-            <Text
-              color={'black'}
-              textAlign="justify"
-              mt={8}
-              noOfLines={9}
-              fontSize="sm"
-            >
+            <Text color={'black'} textAlign="justify" mt={2} fontSize="sm">
               {`Chain Id: ${blockchainNetwork.chainId}`}
             </Text>
-            <Text
-              color={'black'}
-              textAlign="justify"
-              mt={8}
-              noOfLines={9}
-              fontSize="sm"
-            >
+            <Text color={'black'} textAlign="justify" mt={2} fontSize="sm">
               {`Currency: ${blockchainNetwork.nativeCurrency?.name} (${blockchainNetwork.nativeCurrency?.symbol})`}
             </Text>
-            <Text
-              color={'black'}
-              textAlign="justify"
-              mt={8}
-              noOfLines={9}
-              fontSize="sm"
-            >
+            <Text color={'black'} textAlign="justify" mt={2} fontSize="sm">
               {`Decimals: ${blockchainNetwork.nativeCurrency?.decimals}`}
             </Text>
           </Stack>

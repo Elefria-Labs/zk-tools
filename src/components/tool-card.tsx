@@ -40,11 +40,10 @@ export function ToolCard(props: ToolsType) {
             >
               {props.name}
             </Heading>
-            <Divider mt={4} mb={8} />
+            <Divider my={4} />
             <Text
               color={'black'}
               textAlign="justify"
-              mt={8}
               noOfLines={9}
               fontSize="sm"
             >

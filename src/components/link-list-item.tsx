@@ -31,7 +31,7 @@ export function LinksListItem(props: LinksListItemProps) {
       onClick={() => onSelect(twitterId)}
       fontSize={['14px', '14px', '15px']}
       py="9px"
-      d="flex"
+      display="flex"
       borderRadius="10px"
       flexDirection={['column', 'row', 'row']}
       fontWeight={500}
@@ -80,7 +80,7 @@ export function LinksListItem(props: LinksListItemProps) {
         )}
       </Flex>
       <Text
-        d={[hideSubtitleOnMobile ? 'none' : 'inline', 'inline']}
+        display={[hideSubtitleOnMobile ? 'none' : 'inline', 'inline']}
         mt={['3px', 0]}
         as="span"
         fontSize={['11px', '11px', '12px']}

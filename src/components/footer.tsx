@@ -16,7 +16,7 @@ function NavigationLinks() {
     <>
       <Stack
         isInline
-        d={['none', 'none', 'flex']}
+        display={['none', 'none', 'flex']}
         color="gray.400"
         fontWeight={600}
         spacing="30px"
@@ -53,7 +53,7 @@ function NavigationLinks() {
       </Stack>
 
       <Stack
-        d={['flex', 'flex', 'none']}
+        display={['flex', 'flex', 'none']}
         color="gray.400"
         fontWeight={600}
         spacing={0}
@@ -138,7 +138,7 @@ export function Footer() {
         <Box mt={['40px', '40px', '50px']} mb="10px" maxW="500px">
           <Flex alignItems="center" color="gray.400">
             <Link
-              d="flex"
+              display="flex"
               alignItems="center"
               fontWeight={600}
               _hover={{ textDecoration: 'none', color: 'grey' }}
