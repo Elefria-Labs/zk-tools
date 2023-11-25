@@ -33,10 +33,6 @@ export default function BurnerWallet() {
     setPublicAddress(wallet.address);
   };
 
-  // useEffect(() => {
-
-  // }, [entropy]);
-
   useEffect(() => {
     if (entropyLoader == 100 && useEntropy) {
       generateKeys(entropy);
