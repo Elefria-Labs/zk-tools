@@ -10,6 +10,8 @@ import {
   Heading,
   Checkbox,
   Stack,
+  Progress,
+  useToast,
 } from '@chakra-ui/react';
 
 import { ethers } from 'ethers';
@@ -22,7 +24,8 @@ export default function BurnerWallet() {
   const [publicAddress, setPublicAddress] = useState('');
   const [useEntropy, setUseEntropy] = useState(false);
   const [entropy, setEntropy] = useState('');
-
+  const [entropyLoader, setEntropyLoader] = useState(0);
+  const toast = useToast();
   const generateKeys = (entropy?: string) => {
     const wallet = ethers.Wallet.createRandom(entropy);
     setPrivateKey(wallet.privateKey);
@@ -30,12 +33,26 @@ export default function BurnerWallet() {
     setPublicAddress(wallet.address);
   };
 
-  useEffect(() => {
-    generateKeys(entropy);
-  }, [entropy]);
+  // useEffect(() => {
+
+  // }, [entropy]);
 
   useEffect(() => {
+    if (entropyLoader == 100 && useEntropy) {
+      generateKeys(entropy);
+      toast({
+        title: 'New private key generated',
+        status: 'success',
+        position: 'top',
+        duration: 4000,
+        isClosable: true,
+      });
+      setUseEntropy(false);
+      setEntropyLoader(0);
+      return;
+    }
     const mouseMoveHandler = (event: any) => {
+      setEntropyLoader(entropyLoader + 1);
       setEntropy(`${entropy}${event.clientX}${event.clientY}`);
     };
     if (useEntropy) {
@@ -45,7 +62,7 @@ export default function BurnerWallet() {
     return () => {
       window.removeEventListener('mousemove', mouseMoveHandler);
     };
-  }, [useEntropy, entropy]);
+  }, [useEntropy, entropy, entropyLoader, toast]);
 
   return (
     <Main
@@ -73,7 +90,12 @@ export default function BurnerWallet() {
               Generate Random Private Key Pair
             </Text>
 
-            <Button variant="solid" onClick={() => generateKeys()} mb={4}>
+            <Button
+              variant="solid"
+              onClick={() => generateKeys()}
+              mb={4}
+              isDisabled={useEntropy}
+            >
               Generate Keys
             </Button>
             <Checkbox
@@ -83,6 +105,9 @@ export default function BurnerWallet() {
             >
               Use entropy from cursor movement
             </Checkbox>
+            {useEntropy && (
+              <Progress hasStripe value={entropyLoader} border={'4px'} />
+            )}
           </Stack>
           <FormControl mt={4}>
             <FormLabel>Private Key</FormLabel>
