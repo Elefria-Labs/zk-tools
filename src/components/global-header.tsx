@@ -210,14 +210,15 @@ export function GlobalHeader(props: GlobalHeaderProps) {
               _hover={{ textDecoration: 'none' }}
               fontSize="18px"
             >
-              <Image
+              {/* <Image
                 alt=""
                 h="30px"
                 w="30px"
                 src="../assets/images/zk-block-logo.svg"
                 mr="10px"
-              />
-              <Text as="span">zkblock</Text>
+              /> */}
+              <Image alt="" h="30px" w="30px" src="../zk.gif" mr="10px" />
+              <Text as="span">block</Text>
             </Link>
           </Box>
           <DesktopMenuLinks />

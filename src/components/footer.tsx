@@ -144,13 +144,14 @@ export function Footer() {
               _hover={{ textDecoration: 'none', color: 'grey' }}
               href={Links.home}
             >
-              <Image
+              {/* <Image
                 alt=""
                 h="25px"
                 w="25px"
                 src="../assets/images/zk-block-logo.svg"
                 mr="6px"
-              />
+              /> */}
+              <Image alt="" h="25px" w="25px" src="../zk.gif" mr="6px" />
               zkblock.app
             </Link>
             <Text as="span" mx="7px">
@@ -165,10 +166,10 @@ export function Footer() {
               fontWeight={600}
               fontSize="13px"
               _hover={{ textDecoration: 'none', bg: 'gray.600' }}
-              href="https://github.com/heypran/zk-block"
+              href="https://github.com/Elefria-labs/zk-block"
               target="_blank"
             >
-              @heypran
+              @zk_block
             </Link>
 
             <Link
