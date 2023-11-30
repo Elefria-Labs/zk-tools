@@ -10,6 +10,10 @@ import('next').NextConfig;
 const nextConfig = {
   //useFileSystemPublicRoutes: false,
   output: 'export',
+  trailingSlash: true,
+  swcMinify: true,
+  basePath: '',
+  poweredByHeader: false,
 };
 module.exports = withPlugins(
   [
@@ -21,7 +25,7 @@ module.exports = withPlugins(
       swcMinify: true,
       basePath: '',
       reactStrictMode: true,
-      reactStrictMode: true,
+
       // experimental: { esmExternals: true },
       webpack: (config, { isServer }) => {
         if (!isServer) {
