@@ -48,7 +48,7 @@ export default function Pools() {
   const [addressesInputs, setAddressesInputs] = useState<string[]>(['']);
 
   const [loading, setLoading] = useState<boolean>(false);
-  const [poolsInfo, setPoolsInfo] = useState<any[]>([]);
+  // const [poolsInfo, setPoolsInfo] = useState<any[]>([]);
   const [poolPositionDataAllAddr, setPoolPositionDataAllAddr] = useState<
     any[][]
   >([]);
@@ -63,15 +63,25 @@ export default function Pools() {
   }, [address]);
 
   const handleSubmit = async () => {
-    if (addressesInput == null || chain?.id == null) {
-      return;
-    }
     if (
+      addressesInputs.length == 0 ||
+      chain?.id == null ||
       addressesInputs.filter((addr) => !ethers.utils.isAddress(addr)).length > 0
     ) {
       toast({
         ...toastOptions,
         title: 'Please enter a valid address/s.',
+      });
+      return;
+    }
+    if (
+      addressesInputs.filter(
+        (item, index) => addressesInputs.indexOf(item) !== index,
+      ).length > 0
+    ) {
+      toast({
+        ...toastOptions,
+        title: 'Please remove duplicate addresses.',
       });
       return;
     }

@@ -479,13 +479,13 @@ export const calculatePositionBasedData = async (
 
   let lowerPrice = getPriceFromTick(
     upperTick,
-    p.token0?.decimals || '18',
-    p.token1?.decimals || '18',
+    p.token0.decimals ?? '18',
+    p.token1.decimals ?? '18',
   );
   let upperPrice = getPriceFromTick(
     lowerTick,
-    p.token0?.decimals || '18',
-    p.token1?.decimals || '18',
+    p.token0.decimals ?? '18',
+    p.token1.decimals ?? '18',
   );
   // Calculate isActive
   // const isActive = currentTick >= lowerTick && currentTick <= upperTick;
@@ -512,6 +512,7 @@ export const calculatePositionBasedData = async (
     p.pool.liquidity,
     Number(p.pool.tick),
   );
+
   const position = new V3Position({
     pool: v3Pool,
     liquidity: p.liquidity,
@@ -520,6 +521,10 @@ export const calculatePositionBasedData = async (
   });
   const amount0 = Number(position.amount0.toSignificant(4));
   const amount1 = Number(position.amount1.toSignificant(4));
+  console.log('liquidity ', p.liquidity);
+
+  console.log('amount0 ', amount0, ' ', p.pool.token0Price);
+  console.log('amount1 ', amount1, ' ', p.pool.token1Price);
   const token0Amount = isPairToggled ? amount1 : amount0;
   const token1Amount = isPairToggled ? amount0 : amount1;
   const liquidity =
