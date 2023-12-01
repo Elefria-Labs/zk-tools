@@ -2,10 +2,13 @@ import React, { useEffect, useState } from 'react';
 import {
   Box,
   Button,
+  Card,
   Container,
+  Divider,
   Flex,
   Heading,
   Icon,
+  IconButton,
   Input,
   Progress,
   Table,
@@ -32,17 +35,24 @@ import PolygonIcon from '@components/icon/polygon';
 import EthereumIcon from '@components/icon/ethereum';
 import OptimismIcon from '@components/icon/optimism';
 import BscIcon from '@components/icon/bsc';
-import ConsolidatedGainsRow from '@components/pools/ConsolidatedGainsRow';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useAccount, useNetwork } from 'wagmi';
+import { AddIcon, MinusIcon } from '@chakra-ui/icons';
+import ConsolidatedGainsRow from '@components/pools/ConsolidatedGainsRow';
 
+// TODO: refactor for multiple rendering
 export default function Pools() {
   const { chain } = useNetwork();
   const { address } = useAccount();
   const [addressesInput, setAddressesInput] = useState('');
+  const [addressesInputs, setAddressesInputs] = useState<string[]>(['']);
+
   const [loading, setLoading] = useState<boolean>(false);
-  const [poolsInfo, setPoolsInfo] = useState<any[]>([]);
-  const [gains, setGains] = useState<ConsolidateGainsType>();
+  // const [poolsInfo, setPoolsInfo] = useState<any[]>([]);
+  const [poolPositionDataAllAddr, setPoolPositionDataAllAddr] = useState<
+    any[][]
+  >([]);
+  const [gains, setGains] = useState<ConsolidateGainsType[]>([]);
   const toast = useToast();
 
   useEffect(() => {
@@ -53,10 +63,26 @@ export default function Pools() {
   }, [address]);
 
   const handleSubmit = async () => {
-    if (addressesInput == null || chain?.id == null) {
+    if (
+      addressesInputs.length == 0 ||
+      chain?.id == null ||
+      addressesInputs.filter((addr) => !ethers.utils.isAddress(addr)).length > 0
+    ) {
+      toast({
+        ...toastOptions,
+        title: 'Please enter a valid address/s.',
+      });
       return;
     }
-    if (!ethers.utils.isAddress(addressesInput)) {
+    if (
+      addressesInputs.filter(
+        (item, index) => addressesInputs.indexOf(item) !== index,
+      ).length > 0
+    ) {
+      toast({
+        ...toastOptions,
+        title: 'Please remove duplicate addresses.',
+      });
       return;
     }
     setLoading(true);
@@ -64,24 +90,48 @@ export default function Pools() {
       chain.rpcUrls.public.http[0],
     );
 
-    const pools = await fetchPoolInfo(addressesInput, provider);
-    if (pools.length == 0) {
-      toast({
-        ...toastOptions,
-        title: 'No pools found for the connected address.',
-      });
-      return;
-    }
-    const poolsInfo = await Promise.all(
-      pools.map((p) => calculatePositionBasedData(p, chainId)),
+    const promiseAll = Promise.all(
+      addressesInputs.map((addr) => fetchPoolInfo(addr, provider)),
     );
-    const consolidatedGains = consolidateGains(poolsInfo);
+    const poolInfos = await promiseAll;
+    const consolidatedGains = [];
+    const poolPositionDataAllAddr = [];
+    for (let i = 0; i < poolInfos.length; ++i) {
+      const pools = poolInfos[i] ?? [];
+      if (pools.length == 0) {
+        toast({
+          ...toastOptions,
+          title: 'No pools found for the connected address.',
+        });
+        continue;
+      }
+      const poolPositionData = await Promise.all(
+        pools.map((p) => calculatePositionBasedData(p, chainId)),
+      );
+      poolPositionDataAllAddr.push(poolPositionData);
+      consolidatedGains.push(consolidateGains(poolPositionData));
+    }
     setGains(consolidatedGains);
-
-    setPoolsInfo(poolsInfo);
+    setPoolPositionDataAllAddr(poolPositionDataAllAddr);
     setLoading(false);
   };
 
+  const handleAddInput = () => {
+    setAddressesInputs([...addressesInputs, '']);
+  };
+  const handleRemoveInput = (index: number) => {
+    const updatedFields = [...addressesInputs];
+    updatedFields.splice(index, 1);
+    setAddressesInputs(updatedFields);
+  };
+
+  const handleInputChange = (index: number, value: string) => {
+    const updatedFields = [...addressesInputs];
+    updatedFields[index] = value;
+    setAddressesInputs(updatedFields);
+  };
+
+  console.log('addressesInputs', addressesInputs);
   return (
     <Main
       meta={
@@ -140,7 +190,40 @@ export default function Pools() {
           <ConnectButton />
         </Flex>
         <Flex mt={4}>
-          <Input
+          <Flex flexDir="column">
+            {addressesInputs.map((value, index) => {
+              return (
+                <Flex key={index} mb={4}>
+                  {index == 0 ? (
+                    <IconButton
+                      mr={4}
+                      aria-label="Add Input"
+                      icon={<AddIcon />}
+                      onClick={handleAddInput}
+                    />
+                  ) : (
+                    <IconButton
+                      mr={4}
+                      aria-label="Remove Input"
+                      icon={<MinusIcon />}
+                      onClick={() => handleRemoveInput(index)}
+                    />
+                  )}
+
+                  <Input
+                    key={index}
+                    w={520}
+                    value={value}
+                    onChange={(e) => handleInputChange(index, e.target.value)}
+                    placeholder={`Input ${index + 1}`}
+                    color="black"
+                    borderColor="black"
+                  />
+                </Flex>
+              );
+            })}
+          </Flex>
+          {/* <Input
             placeholder="connect your wallet"
             value={addressesInput}
             size="md"
@@ -150,7 +233,7 @@ export default function Pools() {
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
               setAddressesInput(event.target.value);
             }}
-          />
+          /> */}
           <Button
             colorScheme="teal"
             ml={3}
@@ -173,34 +256,52 @@ export default function Pools() {
             />
           )}
         </Box>
-        {poolsInfo.length > 0 && (
-          <Table variant="simple" mt={8}>
-            <Thead>
-              <Tr>
-                <Th>positionId</Th>
-                <Th>Pair</Th>
-                <Th>Position</Th>
-                <Th>Claimed Fee</Th>
-                <Th>Unclaimed Fees</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {poolsInfo.map((pI) => (
-                <Tr key={pI.positionId}>
-                  <Td>{pI.positionId}</Td>
+        {poolPositionDataAllAddr.length > 0 &&
+          poolPositionDataAllAddr.map((poolPositionData, index: number) => {
+            return (
+              <Card my={8} key={index} mt={index == 0 ? 8 : 0}>
+                <Box>
+                  {/* <Badge colorScheme="green" mb={4}>
+                    {addressesInputs[index]}
+                  </Badge> */}
+                  <Heading as="h3" size="md" m={4}>
+                    {addressesInputs[index]}
+                  </Heading>
+                  {poolPositionData.length > 0 && (
+                    <Table variant="simple">
+                      <Thead>
+                        <Tr>
+                          <Th>positionId</Th>
+                          <Th>Pair</Th>
+                          <Th>Position</Th>
+                          <Th>Claimed Fee</Th>
+                          <Th>Unclaimed Fees</Th>
+                        </Tr>
+                      </Thead>
+                      <Tbody>
+                        {poolPositionData.map((pI) => (
+                          <Tr key={pI.positionId}>
+                            <Td>{pI.positionId}</Td>
 
-                  <Td>
-                    {pI.token0.symbol}/{pI.token1.symbol}
-                  </Td>
-                  <Td>{`${pI.token0Amount} ${pI.token0.symbol}/ ${pI.token1Amount} ${pI.token1.symbol}`}</Td>
-                  <Td>{`${pI.claimedFee0} ${pI.token0.symbol} + ${pI.claimedFee1} ${pI.token1.symbol}`}</Td>
-                  <Td>{`${pI.unclaimedFees0} ${pI.token0.symbol} + ${pI.unclaimedFees1} ${pI.token1.symbol}`}</Td>
-                </Tr>
-              ))}
-              {gains && <ConsolidatedGainsRow gains={gains} />}
-            </Tbody>
-          </Table>
-        )}
+                            <Td>
+                              {pI.token0.symbol}/{pI.token1.symbol}
+                            </Td>
+                            <Td>{`${pI.token0Amount} ${pI.token0.symbol}/ ${pI.token1Amount} ${pI.token1.symbol}`}</Td>
+                            <Td>{`${pI.claimedFee0} ${pI.token0.symbol} + ${pI.claimedFee1} ${pI.token1.symbol} ${pI.liquidity}`}</Td>
+                            <Td>{`${pI.unclaimedFees0} ${pI.token0.symbol} + ${pI.unclaimedFees1} ${pI.token1.symbol}`}</Td>
+                          </Tr>
+                        ))}
+                        {gains[index] != null && (
+                          <ConsolidatedGainsRow gains={gains[index]!} />
+                        )}
+                      </Tbody>
+                    </Table>
+                  )}
+                  <Divider />
+                </Box>
+              </Card>
+            );
+          })}
       </Container>
     </Main>
   );
