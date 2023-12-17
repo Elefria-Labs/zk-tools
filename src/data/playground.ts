@@ -5,6 +5,7 @@ export interface Item {
   description: string;
   link: string;
   isBeta?: boolean;
+  isExternal?: boolean;
 }
 
 export const playgroundToolsList: Item[] = [
@@ -13,12 +14,14 @@ export const playgroundToolsList: Item[] = [
     description: 'Analyze EVM bytecode, slots and storage layout',
     link: Links.evm,
     isBeta: true,
+    isExternal: true,
   },
   {
     title: 'ZK Boilerplate',
     description: 'ZK Boilerplate dapps using snarkjs and circom',
     link: Links.boilerplate,
     isBeta: false,
+    isExternal: true,
   },
   {
     title: 'EIP 712',

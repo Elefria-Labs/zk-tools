@@ -30,9 +30,10 @@ export const useGetCoinPrice = (coins: string[]) => {
         setLoading(false);
       }
     };
-
-    fetchData();
-  }, []);
+    if (coins.length > 0 && data == null) {
+      fetchData();
+    }
+  }, [coins, data]);
 
   return { data, loading, error };
 };

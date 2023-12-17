@@ -9,6 +9,7 @@ import INONFUNGIBLE_POSITION_MANAGER from '@uniswap/v3-periphery/artifacts/contr
 import axios from 'axios';
 import bn from 'bignumber.js';
 import { ethers } from 'ethers';
+import { CoinbaseResponse } from '@hooks/useGetCoinPrice';
 
 // Attribution: Uniswap fish
 bn.config({ EXPONENTIAL_AT: 999999, DECIMAL_PLACES: 40 });
@@ -454,11 +455,11 @@ export const fetchPoolInfo = async (
   }
   return positions ?? [];
 };
-type CalculatePositionBasedDataType = {
+export type CalculatePositionBasedDataType = {
   key: string;
   positionId: string;
   token0: Position['token0'];
-  token1: Position['token0'];
+  token1: Position['token0']; // types are same
   liquidity: number;
   priceRange: any;
   createdAt: number;
@@ -566,11 +567,15 @@ export const calculatePositionBasedData = async (
   };
 };
 export type ConsolidateGainsType = {
+  totalInvestmentMarketValue: number;
+  totalClaimedValue: number;
+  totalUnclaimedValue: number;
   claimed: Record<string, number>;
   unclaimed: Record<string, number>;
 };
 export function consolidateGains(
   positionData: CalculatePositionBasedDataType[],
+  coinPriceData: CoinbaseResponse[],
 ): ConsolidateGainsType {
   const gains: ConsolidateGainsType = positionData.reduce<ConsolidateGainsType>(
     (prev, curr) => {
@@ -581,6 +586,8 @@ export function consolidateGains(
         claimedFee1,
         unclaimedFees0,
         unclaimedFees1,
+        token0Amount,
+        token1Amount,
       } = curr;
 
       if (prev.claimed[token0.symbol] != null) {
@@ -604,10 +611,86 @@ export function consolidateGains(
       } else {
         prev.unclaimed[token1.symbol] = unclaimedFees1;
       }
+      const priceToken0 = coinPriceData.filter(
+        (d) => d.data.base === token0.symbol.toUpperCase(),
+      )[0];
+      const priceToken1 = coinPriceData.filter(
+        (d) => d.data.base === token1.symbol.toUpperCase(),
+      )[0];
+      console.log(
+        'token0.symbol ',
+        token0.symbol,
+        ', ',
+        token0Amount,
+        ' ,',
+        priceToken0,
+      );
+      console.log(
+        'token1.symbol ',
+        token1.symbol,
+        ',',
+        token1Amount,
+        ' ,',
+        priceToken1,
+      );
+      const totalInvestmentMarketValue =
+        token0Amount * Number(priceToken0?.data?.amount ?? 0) +
+        token1Amount * Number(priceToken1?.data?.amount ?? 0);
+
+      prev.totalInvestmentMarketValue += totalInvestmentMarketValue;
       return prev;
     },
-    { claimed: {}, unclaimed: {} },
+    {
+      totalInvestmentMarketValue: 0,
+      totalClaimedValue: 0,
+      totalUnclaimedValue: 0,
+      claimed: {},
+      unclaimed: {},
+    },
   );
 
-  return gains;
+  const totalClaimedValue = Object.keys(gains.claimed).reduce((prev, curr) => {
+    const priceToken = coinPriceData.filter(
+      (d) => d.data.base === curr.toUpperCase(),
+    )[0];
+    return (
+      prev +
+      Number(gains.claimed[curr]! * Number(priceToken?.data?.amount ?? 0))
+    );
+  }, 0);
+
+  const totalUnclaimedValue = Object.keys(gains.unclaimed).reduce(
+    (prev, curr) => {
+      const priceToken = coinPriceData.filter(
+        (d) => d.data.base === curr.toUpperCase(),
+      )[0];
+      return (
+        prev +
+        Number(gains.unclaimed[curr]! * Number(priceToken?.data?.amount ?? 0))
+      );
+    },
+    0,
+  );
+  return { ...gains, totalClaimedValue, totalUnclaimedValue };
+}
+
+export function getCoinList(
+  positionData: CalculatePositionBasedDataType[][],
+): string[] {
+  const coinListMap: Record<string, boolean> = {};
+  for (let i = 0; i < positionData.length; ++i) {
+    if (positionData[i] == null) {
+      continue;
+    }
+    const positionDataAnAddr = positionData[i] ?? [];
+    for (let j = 0; j < positionDataAnAddr.length; ++j) {
+      if (positionDataAnAddr[j]?.token0.symbol) {
+        coinListMap[positionDataAnAddr[j]!.token0.symbol] = true;
+      }
+      if (positionDataAnAddr[j]?.token1.symbol) {
+        coinListMap[positionDataAnAddr[j]!.token1.symbol] = true;
+      }
+    }
+  }
+  return Object.keys(coinListMap);
 }

@@ -100,7 +100,7 @@ const Index = () => {
                     ))}
                   {playgroundToolsList
                     ?.filter((tool) => !tool.isBeta)
-                    .slice(4)
+                    .slice(5)
                     .map((tool) => (
                       <HomeCard {...tool} key={tool.title} />
                     ))}
