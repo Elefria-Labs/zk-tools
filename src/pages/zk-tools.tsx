@@ -22,10 +22,7 @@ import { repoLink } from '@config/constants';
 
 const preDefinedToolTags = ['snarks', 'circom', 'starks', 'semaphore', 'all'];
 const Index = () => {
-  const [selectedTools, setSelectedTools] = useState<string[]>([
-    'snarks',
-    'circom',
-  ]);
+  const [selectedTools, setSelectedTools] = useState<string[]>(['all']);
   const [matchingTools, setMatchingTools] = useState<ToolsType[] | undefined>();
   useEffect(() => {
     setMatchingTools(

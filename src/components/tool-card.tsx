@@ -20,11 +20,11 @@ export function ToolCard(props: ToolsType) {
       <Box
         maxW={'445px'}
         minW={'320px'}
-        height={'300px'}
+        height={'240px'}
         bg={useColorModeValue('white', 'gray.900')}
-        boxShadow={'2xl'}
-        rounded={'md'}
-        p={6}
+        boxShadow={'xl'}
+        rounded={'xl'}
+        p={4}
         overflow={'hidden'}
       >
         <Flex
@@ -40,11 +40,11 @@ export function ToolCard(props: ToolsType) {
             >
               {props.name}
             </Heading>
-            <Divider my={4} />
+            <Divider my={2} />
             <Text
               color={'black'}
               textAlign="justify"
-              noOfLines={9}
+              noOfLines={5}
               fontSize="sm"
             >
               {props.description}
@@ -52,7 +52,7 @@ export function ToolCard(props: ToolsType) {
           </Stack>
 
           <Box mt={2}>
-            <Divider my={4} />
+            <Divider my={2} />
             <Stack direction={'row'} spacing={2} fontSize={'sm'}>
               {!!props.github && (
                 <Link
