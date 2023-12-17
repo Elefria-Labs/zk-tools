@@ -6,3 +6,51 @@ body {
   background-size: cover;
   height: '100vh';
 }
+
+.box {
+  position: relative;
+  height: 180px;
+  width: 280px;
+  display: block;
+  /* border-width: 4px; */
+  background: linear-gradient(0deg, black, #444444);
+}
+
+.glowing::before {
+  content: '';
+  position: absolute;
+  left: -2px;
+  top: -2px;
+  border-radius: 10px;
+  background: linear-gradient(
+    45deg,
+    #e8f74d,
+    #ff6600d9,
+    #00ff66,
+    #13ff13,
+    #ad27ad,
+    #bd2681,
+    #6512b9,
+    #ff3300de,
+    #5aabde
+  );
+  background-size: 400%;
+  width: calc(100% + 5px);
+  height: calc(100% + 5px);
+  z-index: -1;
+  animation: glower 20s linear infinite;
+}
+
+@keyframes glower {
+  0% {
+    background-position: 0 0;
+  }
+
+  50% {
+    background-position: 400% 0;
+  }
+
+  100% {
+    background-position: 0 0;
+  }
+}

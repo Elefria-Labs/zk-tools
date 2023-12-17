@@ -96,7 +96,7 @@ const Index = () => {
                   {playgroundToolsList
                     .filter((tool) => tool.isBeta)
                     .map((tool) => (
-                      <HomeCard {...tool} key={tool.title} />
+                      <HomeCard {...tool} key={tool.title} glow={tool.isBeta} />
                     ))}
                   {playgroundToolsList
                     ?.filter((tool) => !tool.isBeta)

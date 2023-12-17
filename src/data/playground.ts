@@ -13,7 +13,6 @@ export const playgroundToolsList: Item[] = [
     title: 'EVM Visualizer (beta)',
     description: 'Analyze EVM bytecode, slots and storage layout',
     link: Links.evm,
-    isBeta: true,
     isExternal: true,
   },
   {
