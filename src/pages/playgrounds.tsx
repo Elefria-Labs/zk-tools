@@ -15,7 +15,7 @@ export default function Playgrounds() {
         />
       }
     >
-      <Container maxW={'container.lg'} position="relative">
+      <Container maxW={'container.lg'} position="relative" mb={8}>
         <Heading
           as="h1"
           color="black"
