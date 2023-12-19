@@ -168,7 +168,7 @@ export function Footer() {
               href="https://github.com/heypran/zk-block"
               target="_blank"
             >
-              @heypran
+              @ElefriaLabs
             </Link>
 
             <Link
