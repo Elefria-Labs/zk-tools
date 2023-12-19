@@ -6,7 +6,7 @@ export const allTools: ToolsType[] = [
     category: 'Security',
     name: 'Slither',
     description:
-      'Slither is a solidity static analysis framework. It runs a suite of vulnerability detectors, prints visual information about contract details, and provides an API to easily write custom analyses. ',
+      'Slither is a solidity static analysis framework. It runs a suite of vulnerability detectors, and provides an API to easily write custom analyses.',
     tags: '',
     languages: 'solidity',
     github: 'https://github.com/crytic/slither',
@@ -30,7 +30,7 @@ export const allTools: ToolsType[] = [
     category: 'Security',
     name: 'Mythril',
     description:
-      'Mythril is a security analysis tool for EVM bytecode. It detects security vulnerabilities in smart contracts built for Ethereum, Hedera, and other EVM-compatible blockchains. It uses symbolic execution, SMT solving and taint analysis to detect a variety of security vulnerabilities.',
+      'Mythril is a security analysis tool for EVM bytecode. It uses symbolic execution, SMT solving and taint analysis to detect a variety of security vulnerabilities.',
     tags: '',
     languages: 'solidity',
     github: 'https://github.com/ConsenSys/mythril',
@@ -66,7 +66,7 @@ export const allTools: ToolsType[] = [
     category: 'zk',
     name: 'snarkjs',
     description:
-      'This is a JavaScript and Pure Web Assembly implementation of zkSNARK and PLONK schemes. It uses the Groth16 Protocol (3 point only and 3 pairings) and PLONK.',
+      'This is a JavaScript and Pure Web Assembly implementation of zkSNARK and PLONK schemes.',
     tags: 'snarks, zk, groth16, plonk',
     languages: 'javascript',
     github: 'https://github.com/iden3/snarkjs',
@@ -89,7 +89,7 @@ export const allTools: ToolsType[] = [
     category: 'zk',
     name: 'circom',
     description:
-      'It is domain-specific language for defining arithmetic circuits that can be used to generate zk proofs. The compiler generates a R1CS file with a set of associated constraints and a program to compute a valid assignment to all wires of the circuit.',
+      'It is domain-specific language for defining arithmetic circuits that can be used to generate zk proofs.',
     tags: 'snarks, circom, groth, plonk',
     languages: 'circom',
     github: 'https://github.com/iden3/circom',
@@ -101,7 +101,7 @@ export const allTools: ToolsType[] = [
     category: 'zk',
     name: 'wasmsnark',
     description:
-      'A fast zkSnark proof and verifier and proof generator written in native Web Assembly. This module generates highly optimized Web Assembly modules for the low level cryptographic primitives.',
+      'A fast zkSnark proof and verifier and proof generator written in native Web Assembly. ',
     tags: 'snarks',
     languages: 'javascript, wasm',
     github: 'https://github.com/iden3/wasmsnark',
@@ -195,7 +195,7 @@ export const allTools: ToolsType[] = [
     category: 'zk',
     name: 'Cairo',
     description:
-      'Cairo is the first production-grade platform for generating validity proofs for general computation. Cairo is a programming language for writing provable programs.',
+      'Cairo is the first production-grade platform for generating validity proofs for general computation.',
     tags: 'starknet, cairo, starks',
     languages: 'cairo',
     github: 'https://github.com/starkware-libs/cairo-lang',
@@ -266,7 +266,7 @@ export const allTools: ToolsType[] = [
     category: 'zk',
     name: "Aztec's SDK",
     description:
-      "Aztec's SDK is the gateway for developers to access the Aztec network. The SDK lets end users benefit from low gas fees and privacy on Ethereum. The SDK connects to our ZkRollup service and can be integrated with one line of code.",
+      "Aztec's SDK is the gateway for developers to access the Aztec network.",
     tags: 'aztec, zkrollups',
     languages: 'javascript',
     github: '',

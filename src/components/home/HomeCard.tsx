@@ -6,11 +6,9 @@ import {
   Stack,
   useColorModeValue,
   Link,
-  Icon,
   Divider,
   Flex,
 } from '@chakra-ui/react';
-import { ExternalLinkIcon } from '@chakra-ui/icons';
 
 export type HomeCardPropsType = {
   title: string;
@@ -18,67 +16,50 @@ export type HomeCardPropsType = {
   link?: string;
   category?: string;
   tags?: string;
+  isExternal?: boolean;
+  glow?: boolean;
 };
 
 export function HomeCard(props: HomeCardPropsType) {
   return (
     <Center>
       <Box
-        maxW={'280px'}
-        minW={'280px'}
-        height={'280px'}
+        w={'280px'}
+        h={'160px'}
         bg={useColorModeValue('white', 'gray.900')}
         boxShadow={'xl'}
-        rounded={'md'}
-        p={6}
-        overflow={'hidden'}
+        rounded={'10px'}
+        p={4}
+        className={props.glow ? 'box glowing' : ''}
       >
-        <Flex
-          flexDirection="column"
-          justifyContent="space-between"
-          height="100%"
+        <Link
+          isExternal
+          aria-label={props.title}
+          href={props.isExternal ? `${props.link}` : `/${props.link}`}
+          style={{ textDecoration: 'none' }}
+          target="_blank"
         >
-          <Stack>
-            <Heading
-              color={useColorModeValue('gray.700', 'white')}
-              fontSize={'xl'}
-              fontFamily={'body'}
-            >
-              {props.title}
-            </Heading>
-            <Divider my={4} />
-            <Text
-              color={'black'}
-              textAlign="justify"
-              noOfLines={9}
-              fontSize="sm"
-            >
-              {props.description}
-            </Text>
-          </Stack>
-
-          <Box mt={2}>
-            <Divider my={4} />
-            <Stack direction={'row'} spacing={2} fontSize={'sm'}>
-              {!!props.link && (
-                <Link
-                  isExternal
-                  aria-label="Go to Website page"
-                  href={props.link}
-                >
-                  <Icon
-                    as={ExternalLinkIcon}
-                    display="block"
-                    transition="color 0.2s"
-                    w="5"
-                    h="5"
-                    _hover={{ color: 'gray.600' }}
-                  />
-                </Link>
-              )}
+          <Flex flexDirection="column" height="100%">
+            <Stack>
+              <Heading
+                color={useColorModeValue('gray.700', 'white')}
+                fontSize={'xl'}
+                fontFamily={'body'}
+              >
+                {props.title}
+              </Heading>
+              <Divider my={2} />
+              <Text
+                color={'black'}
+                textAlign="justify"
+                noOfLines={4}
+                fontSize="sm"
+              >
+                {props.description}
+              </Text>
             </Stack>
-          </Box>
-        </Flex>
+          </Flex>
+        </Link>
       </Box>
     </Center>
   );

@@ -10,8 +10,9 @@ import('next').NextConfig;
 const nextConfig = {
   //useFileSystemPublicRoutes: false,
   output: 'export',
-  trailingSlash: true,
-  swcMinify: true,
+  trailingSlash: false,
+  swcMinify: false,
+  // resolveSymlinks: false,
   basePath: '',
   poweredByHeader: false,
 };

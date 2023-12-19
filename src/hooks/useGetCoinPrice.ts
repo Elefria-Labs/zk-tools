@@ -11,7 +11,7 @@ export interface CoinbaseResponse {
 
 export const useGetCoinPrice = (coins: string[]) => {
   const [data, setData] = useState<CoinbaseResponse[] | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {

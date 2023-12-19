@@ -2,32 +2,26 @@ import React, { useEffect, useState } from 'react';
 import {
   Box,
   Button,
-  Card,
   Container,
-  Divider,
   Flex,
   Heading,
   Icon,
   IconButton,
   Input,
   Progress,
-  Table,
-  Tbody,
-  Td,
   Text,
-  Th,
-  Thead,
-  Tr,
   useToast,
 } from '@chakra-ui/react';
 import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
 import { chainId } from '@utils/wallet';
 import {
+  CalculatePositionBasedDataType,
   ConsolidateGainsType,
   calculatePositionBasedData,
   consolidateGains,
   fetchPoolInfo,
+  getCoinList,
 } from '@components/pools/utils';
 import { ethers } from 'ethers';
 import { toastOptions } from '@components/common/toast';
@@ -38,10 +32,11 @@ import BscIcon from '@components/icon/bsc';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useAccount, useNetwork } from 'wagmi';
 import { AddIcon, MinusIcon } from '@chakra-ui/icons';
-import ConsolidatedGainsRow from '@components/pools/ConsolidatedGainsRow';
+import PoolTabs from '@components/pools/PoolTabs';
+import { useGetCoinPrice } from '@hooks/useGetCoinPrice';
 
 // TODO: refactor for multiple rendering
-export default function Pools() {
+export default function Test() {
   const { chain } = useNetwork();
   const { address } = useAccount();
   const [addressesInput, setAddressesInput] = useState('');
@@ -50,17 +45,34 @@ export default function Pools() {
   const [loading, setLoading] = useState<boolean>(false);
   // const [poolsInfo, setPoolsInfo] = useState<any[]>([]);
   const [poolPositionDataAllAddr, setPoolPositionDataAllAddr] = useState<
-    any[][]
+    CalculatePositionBasedDataType[][]
   >([]);
   const [gains, setGains] = useState<ConsolidateGainsType[]>([]);
   const toast = useToast();
 
+  const { data: coinPriceData, loading: isCoinPriceLoading } = useGetCoinPrice(
+    getCoinList(poolPositionDataAllAddr),
+  );
   useEffect(() => {
     if (address == null) {
       return;
     }
     setAddressesInput(address);
   }, [address]);
+
+  useEffect(() => {
+    if (coinPriceData == null || poolPositionDataAllAddr.length == 0) {
+      return;
+    }
+    let consolidatedGains = [];
+    for (let i = 0; i < poolPositionDataAllAddr.length; ++i) {
+      // push consolidated gains per address
+      consolidatedGains.push(
+        consolidateGains(poolPositionDataAllAddr[i]!, coinPriceData),
+      );
+    }
+    setGains(consolidatedGains);
+  }, [coinPriceData, poolPositionDataAllAddr]);
 
   const handleSubmit = async () => {
     if (
@@ -94,7 +106,7 @@ export default function Pools() {
       addressesInputs.map((addr) => fetchPoolInfo(addr, provider)),
     );
     const poolInfos = await promiseAll;
-    const consolidatedGains = [];
+
     const poolPositionDataAllAddr = [];
     for (let i = 0; i < poolInfos.length; ++i) {
       const pools = poolInfos[i] ?? [];
@@ -109,9 +121,10 @@ export default function Pools() {
         pools.map((p) => calculatePositionBasedData(p, chainId)),
       );
       poolPositionDataAllAddr.push(poolPositionData);
-      consolidatedGains.push(consolidateGains(poolPositionData));
+      // push consolidated gains per address
+      // consolidatedGains.push(consolidateGains(poolPositionData));
     }
-    setGains(consolidatedGains);
+    // setGains(consolidatedGains);
     setPoolPositionDataAllAddr(poolPositionDataAllAddr);
     setLoading(false);
   };
@@ -131,7 +144,6 @@ export default function Pools() {
     setAddressesInputs(updatedFields);
   };
 
-  console.log('addressesInputs', addressesInputs);
   return (
     <Main
       meta={
@@ -246,7 +258,7 @@ export default function Pools() {
           </Button>
         </Flex>
         <Box>
-          {loading && (
+          {(loading || isCoinPriceLoading) && (
             <Progress
               my="8"
               size="md"
@@ -256,52 +268,14 @@ export default function Pools() {
             />
           )}
         </Box>
-        {poolPositionDataAllAddr.length > 0 &&
-          poolPositionDataAllAddr.map((poolPositionData, index: number) => {
-            return (
-              <Card my={8} key={index} mt={index == 0 ? 8 : 0}>
-                <Box>
-                  {/* <Badge colorScheme="green" mb={4}>
-                    {addressesInputs[index]}
-                  </Badge> */}
-                  <Heading as="h3" size="md" m={4}>
-                    {addressesInputs[index]}
-                  </Heading>
-                  {poolPositionData.length > 0 && (
-                    <Table variant="simple">
-                      <Thead>
-                        <Tr>
-                          <Th>positionId</Th>
-                          <Th>Pair</Th>
-                          <Th>Position</Th>
-                          <Th>Claimed Fee</Th>
-                          <Th>Unclaimed Fees</Th>
-                        </Tr>
-                      </Thead>
-                      <Tbody>
-                        {poolPositionData.map((pI) => (
-                          <Tr key={pI.positionId}>
-                            <Td>{pI.positionId}</Td>
 
-                            <Td>
-                              {pI.token0.symbol}/{pI.token1.symbol}
-                            </Td>
-                            <Td>{`${pI.token0Amount} ${pI.token0.symbol}/ ${pI.token1Amount} ${pI.token1.symbol}`}</Td>
-                            <Td>{`${pI.claimedFee0} ${pI.token0.symbol} + ${pI.claimedFee1} ${pI.token1.symbol} ${pI.liquidity}`}</Td>
-                            <Td>{`${pI.unclaimedFees0} ${pI.token0.symbol} + ${pI.unclaimedFees1} ${pI.token1.symbol}`}</Td>
-                          </Tr>
-                        ))}
-                        {gains[index] != null && (
-                          <ConsolidatedGainsRow gains={gains[index]!} />
-                        )}
-                      </Tbody>
-                    </Table>
-                  )}
-                  <Divider />
-                </Box>
-              </Card>
-            );
-          })}
+        {poolPositionDataAllAddr.length > 0 && (
+          <PoolTabs
+            addressesInputs={addressesInputs}
+            gains={gains}
+            poolPositionDataAllAddr={poolPositionDataAllAddr}
+          />
+        )}
       </Container>
     </Main>
   );
