@@ -36,7 +36,7 @@ import PoolTabs from '@components/pools/PoolTabs';
 import { useGetCoinPrice } from '@hooks/useGetCoinPrice';
 
 // TODO: refactor for multiple rendering
-export default function Test() {
+export default function Pool() {
   const { chain } = useNetwork();
   const { address } = useAccount();
   const [addressesInput, setAddressesInput] = useState('');

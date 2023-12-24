@@ -10,6 +10,8 @@ import {
   Input,
   Textarea,
   useToast,
+  Heading,
+  Icon,
 } from '@chakra-ui/react';
 import { ethers } from 'ethers';
 import { splitSignature, verifyMessage } from 'ethers/lib/utils';
@@ -25,12 +27,7 @@ const defaultMsg: string = 'Hello Ethereum!';
 export function PersonalSignComponent(_: PersonalSignComponentPropsType) {
   // const { provider } = props;
   const account = useAccount();
-  const {
-    data: signMessageData,
-    error,
-    isLoading,
-    signMessage,
-  } = useSignMessage();
+  const { data: signMessageData, signMessage } = useSignMessage();
   const toast = useToast();
 
   const [verifySigInput, setVerifySigInput] = useState<
@@ -87,13 +84,12 @@ export function PersonalSignComponent(_: PersonalSignComponentPropsType) {
     >
       <Text>{loading}</Text>
       <Flex justifyContent={'space-between'}>
-        <Flex flexDirection="column">
-          <Text>Signing Message:</Text>
+        <Flex flexDirection="column" w={'40%'}>
+          <Heading size="md">Signing Message:</Heading>
           <Input
             placeholder="message to sign..."
             mt="8px"
-            height="120px"
-            width="320px"
+            height="240px"
             color="black"
             borderColor="black"
             onChange={(event) => {
@@ -112,23 +108,26 @@ export function PersonalSignComponent(_: PersonalSignComponentPropsType) {
             Sign
           </Button>
         </Flex>
-        <Box ml="16px">
-          {signMessageData && (
+        {signMessageData && (
+          <Flex ml="8px" pl="8px" w={'60%'} borderLeft="1px solid gray">
             <List spacing={3}>
               <ListItem key={'sig'}>
-                <ListIcon as={LockIcon} color="green.500" />
-                Signature:
+                <Text justifyContent="center">
+                  <Icon as={LockIcon} color="green.500" /> Signature:
+                </Text>
                 <Textarea
-                  width="480px"
+                  mt={'4px'}
                   contentEditable={false}
                   value={signMessageData}
                 />
               </ListItem>
               <ListItem key={'split-sig'}>
-                <ListIcon as={LockIcon} color="green.400" />
-                Split Signature:
+                <Text justifyContent="center">
+                  <Icon as={LockIcon} color="green.500" />
+                  Split Signature:
+                </Text>
                 <Textarea
-                  width="480px"
+                  mt={'4px'}
                   value={JSON.stringify(rsvSig)}
                   contentEditable={false}
                 />
@@ -165,8 +164,8 @@ export function PersonalSignComponent(_: PersonalSignComponentPropsType) {
                 </ListItem>
               )}
             </List>
-          )}
-        </Box>
+          </Flex>
+        )}
       </Flex>
     </Box>
   );
