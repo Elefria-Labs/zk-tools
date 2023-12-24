@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Text,
   Box,
@@ -16,28 +16,42 @@ import { splitSignature, verifyMessage } from 'ethers/lib/utils';
 import { CheckCircleIcon, LockIcon, CloseIcon } from '@chakra-ui/icons';
 import { SignatureLike } from '@ethersproject/bytes';
 import { toastOptions } from '@components/common/toast';
+import { useAccount, useSignMessage } from 'wagmi';
 
-type PersonalSignComponentPropsType = {
-  provider?: ethers.providers.Web3Provider;
-  address?: string;
-};
+type PersonalSignComponentPropsType = {};
+
 const defaultMsg: string = 'Hello Ethereum!';
-export function PersonalSignComponent(props: PersonalSignComponentPropsType) {
-  const { provider, address } = props;
+
+export function PersonalSignComponent(_: PersonalSignComponentPropsType) {
+  // const { provider } = props;
+  const account = useAccount();
+  const {
+    data: signMessageData,
+    error,
+    isLoading,
+    signMessage,
+  } = useSignMessage();
   const toast = useToast();
 
-  const [sig, setSig] = useState<string | undefined>();
   const [verifySigInput, setVerifySigInput] = useState<
     SignatureLike | undefined
   >();
   const [rsvSig, setRsvSig] = useState<ethers.Signature | undefined>();
-  const [signMessage, setSignMessage] = useState<string>(defaultMsg);
+  const [messageToSign, setMessageToSign] = useState<string>(defaultMsg);
 
   const [recoveredAddr, setRecoveredAddr] = useState<string | undefined>();
   const [loading, setLoading] = useState<boolean>(false);
 
+  useEffect(() => {
+    if (signMessageData == null) {
+      return;
+    }
+    const sig = splitSignature(signMessageData);
+    setRsvSig(sig);
+    setVerifySigInput(signMessageData);
+  }, [signMessageData]);
   const signPersonalMessageUsingEthers = async () => {
-    if (provider == null) {
+    if (account == null) {
       toast({
         ...toastOptions,
         title: 'Please connect wallet.',
@@ -48,12 +62,10 @@ export function PersonalSignComponent(props: PersonalSignComponentPropsType) {
       return;
     }
     setLoading(true);
-    const signer = await provider.getSigner();
-    const flatSig = await signer.signMessage(signMessage);
-    setSig(flatSig);
-    const sig = splitSignature(flatSig);
-    setRsvSig(sig);
-    setVerifySigInput(flatSig);
+    // const signer = await provider.getSigner();
+    signMessage({ message: messageToSign });
+    // setSig(flatSig);
+
     setLoading(false);
   };
 
@@ -62,7 +74,7 @@ export function PersonalSignComponent(props: PersonalSignComponentPropsType) {
       return;
     }
     setLoading(true);
-    const recoveredAddress = verifyMessage(signMessage, verifySigInput);
+    const recoveredAddress = verifyMessage(messageToSign, verifySigInput);
     setRecoveredAddr(recoveredAddress);
     setLoading(false);
   };
@@ -79,7 +91,6 @@ export function PersonalSignComponent(props: PersonalSignComponentPropsType) {
           <Text>Signing Message:</Text>
           <Input
             placeholder="message to sign..."
-            value={signMessage}
             mt="8px"
             height="120px"
             width="320px"
@@ -89,7 +100,7 @@ export function PersonalSignComponent(props: PersonalSignComponentPropsType) {
               if (event.target.value == null) {
                 return;
               }
-              setSignMessage(event.target.value);
+              setMessageToSign(event.target.value);
             }}
           />
           <Button
@@ -102,12 +113,16 @@ export function PersonalSignComponent(props: PersonalSignComponentPropsType) {
           </Button>
         </Flex>
         <Box ml="16px">
-          {sig && (
+          {signMessageData && (
             <List spacing={3}>
               <ListItem key={'sig'}>
                 <ListIcon as={LockIcon} color="green.500" />
                 Signature:
-                <Textarea width="480px" contentEditable={false} value={sig} />
+                <Textarea
+                  width="480px"
+                  contentEditable={false}
+                  value={signMessageData}
+                />
               </ListItem>
               <ListItem key={'split-sig'}>
                 <ListIcon as={LockIcon} color="green.400" />
@@ -135,11 +150,12 @@ export function PersonalSignComponent(props: PersonalSignComponentPropsType) {
               </ListItem>
               <ListItem key={'signingAddress'}>
                 <ListIcon as={CheckCircleIcon} color="green.500" />
-                Signing Address: <strong>{address}</strong>
+                Signing Address: <strong>{account.address}</strong>
               </ListItem>
               {!!recoveredAddr && (
                 <ListItem key={'recoveredAddress'}>
-                  {recoveredAddr?.toLowerCase() == address?.toLowerCase() ? (
+                  {recoveredAddr?.toLowerCase() ==
+                  account?.address?.toLowerCase() ? (
                     <ListIcon as={CheckCircleIcon} color="green.500" />
                   ) : (
                     <ListIcon as={CloseIcon} color="red.500" />
