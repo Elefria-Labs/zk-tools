@@ -69,7 +69,7 @@ function DesktopMenuLinks() {
         </MenuButton>
         <MenuList color="black">
           <MenuItem>
-            <MenuLink text={'View all'} link={Links.playgrounds} />
+            <MenuLink text={'View all'} link={Links.devTools} />
           </MenuItem>
           <MenuItem>
             <MenuLink text={'EVM Visualizer'} link={Links.evm} />

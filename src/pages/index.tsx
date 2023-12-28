@@ -61,7 +61,7 @@ const Index = () => {
                   fontSize={['22px', '22px', '28px']}
                   mb={['8px', '8px', '15px']}
                 >
-                  Playgrounds
+                  On-Chain Tools
                 </Heading>
                 <Text
                   fontSize={['14px', '14px', '16px']}
@@ -69,7 +69,51 @@ const Index = () => {
                   color="black"
                 >
                   <Text fontWeight={500} as="span" color="gray">
-                    Playgrounds
+                    On-Chain Tools
+                  </Text>{' '}
+                  provides tools to help you navigate evm chains.
+                </Text>
+                {/* <Flex
+                  flexDirection="row"
+                  alignContent="center"
+                  justifyContent="flex-end"
+                >
+                  <Link
+                    aria-label="Go to Playgrounds"
+                    href={Links.playgrounds}
+                    passHref
+                  >
+                    View All
+                  </Link>
+                </Flex> */}
+                <Divider my="24px" />
+                <SimpleGrid
+                  columns={[1, 2, 3]}
+                  spacing={['10px', '10px', '15px']}
+                  mb="48px"
+                >
+                  {playgroundToolsList
+                    .filter((tool) => tool.onChain)
+                    .map((tool) => (
+                      <HomeCard {...tool} key={tool.title} glow={tool.isBeta} />
+                    ))}
+                </SimpleGrid>
+              </Box>
+              <Box py={['23px', '23px', '35px']}>
+                <Heading
+                  color="black"
+                  fontSize={['22px', '22px', '28px']}
+                  mb={['8px', '8px', '15px']}
+                >
+                  Dev Tools
+                </Heading>
+                <Text
+                  fontSize={['14px', '14px', '16px']}
+                  mb="10px"
+                  color="black"
+                >
+                  <Text fontWeight={500} as="span" color="gray">
+                    Dev Tools
                   </Text>{' '}
                   provides list of tools to help you develop on ethereum and evm
                   chains.
@@ -81,7 +125,7 @@ const Index = () => {
                 >
                   <Link
                     aria-label="Go to Playgrounds"
-                    href={Links.playgrounds}
+                    href={Links.devTools}
                     passHref
                   >
                     View All
@@ -94,12 +138,12 @@ const Index = () => {
                   mb="48px"
                 >
                   {playgroundToolsList
-                    .filter((tool) => tool.isBeta)
+                    .filter((tool) => tool.isBeta && !tool.onChain)
                     .map((tool) => (
                       <HomeCard {...tool} key={tool.title} glow={tool.isBeta} />
                     ))}
                   {playgroundToolsList
-                    ?.filter((tool) => !tool.isBeta)
+                    ?.filter((tool) => !tool.isBeta && !tool.onChain)
                     .slice(5)
                     .map((tool) => (
                       <HomeCard {...tool} key={tool.title} />

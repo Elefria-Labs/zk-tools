@@ -6,6 +6,7 @@ export interface Item {
   link: string;
   isBeta?: boolean;
   isExternal?: boolean;
+  onChain?: boolean;
 }
 
 export const playgroundToolsList: Item[] = [
@@ -42,6 +43,15 @@ export const playgroundToolsList: Item[] = [
       'Get all V3 positions by address. Supported on Ethereum, Polygon, Optimism & BSC',
     link: Links.pools,
     isBeta: true,
+    onChain: true,
+  },
+  {
+    title: 'Balance Tracker (beta)',
+    description:
+      'Multi-Chain balance tracker, get all ETH and token balances from Ethereum & Layer2 chains',
+    link: Links.balanceTracker,
+    isBeta: true,
+    onChain: true,
   },
   {
     title: 'Transaction Decoder',
