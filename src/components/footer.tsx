@@ -22,7 +22,7 @@ function NavigationLinks() {
         spacing="30px"
       >
         <Link _hover={{ color: 'black' }} href={Links.devTools} target="_blank">
-          Playgrounds
+          Dev Tools
         </Link>
         <Link _hover={{ color: 'black' }} href={Links.zkTools}>
           Tools

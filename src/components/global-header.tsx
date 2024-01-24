@@ -65,7 +65,7 @@ function DesktopMenuLinks() {
           // rightIcon={<ChevronDownIcon />}
           cursor="pointer"
         >
-          {'Playgrounds'}
+          {'Dev Tools'}
         </MenuButton>
         <MenuList color="black">
           <MenuItem>

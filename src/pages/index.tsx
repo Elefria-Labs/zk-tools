@@ -55,7 +55,7 @@ const Index = () => {
             justifyItems="space-between"
           >
             <Box>
-              <Box py={['23px', '23px', '35px']}>
+              <Box py={['16px', '16px', '24px']}>
                 <Heading
                   color="black"
                   fontSize={['22px', '22px', '28px']}
@@ -86,7 +86,7 @@ const Index = () => {
                     View All
                   </Link>
                 </Flex> */}
-                <Divider my="24px" />
+                <Divider my="16px" />
                 <SimpleGrid
                   columns={[1, 2, 3]}
                   spacing={['10px', '10px', '15px']}
@@ -99,7 +99,7 @@ const Index = () => {
                     ))}
                 </SimpleGrid>
               </Box>
-              <Box py={['23px', '23px', '35px']}>
+              <Box py={['16px', '16px', '24px']}>
                 <Heading
                   color="black"
                   fontSize={['22px', '22px', '28px']}
@@ -131,7 +131,7 @@ const Index = () => {
                     View All
                   </Link>
                 </Flex>
-                <Divider my="24px" />
+                <Divider my="16px" />
                 <SimpleGrid
                   columns={[1, 2, 3]}
                   spacing={['10px', '10px', '15px']}
@@ -150,13 +150,13 @@ const Index = () => {
                     ))}
                 </SimpleGrid>
               </Box>
-              <Box py={['23px', '23px', '35px']}>
+              <Box py={['16px', '16px', '24px']}>
                 <Heading
                   color="black"
                   fontSize={['22px', '22px', '28px']}
                   mb={['8px', '8px', '15px']}
                 >
-                  Tools
+                  Zk Tools
                 </Heading>
                 <Flex
                   flexDirection="row"
@@ -192,7 +192,7 @@ const Index = () => {
                     </a>
                   </Link>
                 </Flex>
-                <Divider my="24px" />
+                <Divider my="16px" />
                 <SimpleGrid
                   columns={[1, 2, 3]}
                   spacing={['10px', '10px', '15px']}
