@@ -15,12 +15,19 @@ import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
 import { ethers } from 'ethers';
 import { CopyIcon } from '@chakra-ui/icons';
+import { useGetCoinPrice } from '@hooks/useGetCoinPrice';
+import { calculateValue } from '@components/pools/utils';
 
 export default function GasConvertor() {
   const [weiValue, setWeiValue] = useState<string>('');
   const [gweiValue, setGweiValue] = useState<string>('');
   const [ethValue, setEthValue] = useState<string>('');
 
+  const {
+    data: ethPrice,
+    isLoading: isPriceLoading,
+    error: priceError,
+  } = useGetCoinPrice(['eth']);
   const isValid = (value: string) => {
     return !(value == '' || Number(value) < 0);
   };
@@ -73,6 +80,7 @@ export default function GasConvertor() {
     setEthValue('0.01');
   }, []);
 
+  console.log('ethPrice', ethPrice);
   return (
     <Main
       meta={
@@ -153,6 +161,30 @@ export default function GasConvertor() {
                 </InputRightElement>
               </InputGroup>
             </FormControl>
+            {!!ethPrice?.[0] && ethValue && (
+              <FormControl>
+                <FormLabel htmlFor="eth-input">{'Eth'}</FormLabel>
+                <InputGroup>
+                  <Input
+                    type="number"
+                    placeholder="ETH"
+                    minWidth={[100, 400]}
+                    value={calculateValue(
+                      Number(ethValue),
+                      ethPrice[0]?.data.amount,
+                    )}
+                    disabled
+                  />
+                  <InputRightElement>
+                    <IconButton
+                      aria-label="Copy ETH Value"
+                      icon={<CopyIcon />}
+                      onClick={() => handleCopyClick(ethValue)}
+                    />
+                  </InputRightElement>
+                </InputGroup>
+              </FormControl>
+            )}
           </VStack>
         </Flex>
       </Container>
