@@ -34,11 +34,11 @@ export default function BalanceTrackerTable(props: BalanceTrackerTableProps) {
               <Card key={key} mt={4} border={'1px solid gray'}>
                 <CardBody>
                   <Flex justifyContent="space-between">
-                    <Text size="xl" fontStyle="bold">
+                    <Text size="xl">
                       Network: {addressBalances[key]?.networkName}
                     </Text>
-                    <Text size="xl" fontStyle="bold">
-                      Balance: {addressBalances[key]?.balance}
+                    <Text size="xl">
+                      <strong>Balance: {addressBalances[key]?.balance}</strong>
                     </Text>
                   </Flex>
                   <TableContainer>
@@ -46,7 +46,7 @@ export default function BalanceTrackerTable(props: BalanceTrackerTableProps) {
                       <Thead>
                         <Tr>
                           <Th>Token</Th>
-                          <Th isNumeric>Balance</Th>
+                          <Th>Balance</Th>
                         </Tr>
                       </Thead>
                       <Tbody>

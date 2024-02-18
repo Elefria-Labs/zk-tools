@@ -37,22 +37,23 @@ export const playgroundToolsList: Item[] = [
     link: Links.erc191,
     isBeta: false,
   },
-  {
-    title: 'Uniswap V3 (beta)',
-    description:
-      'Get all V3 positions by address. Supported on Ethereum, Polygon, Optimism & BSC',
-    link: Links.pools,
-    isBeta: true,
-    onChain: true,
-  },
-  {
-    title: 'Balance Tracker (beta)',
-    description:
-      'Multi-Chain balance tracker, get all ETH and token balances from Ethereum & Layer2 chains',
-    link: Links.balanceTracker,
-    isBeta: true,
-    onChain: true,
-  },
+  // {
+  //   title: 'Uniswap V3 (beta)',
+  //   description:
+  //     'Get all V3 positions by address. Supported on Ethereum, Polygon, Optimism & BSC',
+  //   link: Links.pools,
+  //   isBeta: true,
+  //   onChain: true,
+  // },
+  // {
+  //   title: 'Balance Tracker (beta)',
+  //   description:
+  //     'Multi-Chain balance tracker, get all ETH and token balances from Ethereum & Layer2 chains',
+  //   link: Links.balanceTracker,
+  //   isBeta: true,
+  //   onChain: true,
+
+  // },
   {
     title: 'Transaction Decoder',
     description:

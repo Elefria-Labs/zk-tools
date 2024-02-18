@@ -75,9 +75,6 @@ function DesktopMenuLinks() {
             <MenuLink text={'EVM Visualizer'} link={Links.evm} />
           </MenuItem>
           <MenuItem>
-            <MenuLink text={'V3 Pools'} link={Links.pools} />
-          </MenuItem>
-          <MenuItem>
             <MenuLink text={'EIP-712'} link={Links.eip712} />
           </MenuItem>
           <MenuItem>

@@ -55,7 +55,7 @@ const Index = () => {
             justifyItems="space-between"
           >
             <Box>
-              <Box py={['16px', '16px', '24px']}>
+              {/* <Box py={['16px', '16px', '24px']}>
                 <Heading
                   color="black"
                   fontSize={['22px', '22px', '28px']}
@@ -73,19 +73,6 @@ const Index = () => {
                   </Text>{' '}
                   provides tools to help you navigate evm chains.
                 </Text>
-                {/* <Flex
-                  flexDirection="row"
-                  alignContent="center"
-                  justifyContent="flex-end"
-                >
-                  <Link
-                    aria-label="Go to Playgrounds"
-                    href={Links.playgrounds}
-                    passHref
-                  >
-                    View All
-                  </Link>
-                </Flex> */}
                 <Divider my="16px" />
                 <SimpleGrid
                   columns={[1, 2, 3]}
@@ -98,7 +85,7 @@ const Index = () => {
                       <HomeCard {...tool} key={tool.title} glow={tool.isBeta} />
                     ))}
                 </SimpleGrid>
-              </Box>
+              </Box> */}
               <Box py={['16px', '16px', '24px']}>
                 <Heading
                   color="black"
