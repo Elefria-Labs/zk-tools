@@ -47,14 +47,11 @@ const AllowanceModal: React.FC<AllowanceModalProps> = ({
       provider,
     );
 
-    console.log({ tokenContract });
     try {
       const decimals = await tokenContract.decimals();
-      console.log({ decimals });
       const power = ethers.BigNumber.from(10).pow(decimals);
-      console.log({ power });
       const formattedBalance = ethers.BigNumber.from(erc20allowance).mul(power);
-      console.log({ formattedBalance });
+
       const balanceResult = await tokenContract
         .connect(provider.getSigner())
         .approve(spender, formattedBalance);
