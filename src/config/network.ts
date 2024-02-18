@@ -1,4 +1,6 @@
 import { BlockchainNetwork } from '@types';
+import { SUPPORTED_CHAINS, Token } from '@uniswap/sdk-core';
+import { FeeAmount } from '@uniswap/v3-sdk';
 import { toHex } from '@utils/wallet';
 
 export const networkConfig: Record<string, BlockchainNetwork> = {
@@ -643,3 +645,31 @@ export const getNetworkForMetamask = (
 //   isZk: true,
 //   layer: 2,
 // },
+
+export const WETH_TOKEN = new Token(
+  SUPPORTED_CHAINS[0],
+  '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
+  18,
+  'WETH',
+  'Wrapped Ether',
+);
+
+export const USDC_TOKEN = new Token(
+  SUPPORTED_CHAINS[0],
+  '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
+  6,
+  'USDC',
+  'USD//C',
+);
+
+export const poolConfig = {
+  rpc: {
+    mainnet: 'https://mainnet.infura.io/v3/0ac57a06f2994538829c14745750d721',
+  },
+
+  pool: {
+    token0: USDC_TOKEN,
+    token1: WETH_TOKEN,
+    fee: FeeAmount.MEDIUM,
+  },
+};

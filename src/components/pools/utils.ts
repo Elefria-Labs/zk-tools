@@ -15,6 +15,7 @@ import { CoinbaseResponse } from '@hooks/useGetCoinPrice';
 bn.config({ EXPONENTIAL_AT: 999999, DECIMAL_PLACES: 40 });
 const uriChainIdMap: Record<number, string> = {
   1: 'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v3',
+  // 137:'https://gateway-arbitrum.network.thegraph.com/api/[api-key]/subgraphs/id/3hCPRGf4z88VC5rsBKU5AA9FBBq5nF3jbKJG7VZCbhjm'
   137: 'https://api.thegraph.com/subgraphs/name/ianlapham/uniswap-v3-polygon',
   42161: 'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v3-arbitrum',
   8453: 'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v3-base',
@@ -693,4 +694,11 @@ export function getCoinList(
     }
   }
   return Object.keys(coinListMap);
+}
+
+export function calculateValue(ethAmount: number, ethPrice: number): string {
+  const ethValue = ethers.utils.parseEther(ethAmount.toString());
+  const value = ethValue.mul(ethers.utils.parseUnits(ethPrice.toString(), 18));
+
+  return ethers.utils.formatUnits(value, 18 * 2); // Convert the value to a human-readable format
 }

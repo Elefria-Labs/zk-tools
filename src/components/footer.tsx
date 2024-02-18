@@ -21,12 +21,8 @@ function NavigationLinks() {
         fontWeight={600}
         spacing="30px"
       >
-        <Link
-          _hover={{ color: 'black' }}
-          href={Links.playgrounds}
-          target="_blank"
-        >
-          Playgrounds
+        <Link _hover={{ color: 'black' }} href={Links.devTools} target="_blank">
+          Dev Tools
         </Link>
         <Link _hover={{ color: 'black' }} href={Links.zkTools}>
           Tools
@@ -168,7 +164,7 @@ export function Footer() {
               href="https://github.com/heypran/zk-block"
               target="_blank"
             >
-              @ElefriaLabs
+              @heypran
             </Link>
 
             <Link

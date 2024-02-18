@@ -1,0 +1,3 @@
+[submodule "src/data/token-directory"]
+	path = src/data/token-directory
+	url = https://github.com/0xsequence/token-directory.git

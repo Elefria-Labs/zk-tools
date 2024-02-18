@@ -65,17 +65,14 @@ function DesktopMenuLinks() {
           // rightIcon={<ChevronDownIcon />}
           cursor="pointer"
         >
-          {'Playgrounds'}
+          {'Dev Tools'}
         </MenuButton>
         <MenuList color="black">
           <MenuItem>
-            <MenuLink text={'View all'} link={Links.playgrounds} />
+            <MenuLink text={'View all'} link={Links.devTools} />
           </MenuItem>
           <MenuItem>
             <MenuLink text={'EVM Visualizer'} link={Links.evm} />
-          </MenuItem>
-          <MenuItem>
-            <MenuLink text={'V3 Pools'} link={Links.pools} />
           </MenuItem>
           <MenuItem>
             <MenuLink text={'EIP-712'} link={Links.eip712} />

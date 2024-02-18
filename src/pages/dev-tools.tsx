@@ -5,12 +5,12 @@ import { Main } from '@templates/Main';
 import { playgroundToolsList } from '@data/playground';
 import { PlaygroundListComponent } from '@components/playground/PlaygroundListItem';
 
-export default function Playgrounds() {
+export default function DevTools() {
   return (
     <Main
       meta={
         <Meta
-          title="Playgrounds | Boilerplate for ZK Dapps"
+          title="Dev Tools"
           description="Playground for EVM chains | Zk Block"
         />
       }
@@ -24,7 +24,7 @@ export default function Playgrounds() {
           mb="20px"
           mt="20px"
         >
-          Playgrounds
+          Dev Tools
         </Heading>
         <Text
           fontSize={['15px', '15px', '17px']}
