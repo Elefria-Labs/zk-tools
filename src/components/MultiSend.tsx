@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Button, Input } from '@chakra-ui/react';
-import PolygonErc20 from '../data/token-directory/index/polygon/erc20.json';
+// import PolygonErc20 from '../data/token-directory/index/polygon/erc20.json';
 import {
   TokenComponent,
   TokenComponentData,
@@ -14,7 +14,7 @@ type MultiSendPropsType = {
 };
 export const MultiSend = (props: MultiSendPropsType) => {
   const [components, setComponents] = useState<TokenComponentData[]>([]);
-  const [erc20Tokens, setErc20Tokens] = useState(PolygonErc20.tokens);
+  const [erc20Tokens, setErc20Tokens] = useState<any[]>([]);
   const [receiverAddress, setReceiverAddress] = useState('');
   const { provider } = props;
 

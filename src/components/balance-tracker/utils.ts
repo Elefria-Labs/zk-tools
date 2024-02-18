@@ -8,7 +8,6 @@ import {
   Address,
   formatEther,
   formatUnits,
-  parseAbiItem,
   http,
 } from 'viem';
 import {
@@ -61,50 +60,50 @@ function getPublicClient(supportChain: typeof supportChains[0]) {
   });
 }
 
-async function getAllTransferToEventsForAddr(
-  publicClient: any,
-  address: string,
-) {
-  const filter = await publicClient.createEventFilter({
-    // abi: parseAbi([
-    //   'event Transfer(address indexed, address indexed, uint256)',
-    // ]),
-    abi: ERC20_ABI,
-    strict: true,
-    // event: {
-    //   name: 'Transfer',
-    //   inputs: [
-    //     { type: 'address', indexed: true, name: 'from' },
-    //     { type: 'address', indexed: true, name: 'to' },
-    //     { type: 'uint256', indexed: false, name: 'value' },
-    //   ],
-    // },
-    event: parseAbiItem(
-      'event Transfer(address indexed from, address indexed to, uint256 value)',
-    ),
-    // events: parseAbi([
-    //   'event Transfer(address indexed from, address indexed to, uint256 value)',
-    // ]),
-    // address,
-    args: {
-      from: address,
-    },
-  });
+// async function getAllTransferToEventsForAddr(
+//   publicClient: any,
+//   address: string,
+// ) {
+//   const filter = await publicClient.createEventFilter({
+//     // abi: parseAbi([
+//     //   'event Transfer(address indexed, address indexed, uint256)',
+//     // ]),
+//     abi: ERC20_ABI,
+//     strict: true,
+//     // event: {
+//     //   name: 'Transfer',
+//     //   inputs: [
+//     //     { type: 'address', indexed: true, name: 'from' },
+//     //     { type: 'address', indexed: true, name: 'to' },
+//     //     { type: 'uint256', indexed: false, name: 'value' },
+//     //   ],
+//     // },
+//     event: parseAbiItem(
+//       'event Transfer(address indexed from, address indexed to, uint256 value)',
+//     ),
+//     // events: parseAbi([
+//     //   'event Transfer(address indexed from, address indexed to, uint256 value)',
+//     // ]),
+//     // address,
+//     args: {
+//       from: address,
+//     },
+//   });
 
-  // const logs = await publicClient.getContractEvents({
-  //   abi: ERC20_ABI,
-  //   eventName: 'Transfer',
-  //   args: {
-  //     // from: '0xd8da6bf26964af9d7eed9e03e53415d37aa96045',
-  //     to: address,
-  //   },
-  // });
+//   // const logs = await publicClient.getContractEvents({
+//   //   abi: ERC20_ABI,
+//   //   eventName: 'Transfer',
+//   //   args: {
+//   //     // from: '0xd8da6bf26964af9d7eed9e03e53415d37aa96045',
+//   //     to: address,
+//   //   },
+//   // });
 
-  const logs = await publicClient.getFilterLogs({
-    filter,
-  });
-  console.log('logs', logs);
-}
+//   const logs = await publicClient.getFilterLogs({
+//     filter,
+//   });
+//   console.log('logs', logs);
+// }
 
 export async function getBalances(
   addresses: Address[],

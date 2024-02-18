@@ -12,7 +12,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 
-import PolygonErc20 from '../../data/token-directory/index/polygon/erc20.json';
+// import PolygonErc20 from '../../data/token-directory/index/polygon/erc20.json';
 import { useGetErc20Balance } from '@hooks/useGetErc20Balance';
 import { CloseIcon } from '@chakra-ui/icons';
 import AllowanceModal from './AllowanceModal';
@@ -41,7 +41,7 @@ export const TokenComponent = (props: TokenComponentPropsType) => {
     handleRemoveComponent,
     handleNumberChange,
   } = props;
-  const [erc20Tokens] = useState(PolygonErc20.tokens);
+  const [erc20Tokens] = useState<any[]>([]); // PolygonErc20.tokens
   const tokenInfo = useGetErc20Balance(
     tokenData.tokenAddress,
     provider,
@@ -57,7 +57,7 @@ export const TokenComponent = (props: TokenComponentPropsType) => {
             value={tokenData.tokenAddress}
             onChange={(e) => handleDropdownChange(index, e.target.value)}
           >
-            {erc20Tokens.map((token) => (
+            {erc20Tokens?.map((token) => (
               <option key={token.address} value={token.address}>
                 {token.name}
               </option>

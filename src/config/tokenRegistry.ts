@@ -1,5 +1,5 @@
-import * as baseErc20Tokens from '../data/token-directory/index/base/erc20.json';
-import * as bnbErc20Tokens from '../data/token-directory/index/bnb/erc20.json';
+// import * as baseErc20Tokens from '../data/token-directory/index/base/erc20.json';
+// import * as bnbErc20Tokens from '../data/token-directory/index/bnb/erc20.json';
 // import * as gnosisErc20Tokens from '../data/token-directory/index/gnosis/erc20.json';
 
 const polygonZkEvmTokens = [
@@ -155,202 +155,202 @@ const polygonZkEvmTokens = [
     address: '0x8aaebb46e1742f4623e6e1621f909f01846ca5e2',
   },
 ];
-const baseTokens = [
-  {
-    id: '1',
-    name: 'USD Coin (USDC)',
-    address: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913',
-    isEnabled: true,
-  },
-  {
-    id: '2',
-    name: 'Dai Stablecoin (DAI)',
-    address: '0x50c5725949a6f0c72e6c4a641f24049a917db0cb',
-    isEnabled: true,
-  },
-  {
-    id: '3',
-    name: 'Rocket Pool ETH (rETH)',
-    address: '0xb6fe221fe9eef5aba221c348ba20a1bf5e73624c',
-    isEnabled: true,
-  },
-  {
-    id: '4',
-    name: 'Synthetix Network Token (SNX)',
-    address: '0x22e6966b799c4d5b13be962e1d117b56327fda66',
-  },
-  {
-    id: '5',
-    name: 'Pyth Network (PYTH)',
-    address: '0x4c5d8A75F3762c1561D96f177694f67378705E98',
-  },
-  {
-    id: '6',
-    name: 'Coinbase Wrapped Staked ETH (cbETH)',
-    address: '0x2ae3f1ec7f1f5012cfeab0185bfc7aa3cf0dec22',
-    isEnabled: true,
-  },
-  {
-    id: '7',
-    name: 'Prime (PRIME)',
-    address: '0xfA980cEd6895AC314E7dE34Ef1bFAE90a5AdD21b',
-  },
-  {
-    id: '8',
-    name: 'yearn.finance (YFI)',
-    address: '0x9eaf8c1e34f05a589eda6bafdf391cf6ad3cb239',
-  },
-  {
-    id: '9',
-    name: 'BTRST (BTRST)',
-    address: '0xa7d68d155d17cb30e311367c2ef1e82ab6022b67',
-  },
-  {
-    id: '10',
-    name: 'Kyber Network Crystal v2 (KNC)',
-    address: '0x28fe69ff6864c1c218878bdca01482d36b9d57b1',
-  },
-  {
-    id: '11',
-    name: 'SmarDex Token (SDEX)',
-    address: '0xfd4330b0312fdeec6d4225075b82e00493ff2e3f',
-  },
-  {
-    id: '12',
-    name: 'Magic Internet Money (MIM)',
-    address: '0x4A3A6Dd60A34bB2Aba60D73B4C88315E9CeB6A3D',
-  },
-  {
-    id: '13',
-    name: 'Curve.fi Factory Plain Pool: Overnight/Curve (USD+crvUSD-f)',
-    address: '0xda3de145054ed30ee937865d31b500505c4bdfe7',
-  },
-  {
-    id: '14',
-    name: 'Rai.Finance (SOFI)',
-    address: '0x703d57164ca270b0b330a87fd159cfef1490c0a5',
-  },
-  {
-    id: '15',
-    name: 'MBS (MBS)',
-    address: '0x8fbd0648971d56f1f2c35fa075ff5bc75fb0e39d',
-  },
-  {
-    id: '16',
-    name: 'DEUS (DEUS)',
-    address: '0xde5ed76e7c05ec5e4572cfc88d1acea165109e44',
-  },
-  {
-    id: '17',
-    name: 'ECO (ECO)',
-    address: '0x434769c82fB928150B87C4Ae6320Bf71F92dCCa5',
-  },
-  {
-    id: '18',
-    name: 'Edgeware (EDG)',
-    address: '0x4e0da40b9063dc48364c1c0ffb4ae9d091fc2270',
-  },
-  {
-    id: '19',
-    name: 'R Stablecoin (R)',
-    address: '0xafb2820316e7bc5ef78d295ab9b8bb2257534576',
-  },
-  {
-    id: '20',
-    name: 'Synth escrowed token (xSYNTH)',
-    address: '0x01CC6b33c63CeE896521D63451896C14D42D05Ea',
-  },
-  {
-    id: '21',
-    name: 'Synth Token (SYNTH)',
-    address: '0xbd2DBb8eceA9743CA5B16423b4eAa26bDcfE5eD2',
-  },
-  {
-    id: '22',
-    name: 'Rigo Token (GRG)',
-    address: '0x09188484e1ab980daef53a9755241d759c5b7d60',
-  },
-  {
-    id: '23',
-    name: 'Aave Base cbETH (aBascbETH)',
-    address: '0xcf3d55c10db69f28fd1a75bd73f3d8a2d9c595ad',
-  },
-  {
-    id: '24',
-    name: 'Aave Base WETH (aBasWETH)',
-    address: '0xd4a0e0b9149bcee3c920d2e00b5de09138fd8bb7',
-  },
-  {
-    id: '25',
-    name: 'Wrapped Ether (WETH)',
-    address: '0x4200000000000000000000000000000000000006',
-  },
-  {
-    id: '26',
-    name: 'USD Base Coin (USDbC)',
-    address: '0xd9aaec86b65d86f6a7b5b1b0c42ffa531710b6ca',
-  },
-  {
-    id: '27',
-    name: 'Baseswap Token (BSWAP)',
-    address: '0x78a087d713be963bf307b18f2ff8122ef9a63ae9',
-  },
-  {
-    id: '28',
-    name: 'leetswap.finance (LEET)',
-    address: '0x0963a1abaf36ca88c21032b82e479353126a1c4b',
-  },
-  {
-    id: '29',
-    name: 'BaseTools (BASE)',
-    address: '0xb3ce4ce692e035720b25880f678871cfc5a863ca',
-  },
-  {
-    id: '30',
-    name: 'Aave Base USDbC (aBasUSDbC)',
-    address: '0x0a1d576f3efef75b330424287a95a366e8281d54',
-  },
-  {
-    id: '31',
-    name: 'Aura (AURA)',
-    address: '0x1509706a6c66ca549ff0cb464de88231ddbe213b',
-  },
-  {
-    id: '32',
-    name: 'CheckDot (CDT)',
-    address: '0x0cbd6fadcf8096cc9a43d90b45f65826102e3ece',
-  },
-  {
-    id: '33',
-    name: 'GAMER (GMR)',
-    address: '0xc876e9cdd16acd38c57200084345d76a673cac9a',
-  },
-  {
-    id: '34',
-    name: 'JARVIS (JARVIS)',
-    address: '0x777b2839832982b35213063d850848369390ee16',
-  },
-  {
-    id: '35',
-    name: 'parallel (LL)',
-    address: '0x206571b68c66e1d112b74d65695043ad2b5f95d5',
-  },
-  {
-    id: '36',
-    name: 'RocketSwap (RCKT)',
-    address: '0x6653dd4b92a0e5bf8ae570a98906d9d6fd2eec09',
-  },
-  {
-    id: '37',
-    name: 'Seamless (SEAM)',
-    address: '0x1c7a460413dd4e964f96d8dfc56e7223ce88cd85',
-  },
-  {
-    id: '38',
-    name: 'StargateToken (STG)',
-    address: '0xE3B53AF74a4BF62Ae5511055290838050bf764Df',
-  },
-];
+// const baseTokens = [
+//   {
+//     id: '1',
+//     name: 'USD Coin (USDC)',
+//     address: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913',
+//     isEnabled: true,
+//   },
+//   {
+//     id: '2',
+//     name: 'Dai Stablecoin (DAI)',
+//     address: '0x50c5725949a6f0c72e6c4a641f24049a917db0cb',
+//     isEnabled: true,
+//   },
+//   {
+//     id: '3',
+//     name: 'Rocket Pool ETH (rETH)',
+//     address: '0xb6fe221fe9eef5aba221c348ba20a1bf5e73624c',
+//     isEnabled: true,
+//   },
+//   {
+//     id: '4',
+//     name: 'Synthetix Network Token (SNX)',
+//     address: '0x22e6966b799c4d5b13be962e1d117b56327fda66',
+//   },
+//   {
+//     id: '5',
+//     name: 'Pyth Network (PYTH)',
+//     address: '0x4c5d8A75F3762c1561D96f177694f67378705E98',
+//   },
+//   {
+//     id: '6',
+//     name: 'Coinbase Wrapped Staked ETH (cbETH)',
+//     address: '0x2ae3f1ec7f1f5012cfeab0185bfc7aa3cf0dec22',
+//     isEnabled: true,
+//   },
+//   {
+//     id: '7',
+//     name: 'Prime (PRIME)',
+//     address: '0xfA980cEd6895AC314E7dE34Ef1bFAE90a5AdD21b',
+//   },
+//   {
+//     id: '8',
+//     name: 'yearn.finance (YFI)',
+//     address: '0x9eaf8c1e34f05a589eda6bafdf391cf6ad3cb239',
+//   },
+//   {
+//     id: '9',
+//     name: 'BTRST (BTRST)',
+//     address: '0xa7d68d155d17cb30e311367c2ef1e82ab6022b67',
+//   },
+//   {
+//     id: '10',
+//     name: 'Kyber Network Crystal v2 (KNC)',
+//     address: '0x28fe69ff6864c1c218878bdca01482d36b9d57b1',
+//   },
+//   {
+//     id: '11',
+//     name: 'SmarDex Token (SDEX)',
+//     address: '0xfd4330b0312fdeec6d4225075b82e00493ff2e3f',
+//   },
+//   {
+//     id: '12',
+//     name: 'Magic Internet Money (MIM)',
+//     address: '0x4A3A6Dd60A34bB2Aba60D73B4C88315E9CeB6A3D',
+//   },
+//   {
+//     id: '13',
+//     name: 'Curve.fi Factory Plain Pool: Overnight/Curve (USD+crvUSD-f)',
+//     address: '0xda3de145054ed30ee937865d31b500505c4bdfe7',
+//   },
+//   {
+//     id: '14',
+//     name: 'Rai.Finance (SOFI)',
+//     address: '0x703d57164ca270b0b330a87fd159cfef1490c0a5',
+//   },
+//   {
+//     id: '15',
+//     name: 'MBS (MBS)',
+//     address: '0x8fbd0648971d56f1f2c35fa075ff5bc75fb0e39d',
+//   },
+//   {
+//     id: '16',
+//     name: 'DEUS (DEUS)',
+//     address: '0xde5ed76e7c05ec5e4572cfc88d1acea165109e44',
+//   },
+//   {
+//     id: '17',
+//     name: 'ECO (ECO)',
+//     address: '0x434769c82fB928150B87C4Ae6320Bf71F92dCCa5',
+//   },
+//   {
+//     id: '18',
+//     name: 'Edgeware (EDG)',
+//     address: '0x4e0da40b9063dc48364c1c0ffb4ae9d091fc2270',
+//   },
+//   {
+//     id: '19',
+//     name: 'R Stablecoin (R)',
+//     address: '0xafb2820316e7bc5ef78d295ab9b8bb2257534576',
+//   },
+//   {
+//     id: '20',
+//     name: 'Synth escrowed token (xSYNTH)',
+//     address: '0x01CC6b33c63CeE896521D63451896C14D42D05Ea',
+//   },
+//   {
+//     id: '21',
+//     name: 'Synth Token (SYNTH)',
+//     address: '0xbd2DBb8eceA9743CA5B16423b4eAa26bDcfE5eD2',
+//   },
+//   {
+//     id: '22',
+//     name: 'Rigo Token (GRG)',
+//     address: '0x09188484e1ab980daef53a9755241d759c5b7d60',
+//   },
+//   {
+//     id: '23',
+//     name: 'Aave Base cbETH (aBascbETH)',
+//     address: '0xcf3d55c10db69f28fd1a75bd73f3d8a2d9c595ad',
+//   },
+//   {
+//     id: '24',
+//     name: 'Aave Base WETH (aBasWETH)',
+//     address: '0xd4a0e0b9149bcee3c920d2e00b5de09138fd8bb7',
+//   },
+//   {
+//     id: '25',
+//     name: 'Wrapped Ether (WETH)',
+//     address: '0x4200000000000000000000000000000000000006',
+//   },
+//   {
+//     id: '26',
+//     name: 'USD Base Coin (USDbC)',
+//     address: '0xd9aaec86b65d86f6a7b5b1b0c42ffa531710b6ca',
+//   },
+//   {
+//     id: '27',
+//     name: 'Baseswap Token (BSWAP)',
+//     address: '0x78a087d713be963bf307b18f2ff8122ef9a63ae9',
+//   },
+//   {
+//     id: '28',
+//     name: 'leetswap.finance (LEET)',
+//     address: '0x0963a1abaf36ca88c21032b82e479353126a1c4b',
+//   },
+//   {
+//     id: '29',
+//     name: 'BaseTools (BASE)',
+//     address: '0xb3ce4ce692e035720b25880f678871cfc5a863ca',
+//   },
+//   {
+//     id: '30',
+//     name: 'Aave Base USDbC (aBasUSDbC)',
+//     address: '0x0a1d576f3efef75b330424287a95a366e8281d54',
+//   },
+//   {
+//     id: '31',
+//     name: 'Aura (AURA)',
+//     address: '0x1509706a6c66ca549ff0cb464de88231ddbe213b',
+//   },
+//   {
+//     id: '32',
+//     name: 'CheckDot (CDT)',
+//     address: '0x0cbd6fadcf8096cc9a43d90b45f65826102e3ece',
+//   },
+//   {
+//     id: '33',
+//     name: 'GAMER (GMR)',
+//     address: '0xc876e9cdd16acd38c57200084345d76a673cac9a',
+//   },
+//   {
+//     id: '34',
+//     name: 'JARVIS (JARVIS)',
+//     address: '0x777b2839832982b35213063d850848369390ee16',
+//   },
+//   {
+//     id: '35',
+//     name: 'parallel (LL)',
+//     address: '0x206571b68c66e1d112b74d65695043ad2b5f95d5',
+//   },
+//   {
+//     id: '36',
+//     name: 'RocketSwap (RCKT)',
+//     address: '0x6653dd4b92a0e5bf8ae570a98906d9d6fd2eec09',
+//   },
+//   {
+//     id: '37',
+//     name: 'Seamless (SEAM)',
+//     address: '0x1c7a460413dd4e964f96d8dfc56e7223ce88cd85',
+//   },
+//   {
+//     id: '38',
+//     name: 'StargateToken (STG)',
+//     address: '0xE3B53AF74a4BF62Ae5511055290838050bf764Df',
+//   },
+// ];
 const scrollTokens = [
   {
     id: '1',
@@ -2955,9 +2955,9 @@ export const allChainTokenInfo = [
 export const tokenRegistry: Record<string, any[]> = {
   'polygon-zkevm': polygonZkEvmTokens,
   arbitrum: arbitrumTokens,
-  base: baseErc20Tokens,
+  // base: baseErc20Tokens,
   matic: polygonTokens,
-  bsc: bnbErc20Tokens,
+  // bsc: bnbErc20Tokens,
   optimism: optimistTokens,
   manta: mantaTokens,
   'zksync-era': zkSyncTokens,

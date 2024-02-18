@@ -26,8 +26,8 @@ export default function GasConvertor() {
 
   const {
     data: ethPrice,
-    isLoading: isPriceLoading,
-    error: priceError,
+    // loading: isPriceLoading,
+    // error: priceError,
   } = useGetCoinPrice(['eth']);
   const isValid = (value: string) => {
     return !(value == '' || Number(value) < 0);
@@ -172,7 +172,7 @@ export default function GasConvertor() {
                     minWidth={[100, 400]}
                     value={calculateValue(
                       Number(ethValue),
-                      ethPrice[0]?.data.amount,
+                      Number(ethPrice[0]?.data.amount),
                     )}
                     disabled
                   />
