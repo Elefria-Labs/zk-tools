@@ -6,7 +6,7 @@ import { useWalletConnect } from '@hooks/useWalletConnect';
 import { truncateAddress } from '@utils/wallet';
 import { Eip712PlaygroundComponent } from '@components/eip712-playground/Eip712Component';
 
-export default function Eip712() {
+export default function Eip712Playground() {
   const { connectWallet, disconnect, account, provider } = useWalletConnect();
   return (
     <Main
@@ -28,6 +28,7 @@ export default function Eip712() {
         >
           EIP-712 Signature
         </Heading>
+
         <Flex justifyContent="end">
           {!account ? (
             <Button variant="solid" size="md" onClick={connectWallet}>
