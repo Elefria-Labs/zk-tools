@@ -6,7 +6,44 @@ export type Eip712MessageType = {
   nonce: number;
   data: string;
 };
-
+// export type Eip712MessageType2 = {
+//   message: string;
+//   tnc: string;
+//   nonce: number;
+//   issuedAt: number;
+// };
+// export type Data712Type2 = {
+//   types: {
+//     EIP712Domain: [
+//       {
+//         name: 'name';
+//         type: 'string';
+//       },
+//       {
+//         name: 'version';
+//         type: 'string';
+//       },
+//       {
+//         name: 'chainId';
+//         type: 'uint256';
+//       },
+//     ];
+//     TestWalletMessage: [
+//       { name: 'message'; type: 'string' },
+//       { name: 'tnc'; type: 'string' },
+//       { name: 'nonce'; type: 'string' },
+//       { name: 'issuedAt'; type: 'string' },
+//     ];
+//   };
+//   primaryType: 'TestWalletMessage';
+//   domain: {
+//     name: 'Test';
+//     version: '0.2';
+//     chainId: 1337;
+//     verifyingContract: string;
+//   };
+//   message: Eip712MessageType2;
+// };
 export type Data712Type = {
   types: {
     EIP712Domain: [

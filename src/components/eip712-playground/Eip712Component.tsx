@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
-  Text,
   Box,
   Button,
   List,
@@ -10,42 +9,50 @@ import {
   Input,
   Textarea,
   useToast,
+  Select,
+  Text,
 } from '@chakra-ui/react';
-import { Data712Type, Eip712MessageType, getData712 } from './eip712type';
+
 import { ethers } from 'ethers';
 import { splitSignature, verifyTypedData } from 'ethers/lib/utils';
 import { CheckCircleIcon, LockIcon, CloseIcon } from '@chakra-ui/icons';
 import JSONInput from 'react-json-editor-ajrm';
 import { SignatureLike } from '@ethersproject/bytes';
+import {
+  GenericData712Type,
+  getEip721DataByTemplate,
+} from '@components/eip712/eip712type';
 const locale = require('react-json-editor-ajrm/locale/en');
 
-type Eip712ComponentType = {
+type Eip712PlaygroundType = {
   provider?: ethers.providers.Web3Provider;
   address?: string;
 };
-const defaultMsg: Eip712MessageType = {
-  from: '0xEC8bfA4a9F650a4439cce1Bdc23EAc0AD95E7a0D',
-  to: '0xEC8bfA4a9F650a4439cce1Bdc23EAc0AD95E7a0D',
-  value: 100000,
-  data: '0x',
-  nonce: 1,
-  gas: 100000,
-};
-export function Eip712Component(props: Eip712ComponentType) {
+
+export function Eip712PlaygroundComponent(props: Eip712PlaygroundType) {
   const { provider, address } = props;
   const toast = useToast();
-  // const [data712, setData712] = useState<Data712Type | undefined>();
   // @ts-ignore
   const [signTypedData, setSignTypedData] = useState<string | undefined>();
   const [sig, setSig] = useState<string | undefined>();
+  const [eip721Template, setEip712Template] = useState<string>('');
   const [verifySigInput, setVerifySigInput] = useState<
     SignatureLike | undefined
   >();
   const [rsvSig, setRsvSig] = useState<ethers.Signature | undefined>();
-  const [data712, setData712] = useState<Data712Type>(getData712(defaultMsg));
+  const [data7122, setData7122] = useState<
+    GenericData712Type<Record<string, string | number>, Record<string, string>>
+  >(getEip721DataByTemplate('default'));
   const [recoveredAddr, setRecoveredAddr] = useState<string | undefined>();
   const [loading, setLoading] = useState<boolean>(false);
 
+  useEffect(() => {
+    if (eip721Template == null) {
+      return;
+    }
+
+    setData7122(getEip721DataByTemplate(eip721Template));
+  }, [eip721Template]);
   const signUsingEthers = async () => {
     if (provider == null) {
       toast({
@@ -59,10 +66,13 @@ export function Eip712Component(props: Eip712ComponentType) {
     }
     setLoading(true);
     const signer = await provider.getSigner();
+    const types = {
+      [data7122.primaryType]: data7122.types[data7122.primaryType],
+    } as Record<string, []>;
     const flatSig = await signer._signTypedData(
-      data712.domain,
-      { SampleTx: data712.types.SampleTx },
-      data712.message,
+      data7122.domain,
+      types,
+      data7122.message,
     );
     setSig(flatSig);
     const sig = splitSignature(flatSig);
@@ -77,10 +87,13 @@ export function Eip712Component(props: Eip712ComponentType) {
       return;
     }
     setLoading(true);
+    const types = {
+      [data7122.primaryType]: data7122.types[data7122.primaryType],
+    } as Record<string, []>;
     const recoveredAddress = verifyTypedData(
-      data712.domain,
-      { SampleTx: data712.types.SampleTx },
-      data712.message,
+      data7122.domain,
+      types,
+      data7122.message,
       verifySigInput,
     );
     setRecoveredAddr(recoveredAddress);
@@ -98,18 +111,31 @@ export function Eip712Component(props: Eip712ComponentType) {
       <Flex justifyContent={'space-between'}>
         <Flex flexDirection="column">
           <Text mb="8px">{'eth_signTypedData_v4'}</Text>
+          <Select
+            placeholder="Select Template"
+            onChange={(event) => {
+              setEip712Template(event.target.value);
+            }}
+            mb={4}
+          >
+            <option value="meta-tx">Meta Transaction</option>
+            <option value="aave-delegate-credit">
+              Aave Credit Delegation (Sepolia)
+            </option>
+          </Select>
           <JSONInput
-            id="a_unique_id"
-            placeholder={data712}
+            id="data7122"
+            placeholder={data7122}
             height="320px"
             locale={locale}
             onChange={(event: any) => {
               if (event == null) {
                 return;
               }
-              setData712(event.jsObject);
+              setData7122(event.jsObject);
             }}
           />
+
           <Button variant="solid" size="md" mt="16px" onClick={signUsingEthers}>
             Sign
           </Button>
