@@ -7,13 +7,18 @@ import {
   List,
   ListItem,
   ListIcon,
+  Tag,
+  TagLeftIcon,
+  useToast,
 } from '@chakra-ui/react';
-import { CheckCircleIcon } from '@chakra-ui/icons';
+import { CheckCircleIcon, CopyIcon } from '@chakra-ui/icons';
 import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
-import { repoLink } from '@config/constants';
+import { toastOptions } from '@components/common/toast';
+import { repoLink, zkToosLink } from '@config/constants';
 
 export default function Contribute() {
+  const toast = useToast();
   return (
     <Main
       meta={
@@ -35,15 +40,28 @@ export default function Contribute() {
           Contribute ❤️
         </Heading>
         <Text fontSize={['15px', '15px', '17px']} color="gray.700" mb="15px">
-          The source code of the boilerplate can be{' '}
+          The source code of the boilerplate can be found on Github (links
+          below):
+        </Text>
+        <Text fontSize={['15px', '15px', '17px']} color="gray.700" mb="15px">
           <Link
             alignItems="center"
             fontWeight={600}
             _hover={{ textDecoration: 'none', color: 'grey' }}
             href={repoLink}
           >
-            found on Github.
-          </Link>{' '}
+            zk-block boilerplate
+          </Link>
+        </Text>
+        <Text fontSize={['15px', '15px', '17px']} color="gray.700" mb="15px">
+          <Link
+            alignItems="center"
+            fontWeight={600}
+            _hover={{ textDecoration: 'none', color: 'grey' }}
+            href={zkToosLink}
+          >
+            evm-tools
+          </Link>
         </Text>
         <Text fontSize={['15px', '15px', '17px']} color="gray.700" mb="15px">
           You can contribute by:
@@ -67,6 +85,27 @@ export default function Contribute() {
               </ListItem>
             );
           })}
+          <ListItem key={'donate'}>
+            <Tag
+              size={'lg'}
+              variant="solid"
+              colorScheme="teal"
+              cursor="pointer"
+              onClick={() => {
+                navigator.clipboard.writeText(
+                  `0xD5141c47DEE803D0dD9793fcD5703daF4f750148`,
+                );
+                toast({
+                  ...toastOptions,
+                  title: 'Copied!',
+                  status: 'success',
+                });
+              }}
+            >
+              {`Donation Address: ${'0xD5141c47DEE803D0dD9793fcD5703daF4f750148'}`}
+              <TagLeftIcon boxSize="12px" as={CopyIcon} ml={2} />
+            </Tag>
+          </ListItem>
         </List>
       </Container>
     </Main>
