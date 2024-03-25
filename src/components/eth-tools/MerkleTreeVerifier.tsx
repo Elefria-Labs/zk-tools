@@ -1,14 +1,28 @@
 import { useState } from 'react';
-import { Button, Box, Input, Text, Textarea, useToast } from '@chakra-ui/react';
+import {
+  Button,
+  Box,
+  Input,
+  Text,
+  Textarea,
+  useToast,
+  Divider,
+  Heading,
+} from '@chakra-ui/react';
 import { ethers } from 'ethers';
-import { MerkleTree } from 'merkletreejs';
 import { toastOptions } from '@components/common/toast';
+import { StandardMerkleTree } from '@openzeppelin/merkle-tree';
+
+const defaultInput =
+  '0xd8da6bf26964af9d7eed9e03e53415d37aa96045\n0xeee718c1e522ecb4b609265db7a83ab48ea0b06f\n0x14536667cd30e52c0b458baaccb9fada7046e056';
 
 const MerkleTreeVerifier = () => {
-  const [addressesInput, setAddressesInput] = useState('');
+  const [addressesInput, setAddressesInput] = useState(defaultInput.toString());
   const [merkleRoot, setMerkleRoot] = useState('');
   const [verifyAddress, setVerifyAddress] = useState('');
-  const [addressBelongs, setAddressBelongs] = useState(false);
+  const [proofAddressInput, setProofAddressInput] = useState('');
+  const [addressProof, setAddressProof] = useState('');
+  const [, setAddressBelongs] = useState(false);
   const toast = useToast();
 
   const handleAddressesInputChange = (
@@ -21,6 +35,12 @@ const MerkleTreeVerifier = () => {
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setVerifyAddress(event.target.value);
+  };
+
+  const handleProofAddressInput = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    setProofAddressInput(event.target.value);
   };
 
   const getTree = (addressesInput: string) => {
@@ -39,10 +59,11 @@ const MerkleTreeVerifier = () => {
         });
         return;
       }
-      const leaves = addresses.map((address) =>
-        ethers.utils.keccak256(address),
+
+      return StandardMerkleTree.of(
+        addresses.map((a) => [a]),
+        ['address'],
       );
-      return new MerkleTree(leaves);
     } catch (e) {
       toast({
         ...toastOptions,
@@ -56,7 +77,7 @@ const MerkleTreeVerifier = () => {
     if (tree == null) {
       return;
     }
-    const root = tree.getRoot().toString('hex');
+    const root = tree.root;
     setMerkleRoot(root);
   };
 
@@ -76,17 +97,45 @@ const MerkleTreeVerifier = () => {
     if (tree == null) {
       return;
     }
-    const addressToVerify = ethers.utils.keccak256(verifyAddress);
-    const proof = tree.getProof(addressToVerify);
+
+    const proof = tree.getProof([verifyAddress]);
 
     // Verify if the address belongs to the Merkle root
-    const isValid = MerkleTree.verify(proof, addressToVerify, merkleRoot);
+    const isValid = tree.verify([verifyAddress], proof);
     setAddressBelongs(isValid);
     if (isValid) {
       toast({
         ...toastOptions,
         title: 'Address is present in the merkle tree.',
         status: 'success',
+      });
+    }
+  };
+
+  const handleGenerateProof = () => {
+    if (!proofAddressInput || !ethers.utils.isAddress(proofAddressInput)) {
+      toast({
+        ...toastOptions,
+        title: 'Please check your input.',
+      });
+      return;
+    }
+    const tree = getTree(addressesInput);
+    if (tree == null) {
+      return;
+    }
+    try {
+      const proof = tree.getProof([proofAddressInput]);
+      setAddressProof(proof.toString());
+      toast({
+        ...toastOptions,
+        title: 'Proof generated successfully!',
+        status: 'success',
+      });
+    } catch (e) {
+      toast({
+        ...toastOptions,
+        title: 'Failed to generate valid proof.',
       });
     }
   };
@@ -108,7 +157,27 @@ const MerkleTreeVerifier = () => {
           <Text>Merkle Root: {merkleRoot}</Text>
         </Box>
       )}
-      <Text mt={4}>Verify if an address belongs to the Merkle tree:</Text>
+      <Divider my={4} />
+      <Heading my={4} size={'md'}>
+        Generate merkle proof
+      </Heading>
+      <Input
+        placeholder="Address"
+        value={proofAddressInput}
+        onChange={handleProofAddressInput}
+        mb={4}
+      />
+      <Button onClick={handleGenerateProof} mb={4}>
+        Generate Proof
+      </Button>
+      <Textarea
+        placeholder="Enter addresses, one per line"
+        rows={6}
+        value={addressProof}
+        disabled
+      />
+      <Divider my={4} />
+      <Text my={4}>Verify if an address belongs to the Merkle tree:</Text>
       <Input
         placeholder="Address to Verify"
         value={verifyAddress}
@@ -118,16 +187,12 @@ const MerkleTreeVerifier = () => {
       <Button onClick={handleVerifyAddress} mb={4}>
         Verify Address
       </Button>
-      {addressBelongs && (
-        <Box mt={4}>
-          <Text>The address belongs to the Merkle tree.</Text>
-        </Box>
-      )}
-      {!addressBelongs && merkleRoot && (
+
+      {/* {!addressBelongs && merkleRoot && (
         <Box mt={4}>
           <Text>The address does not belong to the Merkle tree.</Text>
         </Box>
-      )}
+      )} */}
     </Box>
   );
 };
