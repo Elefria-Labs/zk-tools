@@ -37,6 +37,12 @@ export const playgroundToolsList: Item[] = [
     link: Links.erc191,
     isBeta: false,
   },
+  {
+    title: 'EVM Checksum Address',
+    description: 'Convert EVM addresses to checksum format.',
+    link: Links.evmChecksumAddress,
+    isBeta: false,
+  },
   // {
   //   title: 'Uniswap V3 (beta)',
   //   description:
