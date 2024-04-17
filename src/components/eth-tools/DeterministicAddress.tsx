@@ -19,6 +19,7 @@ type DeterministicAddressPropsType = {
 const DeterministicAddress = (props: DeterministicAddressPropsType) => {
   const { provider, address } = props;
   const [account, setAccount] = useState(address);
+  const [nonce, setNonce] = useState<number | null>();
   const [contractAddress, setContractAddress] = useState('');
   const [salt, setSalt] = useState('Salt');
   const [useCreate2, setUseCreate2] = useState(false);
@@ -26,18 +27,24 @@ const DeterministicAddress = (props: DeterministicAddressPropsType) => {
   const toast = useToast();
   useEffect(() => {
     setAccount(address);
-  }, [address]);
+    const getNonce = async () => {
+      if (address && provider) {
+        const nonce = await provider.getTransactionCount(address);
+        setNonce(nonce);
+      }
+    };
+    getNonce();
+  }, [address, provider]);
 
   const generateContractAddress = async () => {
     if (provider == null) {
       toast({ ...toastOptions, title: 'Please connect wallet.' });
       return;
     }
-    if (!account) {
+    if (!account || !nonce) {
       toast({ ...toastOptions, title: 'Please check input.' });
       return;
     }
-    const nonce = await provider.getTransactionCount(account);
     const contractAddress = ethers.utils.getContractAddress({
       from: account,
       nonce: nonce,
@@ -64,6 +71,9 @@ const DeterministicAddress = (props: DeterministicAddressPropsType) => {
     );
     setContractAddress(contractAddress);
   };
+  const handleNonceChange = (e: any) => {
+    setNonce(e.target.value);
+  };
 
   return (
     <VStack>
@@ -76,6 +86,14 @@ const DeterministicAddress = (props: DeterministicAddressPropsType) => {
         value={account}
         onChange={(e) => setAccount(e.target.value)}
       />
+      {!useCreate2 && (
+        <Input
+          type="number"
+          placeholder="Nonce"
+          value={nonce ?? 0}
+          onChange={handleNonceChange}
+        />
+      )}
       {useCreate2 && (
         <>
           <Input
