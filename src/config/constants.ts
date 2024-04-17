@@ -24,6 +24,7 @@ export const Links = {
   subscribe: 'subscribe',
   eipGpt: 'https://gpt.zkblock.app/',
   evm: 'https://evm.zkblock.app/',
+  evmTools: 'https://evmtools.xyz/',
 };
 
 export const repoLink = 'https://github.com/heypran/zk-block';

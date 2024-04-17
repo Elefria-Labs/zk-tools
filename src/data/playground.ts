@@ -11,9 +11,9 @@ export interface Item {
 
 export const playgroundToolsList: Item[] = [
   {
-    title: 'EVM Visualizer (beta)',
+    title: 'EVM Storage Explorer (evmtools)',
     description: 'Analyze EVM bytecode, slots and storage layout',
-    link: Links.evm,
+    link: Links.evmTools,
     isExternal: true,
   },
   {
@@ -99,5 +99,11 @@ export const playgroundToolsList: Item[] = [
       'Generate contract address for next contract deployment from an address.',
     link: Links.contractAddressGen,
     isBeta: false,
+  },
+  {
+    title: 'EVM Visualizer (deprecating soon)',
+    description: 'Analyze EVM bytecode, slots and storage layout',
+    link: Links.evm,
+    isExternal: true,
   },
 ];

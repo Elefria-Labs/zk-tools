@@ -16,8 +16,8 @@ import { Main } from '@templates/Main';
 import { ethers } from 'ethers';
 import { CopyIcon } from '@chakra-ui/icons';
 import { useGetCoinPrice } from '@hooks/useGetCoinPrice';
-import { calculateValue } from '@components/pools/utils';
 import { useGetBaseFee } from '@hooks/useGetBaseFee';
+import { calculateValue } from '@components/pools/utils';
 
 export default function GasConvertor() {
   const [weiValue, setWeiValue] = useState<string>('');
@@ -170,10 +170,11 @@ export default function GasConvertor() {
                     type="number"
                     placeholder="ETH"
                     minWidth={[100, 400]}
-                    value={calculateValue(
-                      Number(ethValue),
-                      Number(ethPrice[0]?.data.amount),
-                    )}
+                    value={ethPrice[0]?.data.amount}
+                    // value={calculateValue(
+                    //   Number(ethValue),
+                    //   Number(ethPrice[0]?.data.amount),
+                    // )}
                     disabled
                   />
                   <InputRightElement>
@@ -197,6 +198,30 @@ export default function GasConvertor() {
                     placeholder="ETH"
                     minWidth={[100, 400]}
                     value={gasDetails.data.result.suggestBaseFee}
+                    disabled
+                  />
+                  <InputRightElement>
+                    <IconButton
+                      aria-label="Copy ETH Value"
+                      icon={<CopyIcon />}
+                      onClick={() => handleCopyClick(ethValue)}
+                    />
+                  </InputRightElement>
+                </InputGroup>
+              </FormControl>
+            )}
+            {!!gasDetails?.data && ethValue && (
+              <FormControl>
+                <FormLabel htmlFor="eth-input">{'Total Gas Cost'}</FormLabel>
+                <InputGroup>
+                  <Input
+                    type="number"
+                    placeholder="ETH"
+                    minWidth={[100, 400]}
+                    value={calculateValue(
+                      Number(ethValue),
+                      Number(gasDetails.data.result.suggestBaseFee),
+                    )}
                     disabled
                   />
                   <InputRightElement>
