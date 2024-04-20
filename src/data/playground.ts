@@ -7,6 +7,7 @@ export interface Item {
   isBeta?: boolean;
   isExternal?: boolean;
   onChain?: boolean;
+  metadata?: { title: string; description: string };
 }
 
 export const playgroundToolsList: Item[] = [
@@ -99,6 +100,11 @@ export const playgroundToolsList: Item[] = [
       'Generate contract address for next contract deployment from an address.',
     link: Links.contractAddressGen,
     isBeta: false,
+    metadata: {
+      title: 'Deterministic Contract Address | Zk block',
+      description:
+        'Generate the next deployment contract address from an account',
+    },
   },
   {
     title: 'EVM Visualizer (deprecating soon)',
