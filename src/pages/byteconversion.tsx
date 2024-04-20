@@ -1,8 +1,8 @@
 import React from 'react';
-import { Container, Heading } from '@chakra-ui/react';
 import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
 import StringByteConversion from '@components/eth-tools/StringByteConversion';
+import ToolBase from '@components/common/ToolBase';
 
 export default function ByteConversion() {
   return (
@@ -14,19 +14,10 @@ export default function ByteConversion() {
         />
       }
     >
-      <Container maxW={'container.lg'} position="relative">
-        <Heading
-          as="h1"
-          color="black"
-          fontSize={['35px', '35px', '40px']}
-          fontWeight={700}
-          mb="20px"
-          mt="20px"
-        >
-          Bytes32 & String Conversion
-        </Heading>
-        <StringByteConversion />
-      </Container>
+      <ToolBase
+        title="Bytes32 & String Conversion"
+        toolComponent={<StringByteConversion />}
+      />
     </Main>
   );
 }

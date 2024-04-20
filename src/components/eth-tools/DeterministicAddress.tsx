@@ -18,6 +18,7 @@ type DeterministicAddressPropsType = {
 };
 const DeterministicAddress = (props: DeterministicAddressPropsType) => {
   const { provider, address } = props;
+
   const [account, setAccount] = useState(address);
   const [nonce, setNonce] = useState<number | null>(1);
   const [contractAddress, setContractAddress] = useState('');
@@ -25,6 +26,7 @@ const DeterministicAddress = (props: DeterministicAddressPropsType) => {
   const [useCreate2, setUseCreate2] = useState(false);
   const [byteCode, setByteCode] = useState('');
   const toast = useToast();
+
   useEffect(() => {
     setAccount(address);
     const getNonce = async () => {
