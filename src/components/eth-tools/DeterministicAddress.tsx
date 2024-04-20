@@ -28,9 +28,6 @@ const DeterministicAddress = (props: DeterministicAddressPropsType) => {
   const toast = useToast();
 
   useEffect(() => {
-    if (address == null) {
-      return;
-    }
     setAccount(address);
     const getNonce = async () => {
       if (address && provider) {
