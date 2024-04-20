@@ -30,7 +30,7 @@ const DeterministicAddress = (props: DeterministicAddressPropsType) => {
     const getNonce = async () => {
       if (address && provider) {
         const nonce = await provider.getTransactionCount(address);
-        setNonce(nonce);
+        setNonce(nonce == 0 ? 1 : nonce);
       }
     };
     getNonce();
