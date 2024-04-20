@@ -19,7 +19,7 @@ type DeterministicAddressPropsType = {
 const DeterministicAddress = (props: DeterministicAddressPropsType) => {
   const { provider, address } = props;
   const [account, setAccount] = useState(address);
-  const [nonce, setNonce] = useState<number | null>();
+  const [nonce, setNonce] = useState<number | null>(1);
   const [contractAddress, setContractAddress] = useState('');
   const [salt, setSalt] = useState('Salt');
   const [useCreate2, setUseCreate2] = useState(false);
@@ -90,7 +90,7 @@ const DeterministicAddress = (props: DeterministicAddressPropsType) => {
         <Input
           type="number"
           placeholder="Nonce"
-          value={nonce ?? 0}
+          value={nonce ?? 1}
           onChange={handleNonceChange}
         />
       )}
