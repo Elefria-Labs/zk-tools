@@ -75,33 +75,36 @@ function DesktopMenuLinks() {
             <MenuLink text={'EVM Visualizer'} link={Links.evm} />
           </MenuItem>
           <MenuItem>
-            <MenuLink text={'EIP-712'} link={Links.eip712} />
+            <MenuLink text={'EIP-712'} link={`/${Links.eip712}`} />
           </MenuItem>
           <MenuItem>
-            <MenuLink text={'ERC-191'} link={Links.erc191} />
+            <MenuLink text={'ERC-191'} link={`/${Links.erc191}`} />
           </MenuItem>
           <MenuItem>
-            <MenuLink text={'Tx Decoder'} link={Links.txDecoder} />
+            <MenuLink text={'Tx Decoder'} link={`/${Links.txDecoder}`} />
           </MenuItem>
           <MenuItem>
-            <MenuLink text={'Gas Converter'} link={Links.gasConverter} />
+            <MenuLink text={'Gas Converter'} link={`/${Links.gasConverter}`} />
           </MenuItem>
           <MenuItem>
-            <MenuLink text={'Burner Wallet'} link={Links.burnerWallet} />
+            <MenuLink text={'Burner Wallet'} link={`/${Links.burnerWallet}`} />
           </MenuItem>
           <MenuItem>
             <MenuLink
               text={'Merkle Tree Generator'}
-              link={Links.merkleTreeGenerator}
+              link={`/${Links.merkleTreeGenerator}`}
             />
           </MenuItem>
           <MenuItem>
-            <MenuLink text={'Bytes32 Conversion'} link={Links.byteconversion} />
+            <MenuLink
+              text={'Bytes32 Conversion'}
+              link={`/${Links.byteconversion}`}
+            />
           </MenuItem>
           <MenuItem>
             <MenuLink
               text={'Deterministic Address'}
-              link={Links.contractAddressGen}
+              link={`/${Links.contractAddressGen}`}
             />
           </MenuItem>
         </MenuList>
