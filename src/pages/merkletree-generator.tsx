@@ -1,7 +1,7 @@
 import React from 'react';
 import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
-import MerkleTreeVerifier from '@components/eth-tools/MerkleTreeVerifier';
+import MerkleTreeVerifier from '@components/tools/evmtools/MerkleTreeVerifier';
 import ToolBase from '@components/common/ToolBase';
 
 export default function MerkleTreeGenerator() {

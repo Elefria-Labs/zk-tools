@@ -1,7 +1,7 @@
 import React from 'react';
 import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
-import StringByteConversion from '@components/eth-tools/StringByteConversion';
+import StringByteConversion from '@components/tools/evmtools/StringByteConversion';
 import ToolBase from '@components/common/ToolBase';
 
 export default function ByteConversion() {

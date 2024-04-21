@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Container, Flex, Heading } from '@chakra-ui/react';
 import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
-import DeterministicAddress from '@components/eth-tools/DeterministicAddress';
+import DeterministicAddress from '@components/tools/evmtools/DeterministicAddress';
 import { useWalletConnect } from '@hooks/useWalletConnect';
 import { truncateAddress } from '@utils/wallet';
 

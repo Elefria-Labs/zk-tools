@@ -27,8 +27,8 @@ export default function About() {
         <Text fontSize={['15px', '15px', '17px']} color="gray.700" mb="15px">
           zk block is one stop tools directory for zero knowledge proofs, smart
           contracts, ethereum (& L2), web3 apps and cryptography. It started as
-          a boileplate code for snarks, but we are adding more features to help
-          the community and make tooling information more easily accessbile.
+          a boilerplate code for snarks, but we are adding more features to help
+          the community and make tooling information more easily accessible.
         </Text>
       </Container>
     </Main>

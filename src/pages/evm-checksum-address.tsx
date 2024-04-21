@@ -2,7 +2,7 @@ import React from 'react';
 import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
 import ToolBase from '@components/common/ToolBase';
-import EvmAddressChecksumComponent from '@components/eth-tools/EVMAddressChecksumComponent';
+import EvmAddressChecksumComponent from '@components/tools/evmtools/EVMAddressChecksumComponent';
 
 export default function EvmChecksumAddress() {
   return (
