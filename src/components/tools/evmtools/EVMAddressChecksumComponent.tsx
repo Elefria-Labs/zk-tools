@@ -86,7 +86,7 @@ export default function EvmAddressChecksumComponent() {
             <Input
               type="string"
               placeholder="address"
-              minWidth={[350, 600]}
+              minWidth={[350, 350, 600]}
               value={toChecksumAddress}
               onChange={handleToChecksumAddress}
             />
@@ -95,7 +95,7 @@ export default function EvmAddressChecksumComponent() {
             <Input
               type="string"
               placeholder="address"
-              minWidth={[350, 600]}
+              minWidth={[350, 350, 600]}
               value={checksummedAddress}
               disabled
             />
