@@ -2,7 +2,7 @@ import React from 'react';
 import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
 import ToolBase from '@components/common/ToolBase';
-import TxDecoderComponent from '@components/eth-tools/TxDecoderComponent';
+import TxDecoderComponent from '@components/tools/evmtools/TxDecoderComponent';
 
 export default function TxDecoder() {
   return (

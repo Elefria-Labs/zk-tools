@@ -8,6 +8,8 @@ export interface Item {
   isExternal?: boolean;
   onChain?: boolean;
   metadata?: { title: string; description: string };
+  isWalletRequired?: boolean;
+  component?: any;
 }
 
 export const playgroundToolsList: Item[] = [
@@ -39,10 +41,12 @@ export const playgroundToolsList: Item[] = [
     isBeta: false,
   },
   {
-    title: 'EVM Checksum Address',
+    title: 'Checksum Address',
     description: 'Convert EVM addresses to checksum format.',
     link: Links.evmChecksumAddress,
     isBeta: false,
+    isWalletRequired: false,
+    // component: EvmAddressChecksumComponent,
   },
   // {
   //   title: 'Uniswap V3 (beta)',
@@ -67,6 +71,8 @@ export const playgroundToolsList: Item[] = [
       'Analyze and decode EVM transactions aiding in transaction analysis and debugging.',
     link: Links.txDecoder,
     isBeta: false,
+    isWalletRequired: false,
+    // component: TxDecoderComponent,
   },
   {
     title: 'Merkle Tree Generator',
@@ -74,6 +80,8 @@ export const playgroundToolsList: Item[] = [
       'Construct merkle trees and verify proofs using openzeppelin library.',
     link: Links.merkleTreeGenerator,
     isBeta: false,
+    isWalletRequired: false,
+    // component: MerkleTreeVerifier,
   },
   {
     title: 'Gas Convertor',
@@ -81,18 +89,24 @@ export const playgroundToolsList: Item[] = [
       'Convert between various gas units (wei, gwei, eth) for smart contracts on the EVM networks.',
     link: Links.gasConverter,
     isBeta: false,
+    isWalletRequired: false,
+    // component: GasConvertorComponent,
   },
   {
     title: 'Bytes & String Convertor',
     description: 'Convert between strings and bytes.',
     link: Links.byteconversion,
     isBeta: false,
+    isWalletRequired: false,
+    // component: StringByteConversion,
   },
   {
     title: 'Burner Wallet',
     description: 'Generate random private and public key pairs for EVM chains.',
     link: Links.burnerWallet,
     isBeta: false,
+    isWalletRequired: false,
+    // component: BurnerWalletComponent,
   },
   {
     title: 'Deterministic Contracts',

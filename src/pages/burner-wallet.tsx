@@ -3,7 +3,7 @@ import React from 'react';
 import { Meta } from '@layout/Meta';
 import { Main } from '@templates/Main';
 import ToolBase from '@components/common/ToolBase';
-import BurnerWalletComponent from '@components/eth-tools/BurnerWalletComponent';
+import BurnerWalletComponent from '@components/tools/evmtools/BurnerWalletComponent';
 
 export default function BurnerWallet() {
   return (

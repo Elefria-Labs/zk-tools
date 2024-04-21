@@ -11,7 +11,8 @@ import {
 } from '@chakra-ui/react';
 import { ethers } from 'ethers';
 import JSONInput from 'react-json-editor-ajrm';
-const locale = require('react-json-editor-ajrm/locale/en');
+// @ts-ignore
+import * as locale from 'react-json-editor-ajrm/locale/en';
 
 export default function TxDecoderComponent() {
   const [rawTx, setRawTx] = useState<string>('');
@@ -41,7 +42,8 @@ export default function TxDecoderComponent() {
           <FormLabel htmlFor="rawTx">Raw Transaction Data</FormLabel>
           <Textarea
             id="rawTx"
-            minW="480px"
+            minW="320px"
+            minH="480px"
             placeholder="Enter raw transaction data"
             value={rawTx}
             onChange={(e) => setRawTx(e.target.value)}
