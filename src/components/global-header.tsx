@@ -81,6 +81,12 @@ function DesktopMenuLinks() {
             <MenuLink text={'ERC-191'} link={`/${Links.erc191}`} />
           </MenuItem>
           <MenuItem>
+            <MenuLink
+              text={'Checksum Address'}
+              link={`/${Links.evmChecksumAddress}`}
+            />
+          </MenuItem>
+          <MenuItem>
             <MenuLink text={'Tx Decoder'} link={`/${Links.txDecoder}`} />
           </MenuItem>
           <MenuItem>

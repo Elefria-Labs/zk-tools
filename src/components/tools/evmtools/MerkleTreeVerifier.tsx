@@ -8,6 +8,7 @@ import {
   useToast,
   Divider,
   Heading,
+  FormLabel,
 } from '@chakra-ui/react';
 import { ethers } from 'ethers';
 import { toastOptions } from '@components/common/toast';
@@ -126,7 +127,7 @@ const MerkleTreeVerifier = () => {
     }
     try {
       const proof = tree.getProof([proofAddressInput]);
-      setAddressProof(proof.toString());
+      setAddressProof(JSON.stringify(proof));
       toast({
         ...toastOptions,
         title: 'Proof generated successfully!',
@@ -142,10 +143,11 @@ const MerkleTreeVerifier = () => {
 
   return (
     <Box p={4}>
-      <Text mb={4}>Enter addresses (one per line):</Text>
+      <FormLabel mb={4}>Enter addresses (one per line):</FormLabel>
       <Textarea
         placeholder="Enter addresses, one per line"
         rows={6}
+        size={['xs', 'xs', 'md']}
         value={addressesInput}
         onChange={handleAddressesInputChange}
       />
@@ -177,7 +179,10 @@ const MerkleTreeVerifier = () => {
         disabled
       />
       <Divider my={4} />
-      <Text my={4}>Verify if an address belongs to the Merkle tree:</Text>
+      <FormLabel my={4}>
+        Verify if an address belongs to the Merkle tree:
+      </FormLabel>
+
       <Input
         placeholder="Address to Verify"
         value={verifyAddress}
@@ -187,12 +192,6 @@ const MerkleTreeVerifier = () => {
       <Button onClick={handleVerifyAddress} mb={4}>
         Verify Address
       </Button>
-
-      {/* {!addressBelongs && merkleRoot && (
-        <Box mt={4}>
-          <Text>The address does not belong to the Merkle tree.</Text>
-        </Box>
-      )} */}
     </Box>
   );
 };

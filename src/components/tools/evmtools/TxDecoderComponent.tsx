@@ -5,7 +5,6 @@ import {
   FormControl,
   FormLabel,
   Textarea,
-  Text,
   VStack,
   useToast,
 } from '@chakra-ui/react';
@@ -36,13 +35,16 @@ export default function TxDecoderComponent() {
   };
 
   return (
-    <Flex justifyContent="space-between">
+    <Flex
+      flexDirection={['column', 'column', 'row']}
+      justifyContent="space-between"
+    >
       <VStack spacing={4}>
         <FormControl isRequired>
           <FormLabel htmlFor="rawTx">Raw Transaction Data</FormLabel>
           <Textarea
             id="rawTx"
-            minW="320px"
+            minW={[380, 380, 600]}
             minH="480px"
             placeholder="Enter raw transaction data"
             value={rawTx}
@@ -53,10 +55,10 @@ export default function TxDecoderComponent() {
           Decode Transaction
         </Button>
       </VStack>
-      <Flex flexDirection="column">
+      <Flex flexDirection="column" mt={[8, 8, 0]}>
         {decodedTx && (
           <>
-            <Text mb="8px">{'Decoded Transaction Data'}</Text>
+            <FormLabel mb="8px">{'Decoded Transaction Data'}</FormLabel>
             <JSONInput placeholder={decodedTx} locale={locale} viewOnly />
           </>
         )}
