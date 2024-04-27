@@ -6,6 +6,7 @@ import {
   TabPanel,
   TabPanels,
   Flex,
+  Divider,
 } from '@chakra-ui/react';
 import { playgroundToolsList } from '@data/playground';
 import BurnerWalletComponent from '@components/tools/evmtools/BurnerWalletComponent';
@@ -14,6 +15,8 @@ import MerkleTreeVerifier from '@components/tools/evmtools/MerkleTreeVerifier';
 import StringByteConversion from '@components/tools/evmtools/StringByteConversion';
 import TxDecoderComponent from '@components/tools/evmtools/TxDecoderComponent';
 import { Links } from '@config/constants';
+import GasConvertorComponent from '@components/tools/evmtools/GasConvertorComponent';
+import Cheatsheet from '@components/tools/evmtools/Cheatsheet';
 
 // type ToolTabsProps = {
 //   toolNameSearchQuery?: string;
@@ -37,9 +40,12 @@ function RenderToolTabPanel(link: string) {
     case Links.burnerWallet:
       component = <BurnerWalletComponent />;
       break;
-    // case Links.gasConverter:
-    //   component = <GasConvertorComponent />;
-    //   break;
+    case Links.gasConverter:
+      component = <GasConvertorComponent />;
+      break;
+    case Links.cheatsheet:
+      component = <Cheatsheet />;
+      break;
   }
   return <TabPanel key={link}>{component}</TabPanel>;
 }
@@ -50,20 +56,33 @@ export default function ToolTabs() {
 
   return (
     <Flex dir="column" overflowX="hidden">
-      <Tabs
-        size="xs"
-        variant="soft-rounded"
-        colorScheme="green"
-        overflowX="scroll"
-      >
-        <TabList overflowX="scroll">
+      <Tabs size="xs" variant="soft-rounded" colorScheme="green">
+        {/* 54 +16px */}
+        <TabList overflowX="auto" bg={'green.400'}>
           {toolTabs.map((t) => (
-            <Tab rounded={'4px'} key={t.link} wordBreak="keep-all">
+            <Tab
+              rounded={'4px'}
+              key={t.link}
+              // height="32px"
+
+              padding="4px"
+              wordBreak="normal"
+              // whiteSpace="nowrap"
+            >
               {t.title}
             </Tab>
           ))}
         </TabList>
-        <TabPanels maxW={`480px -${16}px`} overflowX="hidden">
+        <Divider my={1} />
+        <TabPanels
+          maxW={`480px -${16}px`}
+          style={{
+            overflowY: 'auto',
+            overflowX: 'hidden',
+            height: `472px`, //-${56}px -${70}px
+            paddingBottom: '8px',
+          }}
+        >
           {toolTabs.map((t) => RenderToolTabPanel(t.link))}
         </TabPanels>
       </Tabs>

@@ -7,7 +7,6 @@ import {
   Input,
   InputGroup,
   InputRightElement,
-  VStack,
   useToast,
 } from '@chakra-ui/react';
 import { ethers } from 'ethers';
@@ -79,7 +78,7 @@ export default function EvmAddressChecksumComponent() {
 
   return (
     <Flex justifyContent="space-between">
-      <VStack spacing={8}>
+      <Flex direction={'column'}>
         <FormControl>
           <FormLabel>{'toChecksumAddress'}</FormLabel>
           <InputGroup>
@@ -101,7 +100,7 @@ export default function EvmAddressChecksumComponent() {
             />
             <InputRightElement>
               <IconButton
-                aria-label="Copy Wei Value"
+                aria-label="Copy address"
                 icon={<CopyIcon />}
                 onClick={() =>
                   handleCopyClick(ethers.utils.getAddress(toChecksumAddress))
@@ -110,8 +109,7 @@ export default function EvmAddressChecksumComponent() {
             </InputRightElement>
           </InputGroup>
         </FormControl>
-
-        <FormControl>
+        <FormControl mt={4}>
           <FormLabel>{'isChecksumAddress'}</FormLabel>
           <InputGroup>
             <Input
@@ -122,7 +120,7 @@ export default function EvmAddressChecksumComponent() {
             />
           </InputGroup>
         </FormControl>
-      </VStack>
+      </Flex>
     </Flex>
   );
 }

@@ -45,7 +45,7 @@ export default function TxDecoderComponent() {
           <Textarea
             id="rawTx"
             minW={[380, 380, 600]}
-            minH="480px"
+            minH={[320, 320, 480]}
             placeholder="Enter raw transaction data"
             value={rawTx}
             onChange={(e) => setRawTx(e.target.value)}

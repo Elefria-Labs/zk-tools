@@ -7,7 +7,6 @@ import {
   Textarea,
   useToast,
   Divider,
-  Heading,
   FormLabel,
 } from '@chakra-ui/react';
 import { ethers } from 'ethers';
@@ -160,9 +159,7 @@ const MerkleTreeVerifier = () => {
         </Box>
       )}
       <Divider my={4} />
-      <Heading my={4} size={'md'}>
-        Generate merkle proof
-      </Heading>
+      <FormLabel my={4}>Generate merkle proof</FormLabel>
       <Input
         placeholder="Address"
         value={proofAddressInput}
@@ -172,12 +169,7 @@ const MerkleTreeVerifier = () => {
       <Button onClick={handleGenerateProof} mb={4}>
         Generate Proof
       </Button>
-      <Textarea
-        placeholder="Enter addresses, one per line"
-        rows={6}
-        value={addressProof}
-        disabled
-      />
+      {addressProof && <Textarea rows={6} value={addressProof} disabled />}
       <Divider my={4} />
       <FormLabel my={4}>
         Verify if an address belongs to the Merkle tree:

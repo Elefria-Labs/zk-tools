@@ -4,10 +4,11 @@ import { ethers } from 'ethers';
 
 export default function GasPrice() {
   const [gasFee, setGasFee] = useState<string | null>();
+
   useEffect(() => {
     const getGasFee = async () => {
       const provider = new ethers.providers.JsonRpcProvider(
-        'https://eth-mainnet.g.alchemy.com/v2/funBFl5Kt0LAAjaOUky93YJyY77tF5ec',
+        'https://eth.llamarpc.com',
       );
       const gasFeeData = await provider.getFeeData();
 
