@@ -121,6 +121,14 @@ export const playgroundToolsList: Item[] = [
     },
   },
   {
+    title: 'Cheatsheet',
+    description: 'Solidity helpers',
+    link: Links.cheatsheet,
+    isBeta: false,
+    isExternal: false,
+    isWalletRequired: false,
+  },
+  {
     title: 'EVM Visualizer (deprecating soon)',
     description: 'Analyze EVM bytecode, slots and storage layout',
     link: Links.evm,

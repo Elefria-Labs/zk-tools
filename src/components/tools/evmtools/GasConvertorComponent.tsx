@@ -13,7 +13,13 @@ import { ethers } from 'ethers';
 import { CopyIcon } from '@chakra-ui/icons';
 import { useGetCoinPrice } from '@hooks/useGetCoinPrice';
 import { useGetBaseFee } from '@hooks/useGetBaseFee';
-import { calculateValue } from '@components/pools/utils';
+
+function calculateValue(ethAmount: string, gasPrice: string): string {
+  const ethValue = ethers.utils.parseEther(ethAmount.toString());
+  const value = ethValue.mul(ethers.utils.parseUnits(gasPrice.toString(), 18));
+
+  return ethers.utils.formatUnits(value, 18 * 2); // Convert the value to a human-readable format
+}
 
 export default function GasConvertorComponent() {
   const [weiValue, setWeiValue] = useState<string>('');
@@ -26,20 +32,24 @@ export default function GasConvertorComponent() {
     // error: priceError,
   } = useGetCoinPrice(['eth']);
   const isValid = (value: string) => {
-    return !(value == '' || Number(value) < 0);
+    return !(value == '' || BigInt(value) < 0);
   };
   const { gasDetails } = useGetBaseFee();
 
   const handleWeiChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const weiValue = event.target.value;
-    if (!isValid(weiValue)) {
-      return;
+    try {
+      const weiValue = event.target.value;
+      if (!isValid(weiValue)) {
+        return;
+      }
+      setWeiValue(weiValue);
+      const gweiValue = ethers.utils.formatUnits(weiValue.toString(), 'gwei');
+      setGweiValue(gweiValue);
+      const eth = ethers.utils.formatUnits(weiValue.toString(), 'ether');
+      setEthValue(eth);
+    } catch (e) {
+      console.log('error', e);
     }
-    setWeiValue(weiValue);
-    const gweiValue = ethers.utils.formatUnits(weiValue, 'gwei');
-    setGweiValue(gweiValue);
-    const ethValue = ethers.utils.formatEther(weiValue);
-    setEthValue(ethValue);
   };
 
   const handleGweiChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -124,7 +134,7 @@ export default function GasConvertorComponent() {
           <FormLabel htmlFor="eth-input">{'Eth'}</FormLabel>
           <InputGroup>
             <Input
-              type="number"
+              type="text"
               placeholder="ETH"
               minWidth={[100, 400]}
               value={ethValue}
@@ -139,7 +149,7 @@ export default function GasConvertorComponent() {
             </InputRightElement>
           </InputGroup>
         </FormControl>
-        {!!ethPrice?.[0] && ethValue && (
+        {!!ethPrice?.[0] && (
           <FormControl>
             <FormLabel htmlFor="eth-input">{'Eth Price'}</FormLabel>
             <InputGroup>
@@ -158,13 +168,15 @@ export default function GasConvertorComponent() {
                 <IconButton
                   aria-label="Copy ETH Value"
                   icon={<CopyIcon />}
-                  onClick={() => handleCopyClick(ethValue)}
+                  onClick={() =>
+                    handleCopyClick(ethPrice[0]?.data.amount.toString()!)
+                  }
                 />
               </InputRightElement>
             </InputGroup>
           </FormControl>
         )}
-        {!!gasDetails?.data && (
+        {!!gasDetails && (
           <FormControl>
             <FormLabel htmlFor="eth-input">{'Suggested Base Fee'}</FormLabel>
             <InputGroup>
@@ -172,7 +184,10 @@ export default function GasConvertorComponent() {
                 type="number"
                 placeholder="ETH"
                 minWidth={[100, 400]}
-                value={gasDetails.data.result.suggestBaseFee}
+                value={ethers.utils
+                  .formatUnits(gasDetails.gasPrice.toString(), 'gwei')
+                  .toString()
+                  .substring(0, 4)}
                 disabled
               />
               <InputRightElement>
@@ -185,7 +200,7 @@ export default function GasConvertorComponent() {
             </InputGroup>
           </FormControl>
         )}
-        {!!gasDetails?.data && ethValue && (
+        {!!gasDetails && ethValue && (
           <FormControl>
             <FormLabel htmlFor="eth-input">{'Total Gas Cost'}</FormLabel>
             <InputGroup>
@@ -194,8 +209,8 @@ export default function GasConvertorComponent() {
                 placeholder="ETH"
                 minWidth={[100, 400]}
                 value={calculateValue(
-                  Number(ethValue),
-                  Number(gasDetails.data.result.suggestBaseFee),
+                  ethValue.toString(),
+                  gasDetails.gasPrice.toString(),
                 )}
                 disabled
               />

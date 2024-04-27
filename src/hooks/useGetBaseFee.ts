@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { ethers } from 'ethers';
 
 export interface CoinbaseResponse {
   data: {
@@ -12,25 +12,23 @@ export interface CoinbaseResponse {
 export const useGetBaseFee = () => {
   const [gasDetails, setGasDetails] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const responses = await axios.get<any>(
-          `https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=${process.env.NEXT_PUBLIC_ETHERSCAN_API_KEY}`,
-        );
+    const getGasFee = async () => {
+      const provider = new ethers.providers.JsonRpcProvider(
+        'https://eth.llamarpc.com',
+      );
+      const gasFeeData = await provider.getFeeData();
 
-        setGasDetails(responses);
-      } catch (error) {
-        setError('Error fetching data from Coinbase API');
-      } finally {
+      if (gasFeeData.gasPrice) {
+        setGasDetails(gasFeeData);
         setLoading(false);
       }
     };
-
-    if (!gasDetails?.data) {
-      fetchData();
+    if (!gasDetails) {
+      getGasFee();
+      setLoading(true);
     }
   }, [gasDetails]);
 

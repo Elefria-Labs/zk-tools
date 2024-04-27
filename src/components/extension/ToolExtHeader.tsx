@@ -16,7 +16,7 @@ export default function ToolExtHeader() {
   return (
     <Flex alignItems="center">
       <Card w="100%" roundedTop={0}>
-        <CardBody p={4}>
+        <CardBody p={4} py={2}>
           <Flex justifyContent="flex-end" alignItems="center">
             <GasPrice />
             <Menu>

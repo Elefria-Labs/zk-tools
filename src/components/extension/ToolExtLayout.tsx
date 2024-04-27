@@ -6,9 +6,14 @@ import ToolExtHeader from './ToolExtHeader';
 export default function ToolExtLayout() {
   return (
     <ChakraProvider resetCSS>
-      <Stack>
+      <Stack overflowY="hidden" h="600px">
+        {/* 56px */}
         <ToolExtHeader />
-        <div style={{ padding: '0 8px 8px 8px' }}>
+        <div
+          style={{
+            padding: '0 8px 8px 8px',
+          }}
+        >
           {/* <ToolSearchInput /> */}
           <ToolTabs />
         </div>

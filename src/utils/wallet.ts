@@ -39,3 +39,10 @@ export function toHex(num: number) {
   const val = Number(num);
   return '0x' + val.toString(16);
 }
+
+export const handleCopyClick = (value?: string) => {
+  if (!value) {
+    return;
+  }
+  navigator.clipboard.writeText(value);
+};
