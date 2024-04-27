@@ -20,6 +20,7 @@ export const Links = {
   contractAddressGen: 'contract-address-gen',
   burnerWallet: 'burner-wallet',
   merkleTreeGenerator: 'merkletree-generator',
+  cheatsheet: 'cheatsheet',
   about: 'about',
   subscribe: 'subscribe',
   eipGpt: 'https://gpt.zkblock.app/',

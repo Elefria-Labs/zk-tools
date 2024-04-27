@@ -16,7 +16,7 @@ import StringByteConversion from '@components/tools/evmtools/StringByteConversio
 import TxDecoderComponent from '@components/tools/evmtools/TxDecoderComponent';
 import { Links } from '@config/constants';
 import GasConvertorComponent from '@components/tools/evmtools/GasConvertorComponent';
-import Cheatsheet from '@components/tools/evmtools/Cheatsheet';
+import CheatsheetComponent from '@components/tools/evmtools/CheatsheetComponent';
 
 // type ToolTabsProps = {
 //   toolNameSearchQuery?: string;
@@ -44,7 +44,7 @@ function RenderToolTabPanel(link: string) {
       component = <GasConvertorComponent />;
       break;
     case Links.cheatsheet:
-      component = <Cheatsheet />;
+      component = <CheatsheetComponent />;
       break;
   }
   return <TabPanel key={link}>{component}</TabPanel>;
@@ -79,7 +79,7 @@ export default function ToolTabs() {
           style={{
             overflowY: 'auto',
             overflowX: 'hidden',
-            height: `472px`, //-${56}px -${70}px
+            height: `472px`, // -${56}px -${70}px
             paddingBottom: '8px',
           }}
         >
