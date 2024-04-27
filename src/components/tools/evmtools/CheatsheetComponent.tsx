@@ -20,8 +20,8 @@ export default function CheatsheetComponent() {
     min?: string;
     max: string;
   } | null>();
-  const [intType, setIntType] = useState<string | undefined>('uint8');
-  const [bits, setBits] = useState<number | null>(8);
+  const [intType, setIntType] = useState<string | undefined>();
+  const [bits, setBits] = useState<number | null>();
 
   const getMaxMinValue = useCallback((bits: number, intType: string) => {
     if (intType.includes('uint') == false) {
@@ -53,7 +53,6 @@ export default function CheatsheetComponent() {
           <FormLabel>Integer Type</FormLabel>
           <Select
             placeholder="Select option"
-            defaultValue={8}
             onChange={(e) => {
               setBits(Number(e.target.value));
 
@@ -108,6 +107,25 @@ export default function CheatsheetComponent() {
               </InputGroup>
             </>
           )}
+        </FormControl>
+
+        <FormControl>
+          <FormLabel>Zero Address</FormLabel>
+          <InputGroup>
+            <Input
+              type="text"
+              minWidth={[100, 400]}
+              value={ethers.constants.AddressZero}
+              disabled
+            />
+            <InputRightElement>
+              <IconButton
+                aria-label="Copy address"
+                icon={<CopyIcon />}
+                onClick={() => handleCopyClick(ethers.constants.AddressZero)}
+              />
+            </InputRightElement>
+          </InputGroup>
         </FormControl>
       </Stack>
     </Box>
