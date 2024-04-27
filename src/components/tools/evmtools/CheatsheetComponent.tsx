@@ -15,7 +15,7 @@ import { CopyIcon } from '@chakra-ui/icons';
 import { handleCopyClick } from '@utils/wallet';
 import { ethers } from 'ethers';
 
-function Cheatsheet() {
+export default function CheatsheetComponent() {
   const [minMaxValue, setMinMaxValue] = useState<{
     min?: string;
     max: string;
@@ -113,5 +113,3 @@ function Cheatsheet() {
     </Box>
   );
 }
-
-export default Cheatsheet;
