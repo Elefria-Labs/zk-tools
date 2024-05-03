@@ -53,7 +53,7 @@ function DesktopMenuLinks() {
       fontSize="15px"
     >
       <MenuLink text={'Home'} link={Links.home} />
-      <MenuLink text={'Tools'} link={Links.zkTools} />
+      <MenuLink text={'Zk Tools'} link={Links.zkTools} />
       <MenuLink text={'Boilerplate'} link={Links.boilerplate} newTab />
       <MenuLink text={'Learn'} link={Links.blog} />
       <MenuLink text={'Zk Chains'} link={Links.zkChains} />
@@ -172,7 +172,7 @@ function MobileMenuLinks() {
           zIndex={999}
         >
           <Link href={Links.home}>Home</Link>
-          <Link href={Links.zkTools}>Tools</Link>
+          <Link href={Links.zkTools}>Zk Tools</Link>
           <Link href={Links.boilerplate}>Boilerplate</Link>
           <Link href={Links.blog} target="_blank">
             Learn

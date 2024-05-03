@@ -61,7 +61,7 @@ function NavigationLinks() {
           _hover={{ color: 'gray' }}
           href={Links.zkTools}
         >
-          Tools
+          Zk Tools
         </Link>
         <Link
           py="7px"
@@ -168,7 +168,7 @@ export function Footer() {
             </Link>
 
             <Link
-              aria-label="Go to GitHub page"
+              aria-label="Go to X"
               href={twitterLink}
               fontSize="13px"
               ml="16px"

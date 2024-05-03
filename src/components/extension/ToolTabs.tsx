@@ -56,17 +56,22 @@ export default function ToolTabs() {
 
   return (
     <Flex dir="column" overflowX="hidden">
-      <Tabs size="xs" variant="soft-rounded" colorScheme="green">
-        {/* 54 +16px */}
-        <TabList overflowX="auto" bg={'green.400'}>
+      <Tabs variant="soft-rounded" colorScheme="green">
+        {/* H: 54px +16px */}
+        <TabList
+          overflowX="scroll"
+          width={'464px'}
+          style={{ scrollbarWidth: 'thin' }}
+        >
           {toolTabs.map((t) => (
             <Tab
               rounded={'4px'}
               key={t.link}
-              // height="32px"
-
-              padding="4px"
-              wordBreak="normal"
+              w="72px"
+              height="64px"
+              fontSize={'12px'}
+              // padding="4px"
+              // wordBreak="normal"
               // whiteSpace="nowrap"
             >
               {t.title}
